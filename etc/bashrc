@@ -68,7 +68,7 @@ export WM_COMPILER_TYPE=system
 # [WM_COMPILER] - Compiler:
 # = Gcc | Clang | Icc | Icx | Amd | Arm | Cray | Fujitsu | Nvidia |
 #   Gcc<digits> | Clang<digits>
-export WM_COMPILER=Gcc
+export WM_COMPILER=Nvidia
 
 # [WM_PRECISION_OPTION] - Floating-point precision:
 # = DP | SP | SPDP
@@ -80,7 +80,7 @@ export WM_LABEL_SIZE=32
 
 # [WM_COMPILE_OPTION] - Optimised(default), debug, profiling, other:
 # = Opt | Dbg | Debug | Prof
-export WM_COMPILE_OPTION=Opt
+export WM_COMPILE_OPTION=Opt #Debug
 
 # [WM_COMPILE_CONTROL] - additional control for compilation/linking
 #   +gold   : use gold linker
@@ -180,7 +180,8 @@ foamOldDirs="$WM_PROJECT_DIR $WM_THIRD_PARTY_DIR \
 export WM_PROJECT_DIR="$projectDir"
 
 # [WM_PROJECT_USER_DIR] - Location of user files
-export WM_PROJECT_USER_DIR="$HOME/$WM_PROJECT/${USER:-user}-$WM_PROJECT_VERSION"
+# export WM_PROJECT_USER_DIR="$HOME/$WM_PROJECT/${USER:-user}-$WM_PROJECT_VERSION"
+export WM_PROJECT_USER_DIR="/home/giulio/Workspace/OpenFOAM_24_12/openfoam_stdpar/${USER:-user}-$WM_PROJECT_VERSION"
 
 # [WM_PROJECT_SITE] - Location of site-specific (group) files
 # Default (unset) implies WM_PROJECT_DIR/site

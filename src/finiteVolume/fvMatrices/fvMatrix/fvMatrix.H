@@ -53,6 +53,8 @@ SourceFiles
 #include "lduPrimitiveMeshAssembly.H"
 #include "lduMesh.H"
 
+
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
@@ -182,6 +184,83 @@ protected:
 
 
     // Protected Member Functions
+        #ifdef STDPAR
+            void sorting_pair2(labelList& index, labelList& val) const;
+            void csr_list2(const labelUList& list, labelList& lindex, labelList& start, label& n)const;
+        #endif
+
+
+        // #ifdef STDPAR
+        // void sorting_pair2(labelList& index, labelList& val) const
+        //     {
+        //         const label N=index.size();
+        //         auto iter=std::views::iota(0,N);
+        
+        //         std::vector<std::pair<label,label>> tmp_pair;    
+        //         tmp_pair.reserve(N);
+        
+        //         std::transform(std::execution::par,index.begin(),index.end(),val.begin(),tmp_pair.begin(),
+        //                         [](const auto& i, const auto& v){return std::make_pair(i,v);});
+        
+        
+        //         std::stable_sort(std::execution::par,tmp_pair.begin(),tmp_pair.begin()+N,
+        //                     [=](const auto& p1, const auto& p2 ){
+        //                         return p1.second<p2.second;
+        //                     });
+        
+                
+        //         std::for_each(std::execution::par,
+        //                     iter.begin(),
+        //                     iter.end(),
+        //                     [pr=tmp_pair.data(),id=index.data(),vl=val.data()](const auto& i){
+        //                         id[i]=pr[i].first;
+        //                         vl[i]=pr[i].second;
+        //                     });
+        
+        //     }
+        
+        // void csr_list2(const labelUList& list, labelList& lindex, labelList& start, label& n)const
+        //     { 
+        //         const label N=list.size();
+        //         labelList lsort;
+        //         labelList ones;
+        
+        //         lindex.resize(N);
+        //         lsort.resize(N);
+        //         ones.resize(N);
+        
+        //         auto iter=std::views::iota(0,N);
+        
+        
+        //         std::copy(std::execution::par_unseq,list.begin(),list.end(),lsort.begin());
+        //         std::copy(std::execution::par_unseq,iter.begin(),iter.end(),lindex.begin());
+        //         std::fill(std::execution::par_unseq,ones.begin(),ones.end(),1);
+        //         sorting_pair2(lindex,lsort);
+        
+        //         std::for_each(std::execution::par,iter.begin(),iter.end()-1,
+        //                 [ns=lsort.data(),ts=ones.data()](const auto& x){
+        //                     if(ns[x]==ns[x+1]){
+        //                         ts[x+1]=0;
+        //                     }
+        //                 });
+        //         std::inclusive_scan(std::execution::par,ones.begin(),ones.end(),ones.begin());
+        
+        //         n = ones.back();
+        //         start.resize(n+1);
+        
+        //         std::fill(std::execution::par, start.data(), start.data()+n+1, 0);
+        //         std::for_each(std::execution::par, iter.begin(), iter.end(),
+        //             [s=start.data(), ts = ones.cdata()](const auto& x) {
+        //                 std::atomic_ref<label>(s[ts[x] - 1]).fetch_add(1, std::memory_order_relaxed);
+        //             });
+            
+        //         std::exclusive_scan(std::execution::par_unseq,start.begin(),start.end(),start.begin(),0);
+            
+        //     }
+
+        // #endif
+
+
 
         //- Add patch contribution to internal field
         template<class Type2>

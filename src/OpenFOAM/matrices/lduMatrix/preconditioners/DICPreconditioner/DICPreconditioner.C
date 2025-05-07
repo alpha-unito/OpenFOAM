@@ -29,6 +29,10 @@ License
 #include "DICPreconditioner.H"
 #include <algorithm>
 
+
+
+
+
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
 namespace Foam
@@ -109,9 +113,11 @@ void Foam::DICPreconditioner::precondition
     const scalar* const __restrict__ upperPtr =
         solver_.matrix().upper().begin();
 
+
     const label nCells = wA.size();
     const label nFaces = solver_.matrix().upper().size();
     const label nFacesM1 = nFaces - 1;
+
 
     for (label cell=0; cell<nCells; cell++)
     {
@@ -127,6 +133,8 @@ void Foam::DICPreconditioner::precondition
     {
         wAPtr[lPtr[face]] -= rDPtr[lPtr[face]]*upperPtr[face]*wAPtr[uPtr[face]];
     }
+
+
 }
 
 

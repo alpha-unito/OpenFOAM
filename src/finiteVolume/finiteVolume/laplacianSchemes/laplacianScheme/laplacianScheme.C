@@ -31,6 +31,12 @@ License
 #include "linear.H"
 #include "fvMatrix.H"
 
+
+#ifdef NVTX
+    #include <nvtx3/nvToolsExt.h>
+#endif
+
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
@@ -90,7 +96,20 @@ laplacianScheme<Type, GType>::fvmLaplacian
     const GeometricField<Type, fvPatchField, volMesh>& vf
 )
 {
-    return fvmLaplacian(tinterpGammaScheme_().interpolate(gamma)(), vf);
+    // return fvmLaplacian(tinterpGammaScheme_().interpolate(gamma)(), vf);
+
+    #ifdef NVTX
+        nvtxRangePushA("Laplaciano");  
+    #endif
+    
+    auto tmp = fvmLaplacian(tinterpGammaScheme_().interpolate(gamma)(), vf);
+
+    #ifdef NVTX
+        nvtxRangePop();
+    #endif
+
+    return tmp;
+
 }
 
 

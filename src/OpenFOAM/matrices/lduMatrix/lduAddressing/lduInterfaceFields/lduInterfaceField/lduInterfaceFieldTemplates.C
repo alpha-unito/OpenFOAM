@@ -39,17 +39,79 @@ void Foam::lduInterfaceField::addToInternalField
 {
     if (add)
     {
-        forAll(faceCells, elemi)
-        {
-            result[faceCells[elemi]] += coeffs[elemi]*vals[elemi];
-        }
+
+        #ifdef STDPAR
+
+            labelList addrIndex;
+            labelList addrStart;
+            label n=0;
+            Foam::lduAddressing::csr_list2(faceCells,addrIndex,addrStart,n);
+
+            std::for_each(std::execution::par,
+                        std::views::iota(0).begin(),
+                        std::views::iota(addrStart.size()-1).begin(), //-1
+                            [fcoe=coeffs.cdata(),
+                            fval=vals.cdata(),
+                            aidx=addrIndex.cdata(),
+                            ast=addrStart.cdata(),
+                            ig=result.data(),
+                            f=faceCells.cdata()]
+                            (const auto& facei){
+                                label id=f[aidx[ast[facei]]];
+                                        
+                                for(int i=ast[facei]; i<ast[facei+1];++i){
+                                    ig[id]+=fcoe[aidx[i]]*fval[aidx[i]];
+                                    }
+                });	
+
+        #else
+
+            forAll(faceCells, elemi)
+            {
+                result[faceCells[elemi]] += coeffs[elemi]*vals[elemi];
+            }
+
+        #endif
+
     }
     else
     {
-        forAll(faceCells, elemi)
-        {
-            result[faceCells[elemi]] -= coeffs[elemi]*vals[elemi];
-        }
+
+        #ifdef STDPAR
+
+            labelList addrIndex;
+            labelList addrStart;
+            label n=0;
+            Foam::lduAddressing::csr_list2(faceCells,addrIndex,addrStart,n);
+
+            std::for_each(std::execution::par,
+                        std::views::iota(0).begin(),
+                        std::views::iota(addrStart.size()-1).begin(), //-1
+                            [fcoe=coeffs.cdata(),
+                            fval=vals.cdata(),
+                            aidx=addrIndex.cdata(),
+                            ast=addrStart.cdata(),
+                            ig=result.data(),
+                            f=faceCells.cdata()]
+                            (const auto& facei){
+                                label id=f[aidx[ast[facei]]];
+                                        
+                                for(int i=ast[facei]; i<ast[facei+1];++i){
+                                    ig[id]-=fcoe[aidx[i]]*fval[aidx[i]];
+                                    }
+                });	
+
+        #else
+
+            forAll(faceCells, elemi)
+            {
+                result[faceCells[elemi]] -= coeffs[elemi]*vals[elemi];
+            }
+        
+    
+        #endif
+    
+    
     }
 }
 

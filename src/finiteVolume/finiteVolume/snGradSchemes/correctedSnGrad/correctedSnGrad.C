@@ -33,6 +33,12 @@ License
 #include "fvcGrad.H"
 #include "gaussGrad.H"
 
+
+#ifdef NVTX
+    #include <nvtx3/nvToolsExt.h>
+#endif
+
+
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 template<class Type>
@@ -42,6 +48,12 @@ Foam::fv::correctedSnGrad<Type>::fullGradCorrection
     const GeometricField<Type, fvPatchField, volMesh>& vf
 ) const
 {
+
+    #ifdef NVTX
+        nvtxRangePushA("full grad correction");  
+    #endif
+
+
     const fvMesh& mesh = this->mesh();
 
     // construct GeometricField<Type, fvsPatchField, surfaceMesh>
@@ -56,6 +68,11 @@ Foam::fv::correctedSnGrad<Type>::fullGradCorrection
             )().grad(vf, "grad(" + vf.name() + ')')
         );
     tssf.ref().rename("snGradCorr(" + vf.name() + ')');
+
+    #ifdef NVTX
+        nvtxRangePop();
+    #endif
+
 
     return tssf;
 }

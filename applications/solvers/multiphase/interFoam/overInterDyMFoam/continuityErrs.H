@@ -33,12 +33,7 @@ Description
 \*---------------------------------------------------------------------------*/
 
 {
-    const DimensionedField<scalar, volMesh> contErr
-    (
-        interpolatedCells.internalField()
-       *cellMask.internalField()
-       *fvc::div(phi)().internalField()
-    );
+    volScalarField contErr(interpolatedCells*cellMask*fvc::div(phi));
 
     scalar sumLocalContErr = runTime.deltaTValue()*
         mag(contErr)().weightedAverage(mesh.V()).value();

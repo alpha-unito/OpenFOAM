@@ -52,6 +52,25 @@ gaussDivScheme<Type>::fvcDiv
     const GeometricField<Type, fvPatchField, volMesh>& vf
 )
 {
+
+    // #ifdef _NVHPC_STDPAR_GPU
+    // auto fase1=this->tinterpScheme_().dotInterpolate(this->mesh_.Sf(), vf);
+    
+    // tmp
+    // <
+    //     GeometricField
+    //     <typename innerProduct<vector, Type>::type, fvPatchField, volMesh>
+    // > tDiv
+    // (
+    //     fvc::surfaceIntegrate
+    //     (
+    //         fase1
+    //     )
+    // );
+
+
+    // #else
+
     tmp
     <
         GeometricField
@@ -63,6 +82,8 @@ gaussDivScheme<Type>::fvcDiv
             this->tinterpScheme_().dotInterpolate(this->mesh_.Sf(), vf)
         )
     );
+
+    // #endif
 
     tDiv.ref().rename("div(" + vf.name() + ')');
 

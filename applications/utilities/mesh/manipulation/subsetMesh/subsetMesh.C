@@ -6,7 +6,7 @@
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
     Copyright (C) 2011-2016 OpenFOAM Foundation
-    Copyright (C) 2016-2024 OpenCFD Ltd.
+    Copyright (C) 2016-2023 OpenCFD Ltd.
 -------------------------------------------------------------------------------
 License
     This file is part of OpenFOAM.
@@ -220,7 +220,7 @@ PtrList<FieldType> subsetFields
     const pointMesh& pMesh
 )
 {
-    //const fvMesh& baseMesh = subsetter.baseMesh();
+    const fvMesh& baseMesh = subsetter.baseMesh();
 
     const UPtrList<const IOobject> fieldObjects
     (
@@ -247,8 +247,8 @@ PtrList<FieldType> subsetFields
             IOobject
             (
                 io.name(),
-                pMesh.thisDb().time().timeName(),
-                pMesh.thisDb(),
+                baseMesh.time().timeName(),
+                baseMesh,
                 IOobjectOption::MUST_READ,
                 IOobjectOption::NO_WRITE,
                 IOobjectOption::NO_REGISTER
@@ -295,7 +295,7 @@ void subsetTopoSets
 
         Info<< "Subsetting " << set.type() << " " << set.name() << endl;
 
-        labelHashSet subset(2*min(set.size(), map.size()));
+        labelHashSet subset(2*Foam::min(set.size(), map.size()));
 
         // Map the data
         forAll(map, i)
@@ -382,8 +382,6 @@ int main(int argc, char *argv[])
     #include "createTime.H"
 
     #include "createNamedMesh.H"
-    // Make sure pointMesh gets constructed/read as well
-    (void)pointMesh::New(mesh, IOobject::READ_IF_PRESENT);
 
     // arg[1] = word (cellSet) or wordRes (cellZone)
     // const word selectionName = args[1];
@@ -585,7 +583,7 @@ int main(int argc, char *argv[])
     // Read point fields and subset
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    const pointMesh& pMesh = pointMesh::New(mesh, IOobject::READ_IF_PRESENT);
+    const pointMesh& pMesh = pointMesh::New(mesh);
 
     #undef  createSubsetFields
     #define createSubsetFields(FieldType, Variable)             \
@@ -664,18 +662,6 @@ int main(int argc, char *argv[])
         << endl;
     subsetter.subMesh().write();
     processorMeshes::removeFiles(subsetter.subMesh());
-
-    auto* subPointMeshPtr =
-        subsetter.subMesh().thisDb().findObject<pointMesh>
-        (
-            pointMesh::typeName
-        );
-    if (subPointMeshPtr)
-    {
-        pointMesh& subPointMesh = const_cast<pointMesh&>(*subPointMeshPtr);
-        subPointMesh.setInstance(subsetter.subMesh().facesInstance());
-        subPointMesh.write();
-    }
 
 
     // Volume fields

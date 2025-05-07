@@ -32,6 +32,10 @@ License
 #include "surfaceMesh.H"
 #include "fvPatchFieldMapper.H"
 
+
+
+
+
 // * * * * * * * * * * * * Protected Member Functions  * * * * * * * * * * * //
 
 template<class Type>
@@ -218,7 +222,18 @@ void Foam::fvsPatchField<Type>::operator=
     const UList<Type>& ul
 )
 {
+
+    #ifdef STDPAR
+
+        this->resize(ul.size());
+
+        std::copy(std::execution::par_unseq, ul.begin(), ul.end(), this->begin());
+
+    #else
+
     Field<Type>::operator=(ul);
+
+    #endif
 }
 
 

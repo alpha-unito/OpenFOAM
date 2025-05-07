@@ -427,18 +427,24 @@ int main(int argc, char *argv[])
             {
                 Info<< "Reconstructing point fields" << nl << endl;
 
-                const pointMesh& pMesh = pointMesh::New
-                (
-                    mesh,
-                    IOobject::READ_IF_PRESENT
-                );
+                const pointMesh& pMesh = pointMesh::New(mesh);
+                PtrList<pointMesh> pMeshes(procMeshes.meshes().size());
+
+                forAll(pMeshes, proci)
+                {
+                    pMeshes.set
+                    (
+                        proci,
+                        new pointMesh(procMeshes.meshes()[proci])
+                    );
+                }
 
                 pointFieldReconstructor reconstructor
                 (
                     pMesh,
-                    procMeshes.pointMeshes(),
+                    pMeshes,
                     procMeshes.pointProcAddressing(),
-                    procMeshes.pointMeshBoundaryProcAddressing()
+                    procMeshes.boundaryProcAddressing()
                 );
 
                 reconstructor.reconstructAllFields(objects, selectedFields);

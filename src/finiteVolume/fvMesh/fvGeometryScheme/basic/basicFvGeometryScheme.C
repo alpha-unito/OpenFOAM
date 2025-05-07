@@ -31,6 +31,11 @@ License
 #include "volFields.H"
 #include "primitiveMeshTools.H"
 
+#ifdef NVTX
+    #include <nvtx3/nvToolsExt.h>
+#endif
+
+
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
 namespace Foam
@@ -78,6 +83,7 @@ Foam::tmp<Foam::surfaceScalarField> Foam::basicFvGeometryScheme::weights() const
             << endl;
     }
 
+
     auto tweights =
         tmp<surfaceScalarField>::New
         (
@@ -111,6 +117,23 @@ Foam::tmp<Foam::surfaceScalarField> Foam::basicFvGeometryScheme::weights() const
     // ... and reference to the internal field of the weighting factors
     scalarField& w = weights.primitiveFieldRef();
 
+
+    #ifdef STDPAR
+
+    auto iter=std::views::iota(0,owner.size());
+    std::transform(std::execution::par,iter.begin(),iter.end(),w.begin(),
+                [ne=neighbour.cdata(),ow=owner.cdata(),s=Sf.cdata(),c=C.cdata(),cf=Cf.cdata()](const auto& facei){
+                    scalar SfdOwn = mag(s[facei] & (cf[facei] - c[ow[facei]]));
+                    scalar SfdNei = mag(s[facei] & (c[ne[facei]] - cf[facei]));
+                    if (mag(SfdOwn + SfdNei) > ROOTVSMALL){
+                        return SfdNei/(SfdOwn + SfdNei);
+                    }else{
+                       return 0.5;
+                   } 
+               });
+
+    #else
+
     forAll(owner, facei)
     {
         // Note: mag in the dot-product.
@@ -131,6 +154,10 @@ Foam::tmp<Foam::surfaceScalarField> Foam::basicFvGeometryScheme::weights() const
         }
     }
 
+    #endif
+
+
+
     auto& wBf = weights.boundaryFieldRef();
 
     forAll(mesh_.boundary(), patchi)
@@ -144,6 +171,7 @@ Foam::tmp<Foam::surfaceScalarField> Foam::basicFvGeometryScheme::weights() const
             << "Finished constructing weighting factors for face interpolation"
             << endl;
     }
+
     return tweights;
 }
 
@@ -157,6 +185,11 @@ Foam::basicFvGeometryScheme::deltaCoeffs() const
             << "Constructing differencing factors array for face gradient"
             << endl;
     }
+
+
+    #ifdef NVTX
+        nvtxRangePushA("deltaCoeffs");  
+    #endif
 
     // Force the construction of the weighting factors
     // needed to make sure deltaCoeffs are calculated for parallel runs.
@@ -187,10 +220,25 @@ Foam::basicFvGeometryScheme::deltaCoeffs() const
     const labelUList& owner = mesh_.owner();
     const labelUList& neighbour = mesh_.neighbour();
 
-    forAll(owner, facei)
-    {
-        deltaCoeffs[facei] = 1.0/mag(C[neighbour[facei]] - C[owner[facei]]);
-    }
+    #ifdef STDPAR
+
+        std::transform(std::execution::par,
+                    owner.begin(),
+                    owner.end(),
+                    neighbour.begin(),
+                    deltaCoeffs.begin(),
+                    [CC=C.cdata()](const auto& nf, const auto& no){
+                        return 1.0/mag(CC[nf]-CC[no]);
+                    });
+    
+    #else
+
+        forAll(owner, facei)
+        {
+            deltaCoeffs[facei] = 1.0/mag(C[neighbour[facei]] - C[owner[facei]]);
+        }
+
+    #endif
 
     auto& deltaCoeffsBf = deltaCoeffs.boundaryFieldRef();
 
@@ -202,6 +250,10 @@ Foam::basicFvGeometryScheme::deltaCoeffs() const
         // Optionally correct
         p.makeDeltaCoeffs(deltaCoeffsBf[patchi]);
     }
+
+    #ifdef NVTX
+        nvtxRangePop();
+    #endif
 
     return tdeltaCoeffs;
 }
@@ -248,6 +300,22 @@ Foam::basicFvGeometryScheme::nonOrthDeltaCoeffs() const
     const surfaceVectorField& Sf = mesh_.Sf();
     const surfaceScalarField& magSf = mesh_.magSf();
 
+
+    #ifdef STDPAR
+
+        auto iter=std::views::iota(0,owner.size());
+        std::for_each(std::execution::par, iter.begin(), iter.end(), 
+            [CC=C.cdata(),ne=neighbour.cdata(),ow=owner.cdata(),S=Sf.cdata(),mg=magSf.cdata(),no=nonOrthDeltaCoeffs.data()](const label& facei) {
+            vector delta = CC[ne[facei]] - CC[ow[facei]];
+            vector unitArea = S[facei] / mg[facei];
+
+            // Stabilised form for bad meshes
+            no[facei] = 1.0 / max(unitArea & delta, 0.05 * mag(delta));
+        });
+
+
+    #else
+
     forAll(owner, facei)
     {
         vector delta = C[neighbour[facei]] - C[owner[facei]];
@@ -266,6 +334,8 @@ Foam::basicFvGeometryScheme::nonOrthDeltaCoeffs() const
         nonOrthDeltaCoeffs[facei] = 1.0/max(unitArea & delta, 0.05*mag(delta));
     }
 
+    #endif
+
     auto& nonOrthDeltaCoeffsBf = nonOrthDeltaCoeffs.boundaryFieldRef();
 
     forAll(nonOrthDeltaCoeffsBf, patchi)
@@ -280,13 +350,14 @@ Foam::basicFvGeometryScheme::nonOrthDeltaCoeffs() const
         {
             vector unitArea =
                 Sf.boundaryField()[patchi][patchFacei]
-               /magSf.boundaryField()[patchi][patchFacei];
+            /magSf.boundaryField()[patchi][patchFacei];
 
             const vector& delta = patchDeltas[patchFacei];
 
             patchDeltaCoeffs[patchFacei] =
                 1.0/max(unitArea & delta, 0.05*mag(delta));
         }
+
 
         // Optionally correct
         p.makeNonOrthoDeltaCoeffs(patchDeltaCoeffs);
@@ -333,6 +404,22 @@ Foam::basicFvGeometryScheme::nonOrthCorrectionVectors() const
     tmp<surfaceScalarField> tNonOrthDeltaCoeffs(nonOrthDeltaCoeffs());
     const surfaceScalarField& NonOrthDeltaCoeffs = tNonOrthDeltaCoeffs();
 
+
+   #ifdef STDPAR
+
+        auto iter=std::views::iota(0,owner.size());
+        std::for_each(std::execution::par, iter.begin(), iter.end(), 
+            [CV=corrVecs.data(),CC=C.cdata(),ne=neighbour.cdata(),ow=owner.cdata(),S=Sf.cdata(),mg=magSf.cdata(),no=NonOrthDeltaCoeffs.cdata()](const label& facei) {
+            vector delta = CC[ne[facei]] - CC[ow[facei]];
+            vector unitArea = S[facei] / mg[facei];
+
+            // Stabilised form for bad meshes
+            CV[facei] = unitArea - delta*no[facei];
+        });
+
+
+    #else
+
     forAll(owner, facei)
     {
         vector unitArea(Sf[facei]/magSf[facei]);
@@ -340,6 +427,10 @@ Foam::basicFvGeometryScheme::nonOrthCorrectionVectors() const
 
         corrVecs[facei] = unitArea - delta*NonOrthDeltaCoeffs[facei];
     }
+
+
+    #endif
+
 
     // Boundary correction vectors set to zero for boundary patches
     // and calculated consistently with internal corrections for

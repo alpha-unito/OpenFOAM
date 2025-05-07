@@ -37,7 +37,9 @@ Description
 #define Foam_SlicedDimensionedField_H
 
 #include "DimensionedField.H"
-
+#ifdef NVTX
+    #include <nvtx3/nvToolsExt.h>
+#endif
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
@@ -73,11 +75,22 @@ public:
         :
             DimensionedField<Type, GeoMesh>(io, mesh, dims, Field<Type>())
         {
+
+            #ifdef NVTX
+            nvtxRangePushA("shallowCopy");  
+            #endif
+
             // Set internalField to the slice of the complete field
             UList<Type>::shallowCopy
             (
                 SubList<Type>(iField, GeoMesh::size(mesh))
             );
+
+            #ifdef NVTX
+            nvtxRangePop();
+            #endif
+
+
         }
 
 

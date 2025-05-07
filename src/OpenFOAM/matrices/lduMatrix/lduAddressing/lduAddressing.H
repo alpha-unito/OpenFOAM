@@ -138,6 +138,20 @@ class lduAddressing
         //- Lower addressing
         mutable std::unique_ptr<labelList> lowerCSRAddrPtr_;
 
+        #ifdef STDPAR
+
+                mutable std::unique_ptr<labelList> ownerList_;
+                mutable std::unique_ptr<labelList> ownerStart_;
+                mutable std::unique_ptr<labelList> neighbourList_;
+                mutable std::unique_ptr<labelList> neighbourStart_;
+
+
+                void sorting_pair(labelList&, labelList&) const ;
+                void csr_list(labelList&, labelList&, const label& , const label& )const ;
+                void calcownerList() const ;
+                void calcneighbourList() const ;
+        #endif
+
 
     // Private Member Functions
 
@@ -156,6 +170,11 @@ class lduAddressing
 
 public:
 
+    #ifdef  STDPAR
+        static void sorting_pair2(labelList&, labelList&) ;
+        static void csr_list2(const labelUList& list, labelList& lindex, labelList& start, label& n);
+    #endif
+
     // Generated Methods
 
         //- No copy construct
@@ -167,15 +186,23 @@ public:
 
     // Constructors
 
-        //- Construct with size (number of equations)
+
         explicit lduAddressing(const label nEqns) noexcept
         :
             size_(nEqns)
         {}
 
 
-    //- Destructor
-    virtual ~lduAddressing() = default;
+
+        // //- Construct with size (number of equations)
+        // explicit lduAddressing(const label nEqns) noexcept
+        // :
+        //     size_(nEqns)
+        // {}
+
+
+
+        virtual ~lduAddressing() = default;
 
 
     // Member Functions
@@ -229,6 +256,15 @@ public:
             const UList<Type>& faceVals,
             List<Type>& vals
         ) const;
+
+
+    #ifdef STDPAR
+        const labelUList& ownerList() const;
+        const labelUList& ownerStart() const ;
+        const labelUList& neighbourList() const ;
+        const labelUList& neighbourStart() const ; 
+    #endif
+
 };
 
 

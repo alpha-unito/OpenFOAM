@@ -29,6 +29,16 @@ License
 #include "DimensionedField.H"
 #include "dimensionedType.H"
 
+// #ifdef STDPAR
+// #include <execution>
+// #include <ranges>
+// #include <algorithm>
+// #endif
+
+#ifdef NVTX
+    #include <nvtx3/nvToolsExt.h>
+#endif
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 // Check that both fields use the same mesh
@@ -164,6 +174,34 @@ Foam::DimensionedField<Type, GeoMesh>::DimensionedField
 }
 
 
+#ifdef STDPAR
+template<class Type, class GeoMesh>
+Foam::DimensionedField<Type, GeoMesh>::DimensionedField
+(
+    const IOobject& io,
+    const Mesh& mesh,
+    const Type& value,
+    const dimensionSet& dims,
+    const bool checkIOFlags
+)
+:
+    regIOobject(io),
+    Field<Type>(GeoMesh::size(mesh)),
+    mesh_(mesh),
+    dimensions_(dims),
+    oriented_()
+{
+
+    std::fill(std::execution::par, this->begin(), this->end(), value);
+
+    if (checkIOFlags)
+    {
+        readIfPresent();
+    }
+}
+
+#else
+
 template<class Type, class GeoMesh>
 Foam::DimensionedField<Type, GeoMesh>::DimensionedField
 (
@@ -185,6 +223,8 @@ Foam::DimensionedField<Type, GeoMesh>::DimensionedField
         readIfPresent();
     }
 }
+
+#endif
 
 
 template<class Type, class GeoMesh>

@@ -32,6 +32,14 @@ License
 #include "geometricOneField.H"
 #include "coupledFvPatchField.H"
 
+
+#ifdef NVTX
+    #include <nvtx3/nvToolsExt.h>
+#endif
+
+
+
+
 // * * * * * * * * * * * * * * * * * Selectors * * * * * * * * * * * * * * * //
 
 template<class Type>
@@ -220,6 +228,17 @@ Foam::surfaceInterpolationScheme<Type>::dotInterpolate
     const tmp<surfaceScalarField>& tlambdas
 )
 {
+
+
+
+    #ifdef NVTX
+        nvtxRangePushA("DotInterpolate");  
+    #endif
+
+    #ifdef NVTX
+     nvtxRangePushA("First Step");  
+    #endif
+
     if (surfaceInterpolation::debug)
     {
         InfoInFunction
@@ -262,13 +281,37 @@ Foam::surfaceInterpolationScheme<Type>::dotInterpolate
 
     const typename SFType::Internal& Sfi = Sf.internalField();
 
-    for (label fi=0; fi<P.size(); fi++)
-    {
-        // Same as:
-        // sfi[fi] = Sfi[fi] & lerp(vfi[N[fi]], vfi[P[fi]], lambda[fi]);
-        // but maybe the compiler notices the fused multiply add form
-        sfi[fi] = Sfi[fi] & (lambda[fi]*(vfi[P[fi]] - vfi[N[fi]]) + vfi[N[fi]]);
-    }
+    #ifdef NVTX
+        nvtxRangePop();
+        nvtxRangePushA("Second Step");  
+    #endif
+
+
+    #ifdef STDPAR
+
+        auto* Sfii = &Sfi;
+        auto iter=std::views::iota(0,P.size());
+        std::for_each(std::execution::par,iter.begin(),iter.end(),
+                    [N,P,l=lambda.cdata(),Sfii,v=vfi.cdata(),s=sfi.data()](const auto& fi){
+                        s[fi] = (*Sfii)[fi] & (l[fi]*(v[P[fi]] - v[N[fi]]) + v[N[fi]]);
+                    });
+
+    #else
+
+        for (label fi=0; fi<P.size(); fi++)
+        {
+            // Same as:
+            // sfi[fi] = Sfi[fi] & lerp(vfi[N[fi]], vfi[P[fi]], lambda[fi]);
+            // but maybe the compiler notices the fused multiply add form
+            sfi[fi] = Sfi[fi] & (lambda[fi]*(vfi[P[fi]] - vfi[N[fi]]) + vfi[N[fi]]);
+        }
+
+    #endif
+
+    #ifdef NVTX
+        nvtxRangePop();
+        nvtxRangePushA("Third Step");  
+    #endif
 
     // Interpolate across coupled patches using given lambdas
 
@@ -294,13 +337,40 @@ Foam::surfaceInterpolationScheme<Type>::dotInterpolate
         }
         else
         {
+
+        // #ifdef STDPAR
+
+        //     auto vf_boundary=vf.boundaryField()[pi];
+        //     iter=std::views::iota(0,vf_boundary.size());
+
+        //     std::for_each(std::execution::par, 
+        //         iter.begin(),  
+        //         iter.end(),   
+        //         [p=psf.data(),vf=vf_boundary.cdata(),P=pSf.cdata()](auto i) { 
+        //             p[i] = P[i] & vf[i]; 
+        //         });
+
+
+        // #else
+
             psf = pSf & vf.boundaryField()[pi];
+        
+        // #endif
         }
     }
 
     tlambdas.clear();
 
 //    tsf.ref().oriented() = Sf.oriented();
+
+    #ifdef NVTX
+    nvtxRangePop();
+    #endif
+
+    #ifdef NVTX
+        nvtxRangePop();
+    #endif
+
 
     return tsf;
 }
@@ -413,13 +483,26 @@ Foam::surfaceInterpolationScheme<Type>::interpolate
             << endl;
     }
 
+    #ifdef NVTX
+        nvtxRangePushA("Interpolation");  
+    #endif
+
     tmp<GeometricField<Type, fvsPatchField, surfaceMesh>> tsf
         = interpolate(vf, weights(vf));
+
+    #ifdef NVTX
+        nvtxRangePop();
+        nvtxRangePushA("Correction");  
+    #endif
 
     if (corrected())
     {
         tsf.ref() += correction(vf);
     }
+
+    #ifdef NVTX
+        nvtxRangePop();
+    #endif
 
     return tsf;
 }

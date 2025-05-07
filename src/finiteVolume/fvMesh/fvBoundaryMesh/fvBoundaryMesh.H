@@ -64,6 +64,12 @@ class fvBoundaryMesh
         //- Reference to mesh
         const fvMesh& mesh_;
 
+        #ifdef STDPAR
+            mutable List<labelList>* facePatchIndex_;
+            mutable List<labelList>* facePatchStart_;
+        #endif
+
+
 
     // Private Member Functions
 
@@ -150,6 +156,42 @@ public:
 
         //- Return reference to fvPatch by name.
         fvPatch& operator[](const word& patchName);
+
+
+        // new functions 
+        #ifdef STDPAR
+
+        const labelList& facePatchIndexPatch(const label l, const fvBoundaryMesh& bound) const 
+        {
+            if (!facePatchIndex_)
+            {
+                calcfacePatchStartANDIndex(bound);
+            }
+            auto& faceIndexRef=*facePatchIndex_;
+
+            return faceIndexRef[l];
+        }
+
+        const labelList& facePatchStartPatch(const label s, const fvBoundaryMesh& bound) const 
+        {
+            if (!facePatchStart_)
+            {
+                calcfacePatchStartANDIndex(bound);
+            }
+            auto& faceStartRef=*facePatchStart_;
+
+            return faceStartRef[s];
+        }
+
+        void calcfacePatchStartANDIndex(const Foam::fvBoundaryMesh& bound) const;
+
+        void sorting_pair(labelList& index, labelList& val) const;
+
+        void csr_list2(const labelUList& list, labelList& lindex, labelList& start, label& n)const;
+
+
+
+        #endif
 
 
     // Housekeeping

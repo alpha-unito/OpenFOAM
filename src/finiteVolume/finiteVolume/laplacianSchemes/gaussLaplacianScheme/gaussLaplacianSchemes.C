@@ -28,9 +28,18 @@ License
 #include "gaussLaplacianScheme.H"
 #include "fvMesh.H"
 
+
+
+#ifdef NVTX
+    #include <nvtx3/nvToolsExt.h>
+#endif
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 makeFvLaplacianScheme(gaussLaplacianScheme)
+
+
+#ifdef STDPAR
 
 #define declareFvmLaplacianScalarGamma(Type)                                   \
                                                                                \
@@ -44,10 +53,13 @@ Foam::fv::gaussLaplacianScheme<Foam::Type, Foam::scalar>::fvmLaplacian         \
 {                                                                              \
     const fvMesh& mesh = this->mesh();                                         \
                                                                                \
+                                                                               \
+                                                                               \
     GeometricField<scalar, fvsPatchField, surfaceMesh> gammaMagSf              \
     (                                                                          \
         gamma*mesh.magSf()                                                     \
     );                                                                         \
+                                                                               \
                                                                                \
     tmp<fvMatrix<Type>> tfvm = fvmLaplacianUncorrected                         \
     (                                                                          \
@@ -57,10 +69,127 @@ Foam::fv::gaussLaplacianScheme<Foam::Type, Foam::scalar>::fvmLaplacian         \
     );                                                                         \
     fvMatrix<Type>& fvm = tfvm.ref();                                          \
                                                                                \
+                                                                               \
+                                                                               \
     if (this->tsnGradScheme_().corrected())                                    \
     {                                                                          \
         if (mesh.fluxRequired(vf.name()))                                      \
         {                                                                      \
+                                                                               \
+                                                                               \
+            fvm.faceFluxCorrectionPtr() = std::make_unique                     \
+            <                                                                  \
+                GeometricField<Type, fvsPatchField, surfaceMesh>               \
+            >                                                                  \
+            (                                                                  \
+                gammaMagSf*this->tsnGradScheme_().correction(vf)               \
+            );                                                                 \
+                                                                               \
+                                                                               \
+                                                                               \
+            fvm.source() -=                                                    \
+                mesh.V()*                                                      \
+                fvc::div                                                       \
+                (                                                              \
+                    *fvm.faceFluxCorrectionPtr()                               \
+                )().primitiveField();                                          \
+                                                                               \
+                                                                               \
+                                                                               \
+        }                                                                      \
+        else                                                                   \
+        {                                                                      \
+            auto& source = fvm.source();                                       \
+            const auto& V = mesh.V();                                          \
+            const auto& div_corr = fvc::div                                    \
+            (                                                                  \
+                gammaMagSf*this->tsnGradScheme_().correction(vf)               \
+            )().primitiveField();                                              \
+                                                                               \
+            auto iter=std::views::iota(0,source.size());                       \
+                                                                               \
+            std::for_each(                                                     \
+                std::execution::par,                                           \
+                iter.begin(), iter.end(),                                      \
+                [s=source.data(),v=V.cdata(),dv=div_corr.cdata()](auto it){    \
+                    s[it]-=v[it]*dv[it];                                       \
+                });                                                            \
+                                                                               \
+        }                                                                      \
+    }                                                                          \
+                                                                               \
+    return tfvm;                                                               \
+}                                                                              \
+                                                                               \
+                                                                               \
+template<>                                                                     \
+Foam::tmp<Foam::GeometricField<Foam::Type, Foam::fvPatchField, Foam::volMesh>> \
+Foam::fv::gaussLaplacianScheme<Foam::Type, Foam::scalar>::fvcLaplacian         \
+(                                                                              \
+    const GeometricField<scalar, fvsPatchField, surfaceMesh>& gamma,           \
+    const GeometricField<Type, fvPatchField, volMesh>& vf                      \
+)                                                                              \
+{                                                                              \
+    const fvMesh& mesh = this->mesh();                                         \
+                                                                               \
+    tmp<GeometricField<Type, fvPatchField, volMesh>> tLaplacian                \
+    (                                                                          \
+        fvc::div(gamma*this->tsnGradScheme_().snGrad(vf)*mesh.magSf())         \
+    );                                                                         \
+                                                                               \
+    tLaplacian.ref().rename                                                    \
+    (                                                                          \
+        "laplacian(" + gamma.name() + ',' + vf.name() + ')'                    \
+    );                                                                         \
+                                                                               \
+    return tLaplacian;                                                         \
+}
+
+declareFvmLaplacianScalarGamma(scalar);
+declareFvmLaplacianScalarGamma(vector);
+declareFvmLaplacianScalarGamma(sphericalTensor);
+declareFvmLaplacianScalarGamma(symmTensor);
+declareFvmLaplacianScalarGamma(tensor);
+
+
+#else
+
+
+#define declareFvmLaplacianScalarGamma(Type)                                   \
+                                                                               \
+template<>                                                                     \
+Foam::tmp<Foam::fvMatrix<Foam::Type>>                                          \
+Foam::fv::gaussLaplacianScheme<Foam::Type, Foam::scalar>::fvmLaplacian         \
+(                                                                              \
+    const GeometricField<scalar, fvsPatchField, surfaceMesh>& gamma,           \
+    const GeometricField<Type, fvPatchField, volMesh>& vf                      \
+)                                                                              \
+{                                                                              \
+    const fvMesh& mesh = this->mesh();                                         \
+                                                                               \
+                                                                               \
+    GeometricField<scalar, fvsPatchField, surfaceMesh> gammaMagSf              \
+    (                                                                          \
+        gamma*mesh.magSf()                                                     \
+    );                                                                         \
+                                                                               \
+                                                                               \
+    tmp<fvMatrix<Type>> tfvm = fvmLaplacianUncorrected                         \
+    (                                                                          \
+        gammaMagSf,                                                            \
+        this->tsnGradScheme_().deltaCoeffs(vf),                                \
+        vf                                                                     \
+    );                                                                         \
+    fvMatrix<Type>& fvm = tfvm.ref();                                          \
+                                                                               \
+                                                                               \
+                                                                               \
+    if (this->tsnGradScheme_().corrected())                                    \
+    {                                                                          \
+        if (mesh.fluxRequired(vf.name()))                                      \
+        {                                                                      \
+                                                                               \
+                                                                               \
             fvm.faceFluxCorrectionPtr() = std::make_unique                     \
             <                                                                  \
                 GeometricField<Type, fvsPatchField, surfaceMesh>               \
@@ -75,6 +204,7 @@ Foam::fv::gaussLaplacianScheme<Foam::Type, Foam::scalar>::fvmLaplacian         \
                 (                                                              \
                     *fvm.faceFluxCorrectionPtr()                               \
                 )().primitiveField();                                          \
+                                                                               \
         }                                                                      \
         else                                                                   \
         {                                                                      \
@@ -120,6 +250,10 @@ declareFvmLaplacianScalarGamma(vector);
 declareFvmLaplacianScalarGamma(sphericalTensor);
 declareFvmLaplacianScalarGamma(symmTensor);
 declareFvmLaplacianScalarGamma(tensor);
+
+
+#endif
+
 
 
 // ************************************************************************* //

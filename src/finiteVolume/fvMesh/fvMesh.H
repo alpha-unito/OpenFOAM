@@ -66,6 +66,8 @@ SourceFiles
 #include "className.H"
 #include "SolverPerformance.H"
 
+
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
@@ -73,6 +75,7 @@ namespace Foam
 
 // Forward Declarations
 class fvMeshLduAddressing;
+// class fvMeshLduAddressingStdpar;
 class volMesh;
 template<class Type> class fvMatrix;
 
@@ -99,6 +102,7 @@ protected:
     // Demand-Driven Data
 
         mutable fvMeshLduAddressing* lduPtr_;
+
 
         //- Current time index for cell volumes
         //  Note.  The whole mechanism will be replaced once the
@@ -320,6 +324,17 @@ public:
 
             //- Return ldu addressing
             virtual const lduAddressing& lduAddr() const;
+            //- Return ldu addressing stdpar new lists
+
+            // virtual const fvMeshLduAddressing& patchlduAddr() const;
+
+
+            // #ifdef STDPAR
+
+            // const fvMeshLduAddressing& lduAddrPatch() const;
+
+            // #endif
+
 
             //- Return a list of pointers for each patch
             //  with only those pointing to interfaces being set

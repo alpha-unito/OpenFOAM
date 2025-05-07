@@ -148,17 +148,22 @@ void Foam::lduCalculatedProcessorField<Type>::addToInternalField
 
     if (add)
     {
+
+
         forAll(faceCells, elemI)
         {
             result[faceCells[elemI]] += coeffs[elemI]*vals[elemI];
         }
+
     }
     else
     {
+
         forAll(faceCells, elemI)
         {
             result[faceCells[elemI]] -= coeffs[elemI]*vals[elemI];
         }
+
     }
 }
 

@@ -28,6 +28,12 @@ License
 
 #include "fvPatch.H"
 
+#ifdef STDPAR
+    #include <execution>
+    #include <ranges>
+    #include <algorithm>
+#endif
+
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 template<class Type>
@@ -42,10 +48,26 @@ void Foam::fvPatch::patchInternalField
 
     pfld.resize_nocopy(len);
 
+    #ifdef STDPAR
+
+    auto startit=addressing.begin();
+    auto endit=addressing.end();
+
+    std::transform(std::execution::par, startit, endit, pfld.begin(),
+                   [intData=internalData.cdata()](auto addr) { return intData[addr]; });
+
+    #else
+
     for (label i = 0; i < len; ++i)
     {
         pfld[i] = internalData[addressing[i]];
     }
+
+    #endif
+
+
+
+
 }
 
 

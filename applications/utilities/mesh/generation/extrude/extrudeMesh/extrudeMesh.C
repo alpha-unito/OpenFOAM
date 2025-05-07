@@ -99,21 +99,21 @@ label findPatchID(const polyBoundaryMesh& patches, const word& name)
 }
 
 
-labelList patchFaces(const polyBoundaryMesh& patches, const wordRes& names)
+labelList patchFaces(const polyBoundaryMesh& patches, const wordList& names)
 {
-    const labelList patchIDs(patches.indices(names));
-
     label n = 0;
 
-    for (label patchi : patchIDs)
+    forAll(names, i)
     {
-        n += patches[patchi].size();
+        const polyPatch& pp = patches[findPatchID(patches, names[i])];
+
+        n += pp.size();
     }
     labelList faceLabels(n);
     n = 0;
-    for (label patchi : patchIDs)
+    forAll(names, i)
     {
-        const polyPatch& pp = patches[patchi];
+        const polyPatch& pp = patches[findPatchID(patches, names[i])];
 
         forAll(pp, j)
         {
@@ -128,25 +128,24 @@ labelList patchFaces(const polyBoundaryMesh& patches, const wordRes& names)
 void zoneFaces
 (
     const faceZoneMesh& fzs,
-    const wordRes& names,
+    const wordList& names,
     labelList& faceLabels,
     bitSet& faceFlip
 )
 {
-    const labelList zoneIDs(fzs.indices(names));
-
     label n = 0;
 
-    for (label zonei : zoneIDs)
+    forAll(names, i)
     {
-        n += fzs[zonei].size();
+        const auto& pp = fzs[fzs.findZoneID(names[i])];
+        n += pp.size();
     }
     faceLabels.setSize(n);
     faceFlip.setSize(n);
     n = 0;
-    for (label zonei : zoneIDs)
+    forAll(names, i)
     {
-        const auto& pp = fzs[zonei];
+        const auto& pp = fzs[fzs.findZoneID(names[i])];
         const boolList& ppFlip = pp.flipMap();
         forAll(pp, i)
         {
@@ -346,8 +345,8 @@ int main(int argc, char *argv[])
             sourceCaseDir =
                 sourceCaseDir/("processor" + Foam::name(Pstream::myProcNo()));
         }
-        wordRes sourcePatches;
-        wordRes sourceFaceZones;
+        wordList sourcePatches;
+        wordList sourceFaceZones;
         if
         (
             dict.readIfPresent
@@ -869,13 +868,13 @@ int main(int argc, char *argv[])
         frontPatchFaces = patchFaces
         (
             meshFromSurface().boundaryMesh(),
-            wordRes(1, frontPatchName)
+            wordList(1, frontPatchName)
         );
         backPatchName = "otherSide";
         backPatchFaces = patchFaces
         (
             meshFromSurface().boundaryMesh(),
-            wordRes(1, backPatchName)
+            wordList(1, backPatchName)
         );
     }
 

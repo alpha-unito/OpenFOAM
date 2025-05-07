@@ -29,6 +29,7 @@ License
 #include "error.H"
 // <algorithm> already included by stdFoam.H
 
+
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 template<class T>
@@ -55,10 +56,13 @@ inline void Foam::UList<T>::fill_uniform(const T& val)
     // Can dispatch with
     // - std::execution::parallel_unsequenced_policy
     // - std::execution::unsequenced_policy
+    
     std::fill_n
     (
         this->v_, this->size_, val
     );
+
+
 }
 
 
@@ -74,10 +78,24 @@ inline void Foam::UList<T>::fill_uniform(const Foam::zero)
         // Can dispatch with
         // - std::execution::parallel_unsequenced_policy
         // - std::execution::unsequenced_policy
-        std::fill_n
-        (
-            this->data_bytes(), this->size_bytes(), char(0)
-        );
+
+        #ifdef STDPAR
+    
+            std::fill_n
+            (
+                std::execution::par_unseq,this->data_bytes(), this->size_bytes(), char(0)
+            );
+
+        #else
+    
+            std::fill_n
+            (
+                this->data_bytes(), this->size_bytes(), char(0)
+            );
+
+        #endif
+
+
     }
     else
     {

@@ -31,6 +31,16 @@ License
 #include "cyclicPolyPatch.H"
 #include "emptyPolyPatch.H"
 
+// #ifdef STDPAR
+// #include <execution>
+// #include <ranges>
+// #include <algorithm>
+// #endif
+
+#ifdef NVTX
+    #include <nvtx3/nvToolsExt.h>
+#endif
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 template<class Type, template<class> class PatchField, class GeoMesh>
@@ -362,6 +372,10 @@ Foam::GeometricBoundaryField<Type, PatchField, GeoMesh>::GeometricBoundaryField
 {
     // DebugInFunction << nl;
 
+    #ifdef NVTX
+        nvtxRangePushA("GeometricBoundaryField");  
+    #endif
+
     forAll(bmesh_, patchi)
     {
         this->set
@@ -375,6 +389,11 @@ Foam::GeometricBoundaryField<Type, PatchField, GeoMesh>::GeometricBoundaryField
             )
         );
     }
+    #ifdef NVTX
+        nvtxRangePop();
+    #endif
+
+
 }
 
 
@@ -1043,10 +1062,13 @@ void Foam::GeometricBoundaryField<Type, PatchField, GeoMesh>::operator==
     const Type& val
 )
 {
+
     forAll(*this, patchi)
     {
         this->operator[](patchi) == val;
     }
+
+
 }
 
 

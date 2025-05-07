@@ -368,7 +368,7 @@ void subsetTopoSets
 
         Info<< "Subsetting " << set.type() << ' ' << set.name() << endl;
 
-        labelHashSet subset(2*min(set.size(), map.size()));
+        labelHashSet subset(2*Foam::min(set.size(), map.size()));
 
         // Map the data
         forAll(map, i)
@@ -624,7 +624,7 @@ label findPatch(const polyBoundaryMesh& patches, const word& patchName)
 
     // Check same patch for all procs
     {
-        const label newPatchi = returnReduce(patchi, minOp<label>());
+        const label newPatchi = returnReduce(patchi, Foam::minOp<label>());
 
         if (newPatchi != patchi)
         {
@@ -1040,7 +1040,7 @@ int main(int argc, char *argv[])
     (
         subsetter.subMesh(),
         wantedPatch,
-        maxEqOp<label>()
+        Foam::maxEqOp<label>()
     );
 
     // Synchronize coupledWantedPatch across coupled patches.
@@ -1048,7 +1048,7 @@ int main(int argc, char *argv[])
     (
         subsetter.subMesh(),
         coupledWantedPatch,
-        maxEqOp<label>()
+        Foam::maxEqOp<label>()
     );
 
     // Synchronize cyclicWantedPatch across coupled patches.
@@ -1056,7 +1056,7 @@ int main(int argc, char *argv[])
     (
         subsetter.subMesh(),
         cyclicWantedPatch_half0,
-        maxEqOp<label>()
+        Foam::maxEqOp<label>()
     );
 
     // Synchronize cyclicWantedPatch across coupled patches.
@@ -1064,7 +1064,7 @@ int main(int argc, char *argv[])
     (
         subsetter.subMesh(),
         cyclicWantedPatch_half1,
-        maxEqOp<label>()
+        Foam::maxEqOp<label>()
     );
 
     // Topochange container
@@ -1201,7 +1201,7 @@ int main(int argc, char *argv[])
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     //
 
-    // Determine connected regions. regionSplit is the labelList with the
+    // DeterFoam::mine connected regions. regionSplit is the labelList with the
     // region per cell.
     regionSplit cellRegion(subsetter.subMesh());
 

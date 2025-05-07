@@ -69,6 +69,9 @@ class fvMeshLduAddressing
         const lduSchedule& patchSchedule_;
 
 
+
+
+
     // Private Member Functions
 
         //- No copy construct
@@ -99,7 +102,6 @@ public:
             patchSchedule_(mesh.globalData().patchSchedule())
         {}
 
-
     //- Destructor
     ~fvMeshLduAddressing() = default;
 
@@ -129,6 +131,7 @@ public:
         {
             return patchSchedule_;
         }
+
 };
 
 

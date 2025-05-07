@@ -32,6 +32,8 @@ License
 #include "fvPatchFieldMapper.H"
 #include "volMesh.H"
 
+
+
 // * * * * * * * * * * * * Protected Member Functions  * * * * * * * * * * * //
 
 template<class Type>
@@ -399,7 +401,12 @@ void Foam::fvPatchField<Type>::operator=
     const UList<Type>& ul
 )
 {
+
+
+
     Field<Type>::operator=(ul);
+
+
 }
 
 
@@ -504,7 +511,16 @@ void Foam::fvPatchField<Type>::operator=
     const Type& t
 )
 {
+
+    #ifdef STDPAR
+
+    std::fill(std::execution::par_unseq,this->begin(),this->end(),t);
+
+    #else
+
     Field<Type>::operator=(t);
+
+    #endif
 }
 
 
@@ -574,7 +590,17 @@ void Foam::fvPatchField<Type>::operator==
     const Type& t
 )
 {
+
+    #ifdef STDPAR
+
+        std::fill(std::execution::par_unseq, this->begin(), this->end(), t);
+
+    #else
+
     Field<Type>::operator=(t);
+
+    #endif
+
 }
 
 

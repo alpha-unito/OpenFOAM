@@ -11,9 +11,7 @@
 
         UPtrList<volScalarField>& Y = phase.YActiveRef();
         const volScalarField& alpha = phase;
-        const tmp<volScalarField> trho = phase.rho();
-
-        const auto& rho = trho();
+        const volScalarField& rho = phase.rho();
 
         forAll(Y, i)
         {

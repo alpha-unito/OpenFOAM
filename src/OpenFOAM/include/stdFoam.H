@@ -32,6 +32,15 @@ Description
 #ifndef Foam_stdFoam_H
 #define Foam_stdFoam_H
 
+#if defined(_NVHPC_STDPAR_GPU) || defined(_NVHPC_STDPAR_MULTICORE) || defined(__ACPP_STDPAR)
+    #define STDPAR
+    #include <execution>
+    #include <ranges>
+#else
+    #pragma message("STDPAR not enabled: Compiling without stdpar execution support")
+#endif
+
+
 #include <algorithm>
 #include <initializer_list>
 #include <memory>

@@ -1,0 +1,1 @@
+../primitives/enums/compat/NamedEnum.H

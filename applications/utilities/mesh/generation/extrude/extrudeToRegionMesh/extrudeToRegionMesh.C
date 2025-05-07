@@ -6,7 +6,7 @@
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
     Copyright (C) 2011-2016 OpenFOAM Foundation
-    Copyright (C) 2015-2024 OpenCFD Ltd.
+    Copyright (C) 2015-2022 OpenCFD Ltd.
 -------------------------------------------------------------------------------
 License
     This file is part of OpenFOAM.
@@ -556,8 +556,8 @@ void calcEdgeMinMaxZone
             forAll(eFaces, i)
             {
                 label zoneI = mappedZoneID[eFaces[i]];
-                minZoneID[edgeI] = min(minZoneID[edgeI], zoneI);
-                maxZoneID[edgeI] = max(maxZoneID[edgeI], zoneI);
+                minZoneID[edgeI] = Foam::min(minZoneID[edgeI], zoneI);
+                maxZoneID[edgeI] = Foam::max(maxZoneID[edgeI], zoneI);
             }
         }
     }
@@ -813,8 +813,8 @@ void addCoupledPatches
             forAll(eFaces, i)
             {
                 label proci = procID[eFaces[i]];
-                minProcID[edgeI] = min(minProcID[edgeI], proci);
-                maxProcID[edgeI] = max(maxProcID[edgeI], proci);
+                minProcID[edgeI] = Foam::min(minProcID[edgeI], proci);
+                maxProcID[edgeI] = Foam::max(maxProcID[edgeI], proci);
             }
         }
     }
@@ -1110,9 +1110,8 @@ void setCouplingInfo
     fvMesh& mesh,
     const labelList& zoneToPatch,
     const word& sampleRegion,
-    const mappedPatchBase::sampleMode mode,
-    const List<pointField>& offsets,
-    const List<boundBox>& bbs
+    const mappedWallPolyPatch::sampleMode mode,
+    const List<pointField>& offsets
 )
 {
     const polyBoundaryMesh& patches = mesh.boundaryMesh();
@@ -1133,6 +1132,7 @@ void setCouplingInfo
 
             if (isA<mappedWallPolyPatch>(pp))
             {
+                const boundBox bb(pp.points(), pp.meshPoints(), true);
                 const vector avgOffset = gAverage(offsets[zoneI]);
                 const scalar mergeSqrDist =
                     gMax(magSqr(offsets[zoneI]-avgOffset));
@@ -1157,7 +1157,7 @@ void setCouplingInfo
 
                 // Verify uniformity of offset
                 // (same check as blockMesh geom merge)
-                if (mergeSqrDist < magSqr(10*SMALL*bbs[zoneI].span()))
+                if (mergeSqrDist < magSqr(10*SMALL*bb.span()))
                 {
                     Info<< "uniform offset " << avgOffset << endl;
                 }
@@ -1291,7 +1291,7 @@ void extrudeGeometricProperties
             label celli = regionMesh.faceOwner()[facei];
             if (regionMesh.isInternalFace(facei))
             {
-                celli = max(celli, regionMesh.faceNeighbour()[facei]);
+                celli = Foam::max(celli, regionMesh.faceNeighbour()[facei]);
             }
 
             // Calculate layer from cell numbering (see createShellMesh)
@@ -2192,8 +2192,8 @@ int main(int argc, char *argv[])
 
             if (zone0 != zone1) // || (cos(angle) > blabla))
             {
-                label minZone = min(zone0,zone1);
-                label maxZone = max(zone0,zone1);
+                label minZone = Foam::min(zone0,zone1);
+                label maxZone = Foam::max(zone0,zone1);
                 label index = minZone*zoneNames.size()+maxZone;
 
                 ePatches.setSize(eFaces.size());
@@ -2468,10 +2468,7 @@ int main(int argc, char *argv[])
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     List<pointField> topOffsets(zoneNames.size());
-    List<boundBox> topBbs(zoneNames.size());
-
     List<pointField> bottomOffsets(zoneNames.size());
-    List<boundBox> bottomBbs(zoneNames.size());
 
     forAll(regionMesh.boundaryMesh(), patchi)
     {
@@ -2483,13 +2480,11 @@ int main(int argc, char *argv[])
             {
                 label zoneI = interRegionTopPatch.find(patchi);
                 topOffsets[zoneI] = calcOffset(extrudePatch, extruder, pp);
-                topBbs[zoneI] = boundBox(pp.points(), pp.meshPoints(), true);
             }
             else if (interRegionBottomPatch.found(patchi))
             {
                 label zoneI = interRegionBottomPatch.find(patchi);
                 bottomOffsets[zoneI] = calcOffset(extrudePatch, extruder, pp);
-                bottomBbs[zoneI] = boundBox(pp.points(), pp.meshPoints(), true);
             }
         }
     }
@@ -2506,8 +2501,7 @@ int main(int argc, char *argv[])
             interRegionTopPatch,
             regionName,                 // name of main mesh
             sampleMode,                 // sampleMode
-            topOffsets,
-            topBbs
+            topOffsets
         );
 
         // Correct bottom patches for offset
@@ -2517,8 +2511,7 @@ int main(int argc, char *argv[])
             interRegionBottomPatch,
             regionName,
             sampleMode,                 // sampleMode
-            bottomOffsets,
-            bottomBbs
+            bottomOffsets
         );
 
         // Remove any unused patches
@@ -2537,8 +2530,7 @@ int main(int argc, char *argv[])
             interMeshTopPatch,
             shellRegionName,                        // name of shell mesh
             sampleMode,                             // sampleMode
-            -topOffsets,
-            topBbs
+            -topOffsets
         );
 
         // Correct bottom patches for offset
@@ -2548,8 +2540,7 @@ int main(int argc, char *argv[])
             interMeshBottomPatch,
             shellRegionName,
             sampleMode,
-            -bottomOffsets,
-            bottomBbs
+            -bottomOffsets
         );
     }
 

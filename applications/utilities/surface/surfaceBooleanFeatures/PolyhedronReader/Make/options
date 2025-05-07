@@ -1,6 +1,8 @@
 EXE_NDEBUG = -DNDEBUG
 /* EXE_NDEBUG = -g -O0 -DFULLDEBUG */
 
+c++CGALWARN = # -Wno-old-style-cast
+
 /*-- Define CGAL_INEXACT to use inexact CGAL constructions */
 
 include $(GENERAL_RULES)/cgal
@@ -9,6 +11,7 @@ EXE_INC = \
     ${ROUNDING_MATH} \
     ${EXE_NDEBUG} \
     ${CGAL_INC} \
+    ${c++LESSWARN} \
     -I.. \
     -I$(LIB_SRC)/surfMesh/lnInclude \
     -I$(LIB_SRC)/meshTools/lnInclude

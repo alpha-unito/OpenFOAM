@@ -29,6 +29,13 @@ License
 #include "gaussGrad.H"
 #include "extrapolatedCalculatedFvPatchField.H"
 
+
+
+
+#ifdef NVTX
+    #include <nvtx3/nvToolsExt.h>
+#endif
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 template<class Type>
@@ -47,63 +54,170 @@ Foam::fv::gaussGrad<Type>::gradf
     const word& name
 )
 {
-    typedef typename outerProduct<vector, Type>::type GradType;
-    typedef GeometricField<GradType, fvPatchField, volMesh> GradFieldType;
 
-    const fvMesh& mesh = ssf.mesh();
+    #ifdef NVTX
+        nvtxRangePushA("Build Gradient");  
+    #endif
 
-    tmp<GradFieldType> tgGrad
-    (
-        new GradFieldType
+        typedef typename outerProduct<vector, Type>::type GradType;
+        typedef GeometricField<GradType, fvPatchField, volMesh> GradFieldType;
+
+        const fvMesh& mesh = ssf.mesh();
+
+
+        tmp<GradFieldType> tgGrad
         (
-            IOobject
+            new GradFieldType
             (
-                name,
-                ssf.instance(),
+                IOobject
+                (
+                    name,
+                    ssf.instance(),
+                    mesh,
+                    IOobject::NO_READ,
+                    IOobject::NO_WRITE
+                ),
                 mesh,
-                IOobject::NO_READ,
-                IOobject::NO_WRITE
-            ),
-            mesh,
-            dimensioned<GradType>(ssf.dimensions()/dimLength, Zero),
-            fvPatchFieldBase::extrapolatedCalculatedType()
-        )
-    );
-    GradFieldType& gGrad = tgGrad.ref();
+                dimensioned<GradType>(ssf.dimensions()/dimLength, Zero),
+                fvPatchFieldBase::extrapolatedCalculatedType()
+            )
+        );
 
-    const labelUList& owner = mesh.owner();
-    const labelUList& neighbour = mesh.neighbour();
-    const vectorField& Sf = mesh.Sf();
+        #ifdef NVTX
+        nvtxRangePop();
+        nvtxRangePushA("Before First Cycle");  
+    #endif
 
-    Field<GradType>& igGrad = gGrad;
-    const Field<Type>& issf = ssf;
 
-    forAll(owner, facei)
-    {
-        const GradType Sfssf = Sf[facei]*issf[facei];
+        GradFieldType& gGrad = tgGrad.ref();
+        Field<GradType>& igGrad = gGrad;
 
-        igGrad[owner[facei]] += Sfssf;
-        igGrad[neighbour[facei]] -= Sfssf;
-    }
+        const vectorField& Sf = mesh.Sf();
+        const Field<Type>& issf = ssf;
 
-    forAll(mesh.boundary(), patchi)
-    {
-        const labelUList& pFaceCells =
-            mesh.boundary()[patchi].faceCells();
 
-        const vectorField& pSf = mesh.Sf().boundaryField()[patchi];
 
-        const fvsPatchField<Type>& pssf = ssf.boundaryField()[patchi];
+    #ifdef NVTX
+        nvtxRangePop();
+        nvtxRangePushA("First Cycle");  
+    #endif
 
-        forAll(mesh.boundary()[patchi], facei)
+    #ifdef STDPAR
+
+        const labelUList& owlist=mesh.lduAddr().ownerList();
+        const labelUList& owstart=mesh.lduAddr().ownerStart();
+        const labelUList& nelist=mesh.lduAddr().neighbourList();
+        const labelUList& nestart=mesh.lduAddr().neighbourStart();
+
+        auto iter=std::views::iota(0,igGrad.size());
+        std::for_each(std::execution::par,iter.begin(),iter.end(),
+                [ol=owlist.cdata(),os=owstart.cdata(),nl=nelist.cdata(),ns=nestart.cdata(),sf=Sf.cdata(),is=issf.cdata(),ig=igGrad.data()](const label& facei){
+                    ig[facei]=Zero;
+                    for(int i=os[facei]; i<os[facei+1];++i){
+                        ig[facei]+= sf[ol[i]]*is[ol[i]];
+                    }
+                    for(int i=ns[facei]; i<ns[facei+1];++i){
+                        ig[facei]-= sf[nl[i]]*is[nl[i]];
+                    }
+                });
+
+    #else
+
+        const labelUList& owner = mesh.owner();
+        const labelUList& neighbour = mesh.neighbour();
+
+        forAll(owner, facei)
         {
-            igGrad[pFaceCells[facei]] += pSf[facei]*pssf[facei];
+            const GradType Sfssf = Sf[facei]*issf[facei];
+
+            igGrad[owner[facei]] += Sfssf;
+            igGrad[neighbour[facei]] -= Sfssf;
         }
-    }
 
-    igGrad /= mesh.V();
+    #endif
 
-    gGrad.correctBoundaryConditions();
+    #ifdef NVTX
+        nvtxRangePop();
+        nvtxRangePushA("Second Cycle");  
+    #endif
+
+
+    #ifdef STDPAR
+        forAll(mesh.boundary(), patchi)
+        {
+        
+            const labelUList& pFaceCells = mesh.boundary()[patchi].faceCells();
+            const vectorField& pSf = mesh.Sf().boundaryField()[patchi];
+            const fvsPatchField<Type>& pssf = ssf.boundaryField()[patchi];
+            
+            if(mesh.boundary()[patchi].size()!=0){
+            #ifdef NVTX
+                nvtxRangePushA("List creation");  
+            #endif
+            const auto& faceIndex=mesh.boundary().facePatchIndexPatch(patchi, mesh.boundary());
+            const auto& faceStart=mesh.boundary().facePatchStartPatch(patchi, mesh.boundary());
+
+            #ifdef NVTX
+                nvtxRangePop();
+                nvtxRangePushA(" Cycle");  
+            #endif
+
+                std::for_each(std::execution::par,
+                                std::views::iota(0).begin(),
+                                std::views::iota(faceStart.size()-1).begin(), 
+                                [ig=igGrad.data(),f=pFaceCells.cdata(),fir=pSf.cdata(),sec=pssf.cdata(),pstr=faceStart.cdata(),plst=faceIndex.cdata()](const label& facei){
+                                    label id=f[plst[pstr[facei]]];
+                                    
+                                    for(int i=pstr[facei]; i<pstr[facei+1];++i){
+                                        ig[id]+=fir[plst[i]]*sec[plst[i]];
+                                    }
+                                    
+                                });
+
+            #ifdef NVTX
+                nvtxRangePop();
+            #endif
+                
+
+            }
+        }
+
+    #else
+
+        forAll(mesh.boundary(), patchi)
+        {
+            const labelUList& pFaceCells =
+                mesh.boundary()[patchi].faceCells();
+
+            const vectorField& pSf = mesh.Sf().boundaryField()[patchi];
+
+            const fvsPatchField<Type>& pssf = ssf.boundaryField()[patchi];
+
+            forAll(mesh.boundary()[patchi], facei)
+            {
+                igGrad[pFaceCells[facei]] += pSf[facei]*pssf[facei];
+            }
+        }
+    
+    #endif
+
+    #ifdef NVTX
+        nvtxRangePop();
+        nvtxRangePushA("Third Cycle");  
+    #endif
+
+        igGrad /= mesh.V();
+
+    #ifdef NVTX
+        nvtxRangePop();
+        nvtxRangePushA("Correct Boundary Conditions");  
+    #endif
+
+        gGrad.correctBoundaryConditions();
+
+    #ifdef NVTX
+        nvtxRangePop();
+    #endif
 
     return tgGrad;
 }
@@ -125,16 +239,30 @@ Foam::fv::gaussGrad<Type>::calcGrad
     const word& name
 ) const
 {
+    #ifdef NVTX
+        nvtxRangePushA("calcGrad");  
+    #endif
+
     typedef typename outerProduct<vector, Type>::type GradType;
     typedef GeometricField<GradType, fvPatchField, volMesh> GradFieldType;
 
-    tmp<GradFieldType> tgGrad
-    (
-        gradf(tinterpScheme_().interpolate(vsf), name)
-    );
-    GradFieldType& gGrad = tgGrad.ref();
+        tmp<GradFieldType> tgGrad
+        (
+            gradf(tinterpScheme_().interpolate(vsf), name)
+        );
+        GradFieldType& gGrad = tgGrad.ref();
+
+    #ifdef NVTX
+        nvtxRangePop();
+        nvtxRangePushA("Correct Boundary condition");  
+    #endif
+
 
     correctBoundaryConditions(vsf, gGrad);
+
+    #ifdef NVTX
+        nvtxRangePop();
+    #endif
 
     return tgGrad;
 }
@@ -156,17 +284,44 @@ void Foam::fv::gaussGrad<Type>::correctBoundaryConditions
     {
         if (!vsf.boundaryField()[patchi].coupled())
         {
+
+        #ifdef NVTX
+            nvtxRangePushA("Correct Boundary condition-1");  
+        #endif
             const vectorField n
             (
                 vsf.mesh().Sf().boundaryField()[patchi]
               / vsf.mesh().magSf().boundaryField()[patchi]
             );
 
+        #ifdef NVTX
+            nvtxRangePop();
+            nvtxRangePushA("Correct Boundary condition-2 ");  
+        #endif
+
+            auto tmp1= vsf.boundaryField()[patchi].snGrad();
+
+        #ifdef NVTX
+            nvtxRangePop();
+            nvtxRangePushA("Correct Boundary condition-3 ");  
+        #endif
+
             gGradbf[patchi] += n *
             (
-                vsf.boundaryField()[patchi].snGrad()
-              - (n & gGradbf[patchi])
+              tmp1 - (n & gGradbf[patchi])
             );
+
+            // gGradbf[patchi] += n *
+            // (
+            //     vsf.boundaryField()[patchi].snGrad()
+            //   - (n & gGradbf[patchi])
+            // );
+
+        #ifdef NVTX
+            nvtxRangePop();
+        #endif
+
+
         }
      }
 }

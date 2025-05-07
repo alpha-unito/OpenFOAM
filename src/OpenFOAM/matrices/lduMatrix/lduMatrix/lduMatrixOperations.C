@@ -52,18 +52,47 @@ void Foam::lduMatrix::sumDiag()
 
 void Foam::lduMatrix::negSumDiag()
 {
-    const scalarField& Lower = const_cast<const lduMatrix&>(*this).lower();
-    const scalarField& Upper = const_cast<const lduMatrix&>(*this).upper();
-    scalarField& Diag = diag();
 
-    const labelUList& l = lduAddr().lowerAddr();
-    const labelUList& u = lduAddr().upperAddr();
+    #ifdef STDPAR
 
-    for (label face=0; face<l.size(); face++)
-    {
-        Diag[l[face]] -= Lower[face];
-        Diag[u[face]] -= Upper[face];
-    }
+        scalarField& Diag = diag();
+        const scalarField& Lower = const_cast<const lduMatrix&>(*this).lower();
+        const scalarField& Upper = const_cast<const lduMatrix&>(*this).upper();
+
+        const labelUList& owlist=lduAddr().ownerList();
+        const labelUList& owstart=lduAddr().ownerStart();
+        const labelUList& nelist=lduAddr().neighbourList();
+        const labelUList& nestart=lduAddr().neighbourStart();
+
+        auto iter=std::views::iota(0,Diag.size());
+        std::for_each(std::execution::par,iter.begin(),iter.end(),
+                [ol=owlist.cdata(),os=owstart.cdata(),nl=nelist.cdata(),ns=nestart.cdata(),Lw=Lower.cdata(),Up=Upper.cdata(),D=Diag.data()](const label& facei){
+                    for(int i=os[facei]; i<os[facei+1];++i){
+                        D[facei]-=Lw[ol[i]];
+                    }
+                    for(int i=ns[facei]; i<ns[facei+1];++i){
+                        D[facei]-=Up[nl[i]];
+                    }
+                });
+
+    #else
+
+        const scalarField& Lower = const_cast<const lduMatrix&>(*this).lower();
+        const scalarField& Upper = const_cast<const lduMatrix&>(*this).upper();
+        scalarField& Diag = diag();
+
+        const labelUList& l = lduAddr().lowerAddr();
+        const labelUList& u = lduAddr().upperAddr();
+
+        for (label face=0; face<l.size(); face++)
+        {
+            Diag[l[face]] -= Lower[face];
+            Diag[u[face]] -= Upper[face];
+        }
+
+    #endif
+
+
 }
 
 
@@ -226,11 +255,21 @@ void Foam::lduMatrix::operator+=(const lduMatrix& A)
 
 void Foam::lduMatrix::operator-=(const lduMatrix& A)
 {
+
+    #ifdef NVTX
+        nvtxRangePushA("Phase 1");  
+    #endif
+    
     if (A.diagPtr_)
     {
         diag() -= A.diag();
     }
 
+    #ifdef NVTX
+        nvtxRangePop();
+        nvtxRangePushA("Phase 2");  
+    #endif
+    
     if (symmetric() && A.symmetric())
     {
         upper() -= A.upper();
@@ -272,7 +311,16 @@ void Foam::lduMatrix::operator-=(const lduMatrix& A)
     {
         if (A.hasUpper())
         {
+
+        #ifdef STDPAR
+
+            std::transform(std::execution::par_unseq,A.upper().begin(),A.upper().end(),upper().begin(),[](const auto& elem) { return -elem; });
+            
+        #else
             upper() = -A.upper();
+
+        #endif
+
         }
 
         if (A.hasLower())
@@ -293,6 +341,11 @@ void Foam::lduMatrix::operator-=(const lduMatrix& A)
                 << "    A    : " << A.matrixTypeName() << endl;
         }
     }
+
+    #ifdef NVTX
+        nvtxRangePop();
+    #endif
+
 }
 
 

@@ -34,6 +34,8 @@ License
 #include "cyclicPolyPatch.H"
 #include "cyclicAMIPolyPatch.H"
 
+
+
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 template<>
@@ -82,7 +84,14 @@ Foam::fvMatrix<Foam::scalar>::solver
             << endl;
     }
 
-    scalarField saveDiag(diag());
+
+    #ifdef STDPAR
+        scalarField saveDiag(diag().size());
+        std::copy(std::execution::par,diag().begin(),diag().end(),saveDiag.begin());
+    #else
+        scalarField saveDiag(diag());
+    #endif
+
     addBoundaryDiag(diag(), 0);
 
     lduInterfaceFieldPtrsList interfaces =
@@ -106,7 +115,12 @@ Foam::fvMatrix<Foam::scalar>::solver
         )
     );
 
-    diag() = saveDiag;
+    #ifdef STDPAR
+        std::copy(std::execution::par,saveDiag.begin(),saveDiag.end(),diag().begin());
+    #else
+        diag() = saveDiag;
+    #endif
+
 
     return solverPtr;
 }
@@ -167,6 +181,11 @@ Foam::solverPerformance Foam::fvMatrix<Foam::scalar>::solveSegregated
     const dictionary& solverControls
 )
 {
+
+    #ifdef NVTX
+        nvtxRangePushA("solveSegregated 1");  
+    #endif
+
     if (debug)
     {
         Info.masterStream(this->mesh().comm())
@@ -207,11 +226,26 @@ Foam::solverPerformance Foam::fvMatrix<Foam::scalar>::solveSegregated
         manipulateMatrix(cmpt);
     }
 
-    scalarField saveDiag(diag());
-    addBoundaryDiag(diag(), 0);
+    #ifdef STDPAR
+        scalarField saveDiag(diag().size());
+        std::copy(std::execution::par,diag().begin(),diag().end(),saveDiag.begin());
+        addBoundaryDiag(diag(), 0);
 
-    scalarField totalSource(source_);
-    addBoundarySource(totalSource, false);
+        scalarField totalSource(source_.size());
+        std::copy(std::execution::par,source_.begin(),source_.end(),totalSource.begin());
+        addBoundarySource(totalSource, false);
+    #else
+        scalarField saveDiag(diag());
+        addBoundaryDiag(diag(), 0);
+
+        scalarField totalSource(source_);
+        addBoundarySource(totalSource, false);
+    #endif
+
+    #ifdef NVTX
+        nvtxRangePop();
+        nvtxRangePushA("solveSegregated 2");  
+    #endif
 
     lduInterfaceFieldPtrsList interfaces;
     PtrDynList<lduInterfaceField> newInterfaces;
@@ -264,6 +298,12 @@ Foam::solverPerformance Foam::fvMatrix<Foam::scalar>::solveSegregated
         solverControls
     )->solve(psi, totalSource);
 
+
+    #ifdef NVTX
+        nvtxRangePop();
+        nvtxRangePushA("solveSegregated 3");  
+    #endif
+
     if (useImplicit_)
     {
         for (label fieldi = 0; fieldi < nMatrices(); fieldi++)
@@ -288,7 +328,13 @@ Foam::solverPerformance Foam::fvMatrix<Foam::scalar>::solveSegregated
         solverPerf.print(Info.masterStream(mesh().comm()));
     }
 
-    diag() = saveDiag;
+    #ifdef STDPAR
+        std::copy(std::execution::par,saveDiag.begin(),saveDiag.end(),diag().begin());
+    #else
+        diag() = saveDiag;
+    #endif
+
+
 
     if (useImplicit_)
     {
@@ -323,6 +369,10 @@ Foam::solverPerformance Foam::fvMatrix<Foam::scalar>::solveSegregated
             solverPerf
         );
     }
+
+    #ifdef NVTX
+        nvtxRangePop();
+    #endif
 
     return solverPerf;
 }

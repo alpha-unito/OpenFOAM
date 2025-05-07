@@ -36,6 +36,11 @@ License
 #include "cyclicFvPatchFields.H"
 #include "cyclicAMIFvPatchFields.H"
 
+#ifdef NVTX
+    #include <nvtx3/nvToolsExt.h>
+#endif
+
+
 // * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
 
 void Foam::fvMesh::makeSf() const
@@ -178,6 +183,11 @@ void Foam::fvMesh::makeCf() const
 
 const Foam::volScalarField::Internal& Foam::fvMesh::V() const
 {
+
+    #ifdef NVTX
+        nvtxRangePushA("cellVolumes");  
+    #endif
+
     if (!VPtr_)
     {
         DebugInFunction
@@ -199,6 +209,10 @@ const Foam::volScalarField::Internal& Foam::fvMesh::V() const
             cellVolumes()
         );
     }
+
+    #ifdef NVTX
+        nvtxRangePop();
+    #endif
 
     return *VPtr_;
 }

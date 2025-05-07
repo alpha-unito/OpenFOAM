@@ -118,7 +118,19 @@ void sqr
 {
     typedef typename outerProduct<Type, Type>::type resultType;
 
+    #ifdef STDPAR
+    
+        std::transform(std::execution::par_unseq,f1.cbegin(),f1.cend(),
+                    result.begin(),[=](const auto& ff){
+                        return sqr(ff);
+                    });
+
+    #else
+
     TFOR_ALL_F_OP_FUNC_F(resultType, result, =, sqr, Type, f1)
+
+    #endif
+
 }
 
 template<class Type>
@@ -152,7 +164,21 @@ void magSqr
 {
     typedef typename typeOfMag<Type>::type resultType;
 
+
+    #ifdef STDPAR
+    
+        std::transform(std::execution::par_unseq,f1.cbegin(),f1.cend(),
+                    result.begin(),[=](const auto& ff){
+                        return magSqr(ff);
+                    });
+
+    #else
+
     TFOR_ALL_F_OP_FUNC_F(resultType, result, =, magSqr, Type, f1)
+
+    #endif
+
+
 }
 
 template<class Type>
@@ -188,7 +214,18 @@ void mag
 {
     typedef typename typeOfMag<Type>::type resultType;
 
+    #ifdef STDPAR
+    
+        std::transform(std::execution::par_unseq,f1.cbegin(),f1.cend(),
+                    result.begin(),[=](const auto& ff){
+                        return mag(ff);
+                    });
+
+    #else
+
     TFOR_ALL_F_OP_FUNC_F(resultType, result, =, mag, Type, f1)
+
+    #endif
 }
 
 template<class Type>
@@ -408,8 +445,21 @@ Type sum(const UList<Type>& f1)
 
     if (f1.size())
     {
-        // Use resultType() as functional cast
-        TFOR_ALL_S_OP_FUNC_F(resultType, result, +=, resultType, Type, f1)
+
+        #ifdef STDPAR
+
+            result = std::transform_reduce(
+                std::execution::par_unseq, // Parallel execution policy
+                f1.begin(), f1.end(), 
+                result, // Initial value
+                std::plus<resultType>(), // Reduction operation
+                [](const Type& val) { return resultType(val); } // Transformation
+            );
+
+        #else
+            // Use resultType() as functional cast
+            TFOR_ALL_S_OP_FUNC_F(resultType, result, +=, resultType, Type, f1)
+        #endif
     }
 
     return Type(result);
@@ -485,7 +535,27 @@ sumProd(const UList<Type>& f1, const UList<Type>& f2)
     resultType result = Zero;
     if (f1.size() && (f1.size() == f2.size()))
     {
-        TFOR_ALL_S_OP_F_OP_F(resultType, result, +=, Type, f1, &&, Type, f2)
+
+        #ifdef STDPAR
+      
+        result = std::transform_reduce(
+                std::execution::par_unseq,               // Parallel execution policy
+                f1.begin(), f1.end(),              // First input range
+                f2.begin(),                        // Second input range
+                result,                            // Initial value for reduction
+                std::plus<>(),                     // Reduction operation (+=)
+                [](const Type& x, const Type& y) { // Transformation operation (&&)
+                    return x && y;
+                }
+            );
+
+        #else
+
+            TFOR_ALL_S_OP_F_OP_F(resultType, result, +=, Type, f1, &&, Type, f2)
+
+        #endif
+
+
     }
     return result;
 }
@@ -547,7 +617,28 @@ sumMag(const UList<Type>& f1)
     resultType result = Zero;
     if (f1.size())
     {
+
+        #ifdef STDPAR
+      
+            result = std::transform_reduce(
+                    std::execution::par_unseq,               // Parallel execution policy
+                    f1.begin(), 
+                    f1.end(),                          // First input range
+                    result,                            // Initial value for reduction
+                    std::plus<>(),                     // Reduction operation (+=)
+                    [](const auto& x) {                // Transformation operation (&&)
+                        return mag(x);
+                    }
+                );
+
+
+
+        #else
+
         TFOR_ALL_S_OP_FUNC_F(resultType, result, +=, mag, Type, f1)
+
+        #endif
+
     }
     return result;
 }

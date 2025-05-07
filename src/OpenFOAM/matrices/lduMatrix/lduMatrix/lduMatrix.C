@@ -34,6 +34,7 @@ License
 #include "Time.H"
 #include "meshState.H"
 
+
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
 namespace Foam
@@ -216,8 +217,21 @@ Foam::scalarField& Foam::lduMatrix::diag()
 {
     if (!diagPtr_)
     {
-        diagPtr_ =
-            std::make_unique<scalarField>(lduAddr().size(), Foam::zero{});
+
+        #ifdef STDPAR
+
+            // Allocate memory for diagPtr_ without initialization
+            diagPtr_ = std::make_unique<scalarField>(lduAddr().size());
+
+            // Initialize the elements to Foam::zero{} using parallel execution
+            std::for_each(std::execution::par_unseq, diagPtr_->begin(), diagPtr_->end(), [](auto& elem) {elem = Foam::zero{};});
+
+
+        #else
+            diagPtr_ =std::make_unique<scalarField>(lduAddr().size(), Foam::zero{});
+        
+        #endif
+
     }
 
     return *diagPtr_;
@@ -259,6 +273,8 @@ const Foam::scalarField& Foam::lduMatrix::upper() const
 }
 
 
+
+
 Foam::scalarField& Foam::lduMatrix::upper()
 {
     if (!upperPtr_)
@@ -269,20 +285,30 @@ Foam::scalarField& Foam::lduMatrix::upper()
         }
         else
         {
-            // no lowerPtr so any lowerCSR was constructed from upper
             lowerCSRPtr_.reset(nullptr);
 
-            upperPtr_ =
-                std::make_unique<scalarField>
-                (
-                    lduAddr().lowerAddr().size(),
-                    Foam::zero{}
-                );
+            #ifdef STDPAR
+                upperPtr_ = std::make_unique<scalarField>(lduAddr().lowerAddr().size());
+
+                std::for_each(std::execution::par_unseq, upperPtr_->begin(), upperPtr_->end(), [](auto& elem) {elem = Foam::zero{};});
+
+            #else
+
+                upperPtr_ =
+                    std::make_unique<scalarField>
+                    (
+                        lduAddr().lowerAddr().size(),
+                        Foam::zero{}
+                    );
+
+            #endif
         }
     }
 
     return *upperPtr_;
 }
+
+
 
 
 Foam::scalarField& Foam::lduMatrix::upper(label nCoeffs)
@@ -302,7 +328,16 @@ Foam::scalarField& Foam::lduMatrix::upper(label nCoeffs)
             // {
             //     nCoeffs = lduAddr().lowerAddr().size();
             // }
-            upperPtr_ = std::make_unique<scalarField>(nCoeffs, Foam::zero{});
+
+
+            #ifdef STDPAR
+                upperPtr_ = std::make_unique<scalarField>(nCoeffs);
+                
+                std::for_each(std::execution::par_unseq, upperPtr_->begin(), upperPtr_->end(), [](auto& elem) {elem = Foam::zero{};});
+
+            #else
+                upperPtr_ = std::make_unique<scalarField>(nCoeffs, Foam::zero{});
+            #endif
         }
     }
 
@@ -342,12 +377,26 @@ Foam::scalarField& Foam::lduMatrix::lower()
         }
         else
         {
-            lowerPtr_ =
-                std::make_unique<scalarField>
-                (
-                    lduAddr().lowerAddr().size(),
-                    Foam::zero{}
-                );
+
+            #ifdef STDPAR
+
+                lowerPtr_ = std::make_unique<scalarField>(lduAddr().lowerAddr().size());
+
+                std::for_each(std::execution::par_unseq, lowerPtr_->begin(), lowerPtr_->end(), [](auto& elem) {elem = Foam::zero{};});
+
+            #else
+
+                lowerPtr_ =
+                    std::make_unique<scalarField>
+                    (
+                        lduAddr().lowerAddr().size(),
+                        Foam::zero{}
+                    );
+
+            #endif
+
+
+
         }
     }
 
@@ -371,8 +420,19 @@ Foam::scalarField& Foam::lduMatrix::lower(label nCoeffs)
             // {
             //     nCoeffs = lduAddr().lowerAddr().size();
             // }
+
+            #ifdef STDPAR
+            
+                lowerPtr_ = std::make_unique<scalarField>(nCoeffs);
+
+                std::for_each(std::execution::par_unseq, lowerPtr_->begin(), lowerPtr_->end(), [](auto& elem) {elem = Foam::zero{};});
+
+            #else
+
             lowerPtr_ =
                 std::make_unique<scalarField>(nCoeffs, Foam::zero{});
+
+            #endif
         }
     }
 

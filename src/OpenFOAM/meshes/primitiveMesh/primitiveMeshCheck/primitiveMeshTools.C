@@ -33,6 +33,8 @@ License
 #include "tetrahedron.H"
 #include "PrecisionAdaptor.H"
 
+
+
 // * * * * * * * * * * * * * Static Member Functions * * * * * * * * * * * * //
 
 void Foam::primitiveMeshTools::updateFaceCentresAndAreas
@@ -201,7 +203,7 @@ void Foam::primitiveMeshTools::updateCellCentresAndVols
 }
 
 
-void Foam::primitiveMeshTools::makeFaceCentresAndAreas
+void Foam::primitiveMeshTools::makeFaceCentresAndAreas //questo
 (
     const UList<face>& fcs,
     const pointField& p,
@@ -212,6 +214,7 @@ void Foam::primitiveMeshTools::makeFaceCentresAndAreas
     // Safety first - ensure properly sized
     fCtrs.resize_nocopy(fcs.size());
     fAreas.resize_nocopy(fcs.size());
+
 
     forAll(fcs, facei)
     {
@@ -266,6 +269,8 @@ void Foam::primitiveMeshTools::makeFaceCentresAndAreas
             }
         }
     }
+
+    
 }
 
 
@@ -281,7 +286,7 @@ void Foam::primitiveMeshTools::makeFaceCentresAndAreas
 }
 
 
-void Foam::primitiveMeshTools::makeCellCentresAndVols
+void Foam::primitiveMeshTools::makeCellCentresAndVols //questo
 (
     const primitiveMesh& mesh,
     const vectorField& fCtrs,
@@ -325,6 +330,7 @@ void Foam::primitiveMeshTools::makeCellCentresAndVols
         cEst[celli] /= nCellFaces[celli];
     }
 
+
     forAll(own, facei)
     {
         const solveVector fc(fCtrs[facei]);
@@ -361,6 +367,7 @@ void Foam::primitiveMeshTools::makeCellCentresAndVols
         cellVols[nei[facei]] += pyr3Vol;
     }
 
+
     forAll(cellCtrs, celli)
     {
         if (mag(cellVols[celli]) > VSMALL)
@@ -374,6 +381,8 @@ void Foam::primitiveMeshTools::makeCellCentresAndVols
     }
 
     cellVols *= (1.0/3.0);
+
+
 }
 
 

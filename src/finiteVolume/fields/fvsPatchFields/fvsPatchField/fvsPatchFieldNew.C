@@ -26,6 +26,10 @@ License
 
 \*---------------------------------------------------------------------------*/
 
+#ifdef NVTX
+    #include <nvtx3/nvToolsExt.h>
+#endif
+
 // * * * * * * * * * * * * * * * * Selectors * * * * * * * * * * * * * * * * //
 
 template<class Type>
@@ -64,7 +68,17 @@ Foam::tmp<Foam::fvsPatchField<Type>> Foam::fvsPatchField<Type>::New
         }
     }
 
-    return ctorPtr(p, iF);
+    #ifdef NVTX
+        nvtxRangePushA("fvsPatchField");  
+    #endif
+        auto tmp=ctorPtr(p, iF);
+    #ifdef NVTX
+        nvtxRangePop();
+    #endif
+    
+    return tmp;
+
+    // return ctorPtr(p, iF);
 }
 
 

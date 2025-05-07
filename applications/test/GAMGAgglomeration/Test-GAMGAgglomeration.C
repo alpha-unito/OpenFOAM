@@ -92,10 +92,7 @@ int main(int argc, char *argv[])
         {
             fld[celli] = cellToCoarse[celli];
         }
-        if (normalise)
-        {
-            fld /= max(fld);
-        }
+        fld /= max(fld);
         scalarAgglomeration.correctBoundaryConditions();
         scalarAgglomeration.write();
 

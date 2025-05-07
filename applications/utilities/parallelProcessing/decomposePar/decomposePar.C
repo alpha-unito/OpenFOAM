@@ -6,7 +6,7 @@
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
     Copyright (C) 2011-2017 OpenFOAM Foundation
-    Copyright (C) 2016-2022,2024 OpenCFD Ltd.
+    Copyright (C) 2016-2022 OpenCFD Ltd.
 -------------------------------------------------------------------------------
 License
     This file is part of OpenFOAM.
@@ -176,7 +176,7 @@ autoPtr<labelIOList> procAddressing
     const objectRegistry& procRegistry,
     const word& name,
     const word& instance,
-    const word& local = polyMesh::meshSubDir
+    const word& local = fvMesh::meshSubDir
 )
 {
     return autoPtr<labelIOList>::New
@@ -218,22 +218,17 @@ const labelIOList& procAddressing
     PtrList<labelIOList>& procAddressingList
 )
 {
-    const auto& procMesh = procMeshList[proci];
+    const fvMesh& procMesh = procMeshList[proci];
 
-    return procAddressingList.try_emplace
-    (
-        proci,
-        IOobject
+    if (!procAddressingList.set(proci))
+    {
+        procAddressingList.set
         (
-            name,
-            procMesh.facesInstance(),
-            polyMesh::meshSubDir,
-            procMesh,
-            IOobject::MUST_READ,
-            IOobject::NO_WRITE,
-            IOobject::NO_REGISTER
-        )
-    );
+            proci,
+            procAddressing(procMesh, name, procMesh.facesInstance())
+        );
+    }
+    return procAddressingList[proci];
 }
 
 
@@ -666,9 +661,6 @@ int main(int argc, char *argv[])
             ),
             decompDictFile
         );
-        // Make sure pointMesh gets read as well
-        (void)pointMesh::New(mesh, IOobject::READ_IF_PRESENT);
-
 
         // Decompose the mesh
         if (!decomposeFieldsOnly)
@@ -788,7 +780,6 @@ int main(int argc, char *argv[])
             PtrList<labelIOList> cellProcAddressingList(mesh.nProcs());
             PtrList<labelIOList> boundaryProcAddressingList(mesh.nProcs());
             PtrList<labelIOList> pointProcAddressingList(mesh.nProcs());
-            PtrList<labelIOList> pointBoundaryProcAddressingList(mesh.nProcs());
 
             PtrList<fvFieldDecomposer> fieldDecomposerList(mesh.nProcs());
             PtrList<pointFieldDecomposer> pointFieldDecomposerList
@@ -873,10 +864,7 @@ int main(int argc, char *argv[])
 
                 // Point fields
                 // ~~~~~~~~~~~~
-
-                // Read decomposed pointMesh
-                const pointMesh& pMesh =
-                    pointMesh::New(mesh, IOobject::READ_IF_PRESENT);
+                const pointMesh& pMesh = pointMesh::New(mesh);
 
                 pointFieldDecomposer::fieldsCache pointFieldCache;
 
@@ -1145,34 +1133,7 @@ int main(int argc, char *argv[])
                             pointProcAddressingList
                         );
 
-                        const pointMesh& procPMesh =
-                            pointMesh::New(procMesh, IOobject::READ_IF_PRESENT);
-
-                        if (!pointBoundaryProcAddressingList.set(proci))
-                        {
-                            pointBoundaryProcAddressingList.set
-                            (
-                                proci,
-                                autoPtr<labelIOList>::New
-                                (
-                                    IOobject
-                                    (
-                                        "boundaryProcAddressing",
-                                        procMesh.facesInstance(),
-                                        polyMesh::meshSubDir
-                                       /pointMesh::meshSubDir,
-                                        procPMesh.thisDb(),
-                                        IOobject::READ_IF_PRESENT,
-                                        IOobject::NO_WRITE,
-                                        IOobject::NO_REGISTER
-                                    ),
-                                    boundaryProcAddressing
-                                )
-                            );
-                        }
-                        const auto& pointBoundaryProcAddressing =
-                            pointBoundaryProcAddressingList[proci];
-
+                        const pointMesh& procPMesh = pointMesh::New(procMesh);
 
                         if (!pointFieldDecomposerList.set(proci))
                         {
@@ -1184,7 +1145,7 @@ int main(int argc, char *argv[])
                                     pMesh,
                                     procPMesh,
                                     pointProcAddressing,
-                                    pointBoundaryProcAddressing
+                                    boundaryProcAddressing
                                 )
                             );
                         }
@@ -1196,12 +1157,6 @@ int main(int argc, char *argv[])
 
                         if (times.size() == 1)
                         {
-                            // Early deletion
-                            pointBoundaryProcAddressingList.set
-                            (
-                                proci,
-                                nullptr
-                            );
                             pointProcAddressingList.set(proci, nullptr);
                             pointFieldDecomposerList.set(proci, nullptr);
                         }

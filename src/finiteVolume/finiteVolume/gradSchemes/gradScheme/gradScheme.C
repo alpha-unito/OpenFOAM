@@ -32,6 +32,8 @@ License
 
 // * * * * * * * * * * * * * * * * * Selectors * * * * * * * * * * * * * * * //
 
+
+
 template<class Type>
 Foam::tmp<Foam::fv::gradScheme<Type>> Foam::fv::gradScheme<Type>::New
 (
@@ -93,8 +95,10 @@ Foam::fv::gradScheme<Type>::grad
     typedef typename outerProduct<vector, Type>::type GradType;
     typedef GeometricField<GradType, fvPatchField, volMesh> GradFieldType;
 
+
     GradFieldType* pgGrad =
         mesh().objectRegistry::template getObjectPtr<GradFieldType>(name);
+
 
     if (!this->mesh().cache(name) || this->mesh().changing())
     {
@@ -132,6 +136,7 @@ Foam::fv::gradScheme<Type>::grad
             regIOobject::store(pgGrad);
         }
     }
+
 
     return *pgGrad;
 }

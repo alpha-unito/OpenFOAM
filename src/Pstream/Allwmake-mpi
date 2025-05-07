@@ -1,7 +1,6 @@
 #!/bin/sh
-cd "${0%/*}" || exit            # Run from this directory
-set -- -no-recursion "$@"       # Parse arguments only
-. ${WM_PROJECT_DIR:?}/wmake/scripts/AllwmakeParseArguments
+cd "${0%/*}" || exit                                # Run from this directory
+. ${WM_PROJECT_DIR:?}/wmake/scripts/AllwmakeParseArguments -no-recursion "$@"
 . ${WM_PROJECT_DIR:?}/wmake/scripts/wmakeFunctions  # Require wmake functions
 
 #------------------------------------------------------------------------------

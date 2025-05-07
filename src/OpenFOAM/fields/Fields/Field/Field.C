@@ -32,6 +32,7 @@ License
 #include "contiguous.H"
 #include "mapDistributeBase.H"
 
+
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 template<class Type>
@@ -750,16 +751,31 @@ void Foam::Field<Type>::writeEntry(const word& keyword, Ostream& os) const
 
 // * * * * * * * * * * * * * * * Member Operators  * * * * * * * * * * * * * //
 
+#ifdef STDPAR
 template<class Type>
 void Foam::Field<Type>::operator=(const Field<Type>& rhs)
 {
     if (this == &rhs)
     {
-        return;  // Self-assignment is a no-op
+        return;  
     }
+    this->resize(rhs.size());
 
-    List<Type>::operator=(rhs);
+    std::copy(std::execution::par_unseq,rhs.begin(), rhs.end(), this->begin());
+
 }
+#else
+    template<class Type>
+    void Foam::Field<Type>::operator=(const Field<Type>& rhs)
+    {
+        if (this == &rhs)
+        {
+            return;  // Self-assignment is a no-op
+        }
+
+        List<Type>::operator=(rhs);
+    }
+#endif
 
 
 template<class Type>
@@ -835,3 +851,4 @@ Foam::Ostream& Foam::operator<<(Ostream& os, const tmp<Field<Type>>& tf)
 #include "FieldFunctions.C"
 
 // ************************************************************************* //
+

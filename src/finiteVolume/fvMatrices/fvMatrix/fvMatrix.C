@@ -41,7 +41,119 @@ License
 
 #include "processorLduInterfaceField.H"
 
+#ifdef STDPAR
+    // #include<algorithm>
+    // #include<execution>
+    // #include<ranges>
+    // #include<vector>
+    // #include <cuda/atomic>
+    // #include <cuda/std/atomic>
+    // template <typename T> using atomic = cuda::atomic<T, cuda::thread_scope_device>;
+    // template <typename T> using atomic_ref = cuda::atomic_ref<T, cuda::thread_scope_device>;
+    // constexpr auto memory_order_relaxed = cuda::memory_order_relaxed;
+    // constexpr auto memory_order_acquire = cuda::memory_order_acquire;
+    // constexpr auto memory_order_release = cuda::memory_order_release;
+
+    #include <atomic>
+
+    #include "labelList.H"  // Adjust if located elsewhere
+#endif
+
+#ifdef NVTX
+    #include <nvtx3/nvToolsExt.h>
+#endif
+
 // * * * * * * * * * * * * Protected Member Functions  * * * * * * * * * * * //
+
+#ifdef STDPAR
+
+template<class Type>
+void Foam::fvMatrix<Type>::sorting_pair2(labelList& index, labelList& val) const
+    {
+        const label N=index.size();
+        auto iter=std::views::iota(0,N);
+
+        std::vector<std::pair<label,label>> tmp_pair;    
+        tmp_pair.reserve(N);
+
+        std::transform(std::execution::par,index.begin(),index.end(),val.begin(),tmp_pair.begin(),
+                        [](const auto& i, const auto& v){return std::make_pair(i,v);});
+
+
+        std::stable_sort(std::execution::par,tmp_pair.begin(),tmp_pair.begin()+N,
+                    [=](const auto& p1, const auto& p2 ){
+                        return p1.second<p2.second;
+                    });
+
+        
+        std::for_each(std::execution::par,
+                    iter.begin(),
+                    iter.end(),
+                    [pr=tmp_pair.data(),id=index.data(),vl=val.data()](const auto& i){
+                        id[i]=pr[i].first;
+                        vl[i]=pr[i].second;
+                    });
+
+    }
+
+template<class Type>
+void Foam::fvMatrix<Type>::csr_list2(const labelUList& list, labelList& lindex, labelList& start, label& n)const
+    { 
+        const label N=list.size();
+        labelList lsort;
+        labelList ones;
+
+        lindex.resize(N);
+        lsort.resize(N);
+        ones.resize(N);
+
+        auto iter=std::views::iota(0,N);
+
+
+        std::copy(std::execution::par_unseq,list.begin(),list.end(),lsort.begin());
+        std::copy(std::execution::par_unseq,iter.begin(),iter.end(),lindex.begin());
+        std::fill(std::execution::par_unseq,ones.begin(),ones.end(),1);
+        sorting_pair2(lindex,lsort);
+
+        std::for_each(std::execution::par,iter.begin(),iter.end()-1,
+                [ns=lsort.data(),ts=ones.data()](const auto& x){
+                    if(ns[x]==ns[x+1]){
+                        ts[x+1]=0;
+                    }
+                });
+        std::inclusive_scan(std::execution::par,ones.begin(),ones.end(),ones.begin());
+
+        n = ones.back();
+        // label *stmp = new label[n];
+        start.resize(n+1);
+
+        std::fill(std::execution::par, start.data(), start.data()+n+1, 0);
+        std::for_each(std::execution::par, iter.begin(), iter.end(),
+            [s=start.data(), ts = ones.cdata()](const auto& x) {
+                std::atomic_ref<label>(s[ts[x] - 1]).fetch_add(1, std::memory_order_relaxed);
+            });
+    
+        std::exclusive_scan(std::execution::par_unseq,start.begin(),start.end(),start.begin(),0);
+    
+
+        // std::fill_n(std::execution::par,stmp, n+1, 0);
+        // std::for_each(std::execution::par,iter.begin(),iter.end(),
+        //             [ns=stmp,ts=ones.data()](const auto& x){
+
+        //                 auto atomic_ref_stmp = std::atomic_ref<label>(ns[ts[x]-1]);
+        //                 atomic_ref_stmp.fetch_add(1,std::memory_order_relaxed);
+
+        //                     // ns[ts[x]-1].fetch_add(1,std::memory_order_relaxed);
+        //             });
+        // // std::move(std::execution::par,stmp,stmp+n+1,start.begin());
+        // std::copy_n(std::execution::par,stmp,n+1,start.begin());
+        // std::exclusive_scan(std::execution::par,start.begin(),start.end(),start.begin(),0);
+
+        // delete [] stmp;
+    }
+
+#endif
+
 
 template<class Type>
 template<class Type2>
@@ -60,10 +172,35 @@ void Foam::fvMatrix<Type>::addToInternalField
             << abort(FatalError);
     }
 
+    #ifdef STDPAR
+
+    if (addr.size()!=0){
+        labelList addrIndex;
+        labelList addrStart;
+        label n=0;
+        csr_list2(addr,addrIndex,addrStart,n);
+
+        std::for_each(std::execution::par,
+                    std::views::iota(0).begin(),
+                    std::views::iota(addrStart.size()-1).begin(), //-1
+            [felem=pf.cdata(),aidx=addrIndex.cdata(),ast=addrStart.cdata(),ig=intf.data(),f=addr.cdata()](const auto& facei){
+                    label id=f[aidx[ast[facei]]];
+                                    
+                    for(int i=ast[facei]; i<ast[facei+1];++i){
+                        ig[id]+=felem[aidx[i]];
+                        }
+                                    
+                    
+            });	
+    }
+    #else
+
     forAll(addr, facei)
     {
         intf[addr[facei]] += pf[facei];
     }
+    #endif
+
 }
 
 
@@ -98,10 +235,37 @@ void Foam::fvMatrix<Type>::subtractFromInternalField
             << abort(FatalError);
     }
 
+
+    #ifdef STDPAR
+
+    if (addr.size()!=0){
+        labelList addrIndex;
+        labelList addrStart;
+        label n=0;
+        csr_list2(addr,addrIndex,addrStart,n);
+
+        std::for_each(std::execution::par,
+                    std::views::iota(0).begin(),
+                    std::views::iota(addrStart.size()-1).begin(), //-1
+            [felem=pf.cdata(),aidx=addrIndex.cdata(),ast=addrStart.cdata(),ig=intf.data(),f=addr.cdata()](const auto& facei){
+                    label id=f[aidx[ast[facei]]];
+                                    
+                    for(int i=ast[facei]; i<ast[facei+1];++i){
+                        ig[id]-=felem[aidx[i]];
+                        }
+                                    
+                    
+            });	
+    }
+    #else
+
     forAll(addr, facei)
     {
         intf[addr[facei]] -= pf[facei];
     }
+
+    #endif
+
 }
 
 
@@ -146,6 +310,7 @@ void Foam::fvMatrix<Type>::addBoundaryDiag
         }
     }
 }
+
 
 
 template<class Type>
@@ -354,6 +519,73 @@ bool Foam::fvMatrix<Type>::checkImplicit(const label fieldi)
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
+#ifdef STDPAR
+
+template<class Type>
+Foam::fvMatrix<Type>::fvMatrix
+(
+    const GeometricField<Type, fvPatchField, volMesh>& psi,
+    const dimensionSet& ds
+)
+:
+    lduMatrix(psi.mesh()),
+    psi_(psi),
+    useImplicit_(false),
+    lduAssemblyName_(),
+    nMatrix_(0),
+    dimensions_(ds),
+    source_(psi.size()), //Zero
+    internalCoeffs_(psi.mesh().boundary().size()),
+    boundaryCoeffs_(psi.mesh().boundary().size())
+{
+    DebugInFunction
+        << "Constructing fvMatrix<Type> for field " << psi_.name() << endl;
+
+    std::fill(std::execution::par,source_.begin(),source_.end(),Zero);
+
+    checkImplicit();
+
+    forAll(psi.mesh().boundary(), patchi)
+    {
+        // internalCoeffs_.set
+        // (
+        //     patchi,
+        //     new Field<Type>(psi.mesh().boundary()[patchi].size(), Zero)
+        // );
+
+        internalCoeffs_.set
+        (
+            patchi,
+            new Field<Type>(psi.mesh().boundary()[patchi].size())
+        );
+
+        std::fill(std::execution::par,internalCoeffs_[patchi].begin(),internalCoeffs_[patchi].end(),Zero);
+
+        // boundaryCoeffs_.set
+        // (
+        //     patchi,
+        //     new Field<Type>(psi.mesh().boundary()[patchi].size(), Zero)
+        // );
+
+        boundaryCoeffs_.set
+        (
+            patchi,
+            new Field<Type>(psi.mesh().boundary()[patchi].size())
+        );
+
+        std::fill(std::execution::par,boundaryCoeffs_[patchi].begin(),boundaryCoeffs_[patchi].end(),Zero);
+
+    }
+
+    auto& psiRef = this->psi(0);
+    const label currentStatePsi = psiRef.eventNo();
+    psiRef.boundaryFieldRef().updateCoeffs();
+    psiRef.eventNo() = currentStatePsi;
+}
+
+
+#else
+
 template<class Type>
 Foam::fvMatrix<Type>::fvMatrix
 (
@@ -397,6 +629,7 @@ Foam::fvMatrix<Type>::fvMatrix
     psiRef.eventNo() = currentStatePsi;
 }
 
+#endif
 
 template<class Type>
 Foam::fvMatrix<Type>::fvMatrix(const fvMatrix<Type>& fvm)
@@ -1647,6 +1880,11 @@ void Foam::fvMatrix<Type>::operator-=(const fvMatrix<Type>& fvmv)
 {
     checkMethod(*this, fvmv, "-=");
 
+    #ifdef NVTX
+        nvtxRangePushA("lduMatrix::operator-=");  
+    #endif
+
+
     dimensions_ -= fvmv.dimensions_;
     lduMatrix::operator-=(fvmv);
     source_ -= fvmv.source_;
@@ -1668,6 +1906,11 @@ void Foam::fvMatrix<Type>::operator-=(const fvMatrix<Type>& fvmv)
             -*fvmv.faceFluxCorrectionPtr_
         );
     }
+
+    #ifdef NVTX
+        nvtxRangePop();
+    #endif
+
 }
 
 
@@ -2483,10 +2726,22 @@ Foam::tmp<Foam::fvMatrix<Type>> Foam::operator-
     const tmp<fvMatrix<Type>>& tB
 )
 {
+
+    #ifdef NVTX
+        nvtxRangePushA("Operator- MatMat");  
+    #endif
+
+
     checkMethod(tA(), tB(), "-");
     tmp<fvMatrix<Type>> tC(tA.ptr());
     tC.ref() -= tB();
     tB.clear();
+
+    #ifdef NVTX
+        nvtxRangePop();
+    #endif
+
+
     return tC;
 }
 

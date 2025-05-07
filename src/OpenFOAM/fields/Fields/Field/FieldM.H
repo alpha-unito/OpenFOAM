@@ -37,6 +37,12 @@ Description
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
+// #ifdef STDPAR
+// #include <execution>
+// #include <ranges>
+// #include <algorithm>
+// #endif
+
 namespace Foam
 {
 
@@ -344,6 +350,33 @@ void checkFields
 
 // Ternary Free Function : f1 OP FUNC(f2, f3, f4)
 
+#ifdef STDPAR
+
+#define TFOR_ALL_F_OP_FUNC_F_F_F\
+(typeF1, f1, OP, FUNC, typeF2, f2, typeF3, f3, typeF4, f4)                     \
+{                                                                              \
+    /* Check fields have same size */                                          \
+    checkFields(f1, f2, f3, f4, "f1 " #OP " " #FUNC "(f2, f3, f4)");           \
+                                                                               \
+    /* Field access */                                                         \
+    List_ACCESS(typeF1, f1, f1P);                                              \
+    List_CONST_ACCESS(typeF2, f2, f2P);                                        \
+    List_CONST_ACCESS(typeF3, f3, f3P);                                        \
+    List_CONST_ACCESS(typeF4, f4, f4P);                                        \
+                                                                               \
+    /* Loop: f1 OP FUNC(f2, f3, f4) */                                         \
+    const label loop_len = (f1).size();                                        \
+                                                                               \
+    std::for_each(std::execution::par, f1.begin(), f1.begin() + loop_len,      \
+            [=](auto& f1Elem){                                                 \
+                size_t i = &f1Elem - &f1P[0];                                  \
+                (f1P[i]) OP FUNC((f2P[i]), (f3P[i]), (f4P[i]));                \
+            });                                                                \
+}
+
+
+#else
+
 #define TFOR_ALL_F_OP_FUNC_F_F_F\
 (typeF1, f1, OP, FUNC, typeF2, f2, typeF3, f3, typeF4, f4)                     \
 {                                                                              \
@@ -365,6 +398,8 @@ void checkFields
         (f1P[i]) OP FUNC((f2P[i]), (f3P[i]), (f4P[i]));                        \
     }                                                                          \
 }
+
+#endif
 
 // Ternary Free Function : f1 OP FUNC(f2, f3, s4)
 
@@ -394,6 +429,29 @@ void checkFields
 
 // Member operator : this field f1 OP1 f2 OP2 f3
 
+#ifdef STDPAR
+
+#define TFOR_ALL_F_OP_F_OP_F(typeF1, f1, OP1, typeF2, f2, OP2, typeF3, f3)                      \
+{                                                                                               \
+    /* Check fields have same size */                                                           \
+    checkFields(f1, f2, f3, "f1 " #OP1 " f2 " #OP2 " f3");                                      \
+                                                                                                \
+    /* Loop: f1 OP1 f2 OP2 f3 in parallel on GPU */                                             \
+    const label loop_len = (f1).size();                                                         \
+                                                                                                \
+    /* Use stdpar with GPU parallel execution */                                                \
+    std::for_each(std::execution::par, f1.begin(), f1.begin() + loop_len,                       \
+                  [=, f1P = f1.data(), f2P = f2.cdata(), f3P = f3.cdata()] (auto& f1Elem) {     \
+                      /* Calculate index */                                                     \
+                      size_t idx = &f1Elem - &f1P[0];                                           \
+                      f1Elem OP1 f2P[idx] OP2 f3P[idx];                                         \
+                  });                                                                           \
+}
+
+
+
+#else
+
 #define TFOR_ALL_F_OP_F_OP_F(typeF1, f1, OP1, typeF2, f2, OP2, typeF3, f3)     \
 {                                                                              \
     /* Check fields have same size */                                          \
@@ -414,8 +472,30 @@ void checkFields
     }                                                                          \
 }
 
+#endif
+
 
 // Member operator : this field f1 OP1 s OP2 f2
+
+#ifdef STDPAR
+
+#define TFOR_ALL_F_OP_S_OP_F(typeF1, f1, OP1, typeS, s, OP2, typeF2, f2)                      \
+{                                                                                             \
+    /* Check fields have the same size */                                                     \
+    checkFields(f1, f2, "f1 " #OP1 " s " #OP2 " f2");                                         \
+                                                                                              \
+    /* Use stdpar with GPU parallel execution */                                              \
+    const label loop_len = (f1).size();                                                       \
+                                                                                              \
+    std::for_each(std::execution::par, f1.begin(), f1.begin() + loop_len,                     \
+                  [=, f1P = f1.data(), f2P = f2.cdata()] (auto& f1Elem) {                     \
+                      /* Calculate index */                                                   \
+                      size_t idx = &f1Elem - &f1P[0];                                         \
+                      f1Elem OP1 s OP2 f2P[idx];                                              \
+                  });                                                                         \
+}
+
+#else
 
 #define TFOR_ALL_F_OP_S_OP_F(typeF1, f1, OP1, typeS, s, OP2, typeF2, f2)       \
 {                                                                              \
@@ -436,6 +516,7 @@ void checkFields
     }                                                                          \
 }
 
+#endif
 
 // Member operator : this field f1 OP1 f2 OP2 s
 
@@ -459,7 +540,32 @@ void checkFields
 }
 
 
+
 // Member operator : this field f1 OP f2
+
+#ifdef STDPAR
+
+#define TFOR_ALL_F_OP_F(typeF1, f1, OP, typeF2, f2)                               \
+                                                                                  \
+    /* Check fields have same size */                                             \
+    checkFields(f1, f2, "f1 " #OP " f2");                                         \
+                                                                                  \
+    /* Field access */                                                            \
+    List_ACCESS(typeF1, f1, f1P);                                                 \
+    List_CONST_ACCESS(typeF2, f2, f2P);                                           \
+                                                                                  \
+    /* Parallel loop: f1 OP f2 */                                                 \
+    const label loopLen = (f1).size();                                            \
+    std::for_each(std::execution::par,                                            \
+                  f1P, f1P + loopLen,                                             \
+                  [f1P, f2P](auto& f1Elem) {                                      \
+                      auto idx = &f1Elem - &f1P[0];                               \
+                      f1Elem OP f2P[idx];                                         \
+                  });
+
+
+
+#else
 
 #define TFOR_ALL_F_OP_F(typeF1, f1, OP, typeF2, f2)                            \
 {                                                                              \
@@ -480,8 +586,36 @@ void checkFields
     }                                                                          \
 }
 
+#endif
+
 
 // Member operator : this field f1 OP1 OP2 f2
+
+#ifdef STDPAR
+
+#define TFOR_ALL_F_OP_OP_F(typeF1, f1, OP1, OP2, typeF2, f2)                   \
+{                                                                              \
+    /* Check fields have the same size */                                      \
+    checkFields(f1, f2, #OP1 " " #OP2 " f2");                                  \
+                                                                               \
+    /* Field access */                                                         \
+    List_ACCESS(typeF1, f1, f1P);                                              \
+    List_CONST_ACCESS(typeF2, f2, f2P);                                        \
+                                                                               \
+    /* Loop: f1 OP1 OP2 f2 using parallel execution */                         \
+    const label loop_len = (f1).size();                                        \
+                                                                               \
+    std::for_each(std::execution::par,                                         \
+                  f1P, f1P + loop_len,                                         \
+                  [f1P, f2P](auto& elem) {                                     \
+                      auto idx = &elem - f1P;                                  \
+                      elem OP1 OP2 f2P[idx];                                   \
+                  });                                                          \
+}
+
+
+
+#else
 
 #define TFOR_ALL_F_OP_OP_F(typeF1, f1, OP1, OP2, typeF2, f2)                   \
 {                                                                              \
@@ -502,8 +636,27 @@ void checkFields
     }                                                                          \
 }
 
+#endif
 
 // Member operator : this field f OP s
+
+#ifdef STDPAR
+
+#define TFOR_ALL_F_OP_S(typeF, f, OP, typeS, s)                                \
+                                                                               \
+    /* Field access */                                                         \
+    List_ACCESS(typeF, f, fP);                                                 \
+                                                                               \
+    /* Parallel loop: f OP s */                                                \
+    const label loopLen = (f).size();                                          \
+    std::for_each(std::execution::par,                                         \
+                  fP, fP + loopLen,                                            \
+                  [s](auto& fElem) {                                           \
+                      fElem OP s;                                              \
+                  });
+
+
+#else
 
 #define TFOR_ALL_F_OP_S(typeF, f, OP, typeS, s)                                \
 {                                                                              \
@@ -520,10 +673,35 @@ void checkFields
     }                                                                          \
 }
 
+#endif
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 // Friend operator function : s OP f, allocates storage for s
+
+#ifdef STDPAR
+
+// T reduce( ExecutionPolicy&& policy, ForwardIt first, ForwardIt last, T init, BinaryOp op );
+
+#define TFOR_ALL_S_OP_F(typeS, s, OP, typeF, f)                                \
+{                                                                              \
+    /* Field access */                                                         \
+    List_ACCESS(typeF, f, fP);                                                 \
+                                                                               \
+    /* Parallel reduction: s OP f */                                           \
+    const label loopLen = (f).size();                                          \
+    s = std::reduce(                                                           \
+        std::execution::par,                                                   \
+        fP,                                                                    \
+        fP + loopLen,                                                          \
+        s,                                                                     \
+        [](typeS acc, typeF val) { return acc OP val; }                        \
+    );                                                                         \
+}
+
+
+
+#else
 
 #define TFOR_ALL_S_OP_F(typeS, s, OP, typeF, f)                                \
 {                                                                              \
@@ -540,6 +718,7 @@ void checkFields
     }                                                                          \
 }
 
+#endif
 
 // Friend operator function : s OP1 f1 OP2 f2, allocates storage for s
 
@@ -558,6 +737,7 @@ void checkFields
         (s) OP1 (f1P[i]) OP2 (f2P[i]);                                         \
     }                                                                          \
 }
+
 
 
 // Friend operator function : s OP FUNC(f), allocates storage for s

@@ -30,6 +30,10 @@ License
 #include "diagonalSolver.H"
 #include "PrecisionAdaptor.H"
 
+#ifdef NVTX
+    #include <nvtx3/nvToolsExt.h>
+#endif
+
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
 namespace Foam
@@ -251,10 +255,24 @@ Foam::solveScalarField::cmptType Foam::lduMatrix::solver::normFactor
         case lduMatrix::normTypes::DEFAULT_NORM :
         case lduMatrix::normTypes::L1_SCALED_NORM :
         {
+
+            #ifdef NVTX
+                nvtxRangePushA("sumA");  
+            #endif
             // --- Calculate A dot reference value of psi
             matrix_.sumA(tmpField, interfaceBouCoeffs_, interfaces_);
 
+
+            #ifdef NVTX
+                nvtxRangePop();
+                nvtxRangePushA("gAverage");  
+            #endif
+
             tmpField *= gAverage(psi, matrix_.mesh().comm());
+
+            #ifdef NVTX
+                nvtxRangePop();
+            #endif
 
             return
                 gSum

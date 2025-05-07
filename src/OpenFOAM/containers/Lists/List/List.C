@@ -212,7 +212,9 @@ Foam::List<T>::List(List<T>& list, bool reuse)
     if (this->size_)
     {
         doAlloc();
+
         UList<T>::deepCopy(list);
+
     }
 }
 
@@ -375,7 +377,9 @@ void Foam::List<T>::operator=(const UList<T>& list)
 
     if (this->size_ > 0)
     {
+
         UList<T>::deepCopy(list);
+
     }
 }
 

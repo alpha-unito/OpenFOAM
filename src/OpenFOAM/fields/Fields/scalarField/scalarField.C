@@ -35,6 +35,15 @@ Description
 #define TEMPLATE
 #include "FieldFunctionsM.C"
 
+// #ifdef STDPAR
+// #include <execution>
+// #include <ranges>
+// #include <algorithm>
+// #endif
+
+
+
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
@@ -99,8 +108,28 @@ float sumProd(const UList<float>& f1, const UList<float>& f2)
     float result = 0.0;
     if (f1.size() && (f1.size() == f2.size()))
     {
-        // std::inner_product
-        TFOR_ALL_S_OP_F_OP_F(float, result, +=, float, f1, *, float, f2)
+
+        #ifdef STDPAR
+      
+            result = std::transform_reduce(
+                    std::execution::par_unseq,               // Parallel execution policy
+                    f1.begin(), f1.end(),              // First input range
+                    f2.begin(),                        // Second input range
+                    result,                            // Initial value for reduction
+                    std::plus<>(),                     // Reduction operation (+=)
+                    [](const float& x, const float& y) { // Transformation operation (&&)
+                        return x * y;
+                    }
+                );
+
+        #else
+
+            // std::inner_product
+            TFOR_ALL_S_OP_F_OP_F(float, result, +=, float, f1, *, float, f2)
+
+
+        #endif
+
     }
     return result;
 }
@@ -112,8 +141,27 @@ double sumProd(const UList<double>& f1, const UList<double>& f2)
     double result = 0.0;
     if (f1.size() && (f1.size() == f2.size()))
     {
-        // std::inner_product
-        TFOR_ALL_S_OP_F_OP_F(double, result, +=, double, f1, *, double, f2)
+
+        #ifdef STDPAR
+      
+            result = std::transform_reduce(
+                    std::execution::par_unseq,               // Parallel execution policy
+                    f1.begin(), f1.end(),              // First input range
+                    f2.begin(),                        // Second input range
+                    result,                            // Initial value for reduction
+                    std::plus<>(),                     // Reduction operation (+=)
+                    [](const double& x, const double& y) { // Transformation operation (&&)
+                        return x * y;
+                    }
+                );
+
+        #else
+
+            // std::inner_product
+            TFOR_ALL_S_OP_F_OP_F(double, result, +=, double, f1, *, double, f2)
+
+        #endif
+
     }
     return result;
 }

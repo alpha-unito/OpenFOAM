@@ -25,6 +25,12 @@ License
 
 \*---------------------------------------------------------------------------*/
 
+// #ifdef STDPAR
+// #include <execution>
+// #include <ranges>
+// #include <algorithm>
+// #endif
+
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 template<class Type>
@@ -75,12 +81,25 @@ inline Foam::Field<Type>::Field(const Foam::one, const Foam::zero)
     List<Type>(Foam::one{}, Foam::zero{})
 {}
 
+#ifdef STDPAR
 
+template<class Type>
+inline Foam::Field<Type>::Field(const Field<Type>& fld)
+:
+    List<Type>(fld.size())
+{
+
+    std::copy(std::execution::par,fld.cbegin(),fld.cend(),this->begin());    
+}
+
+
+#else
 template<class Type>
 inline Foam::Field<Type>::Field(const Field<Type>& fld)
 :
     List<Type>(fld)
 {}
+#endif
 
 
 template<class Type>
@@ -121,13 +140,11 @@ inline Foam::Field<Type>::Field(DynamicList<Type, SizeMin>&& list)
     List<Type>::transfer(list);
 }
 
-
 template<class Type>
 inline Foam::Field<Type>::Field(Field<Type>& fld, bool reuse)
 :
     List<Type>(fld, reuse)
 {}
-
 
 template<class Type>
 inline Foam::Field<Type>::Field(const tmp<Field<Type>>& tfld)

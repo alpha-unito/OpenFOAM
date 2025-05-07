@@ -30,6 +30,11 @@ License
 #include "processorFvPatch.H"
 #include "transformField.H"
 
+
+#ifdef NVTX
+    #include <nvtx3/nvToolsExt.h>
+#endif
+
 // * * * * * * * * * * * * * * * * Constructors * * * * * * * * * * * * * * //
 
 template<class Type>
@@ -324,13 +329,46 @@ void Foam::processorFvPatchField<Type>::initInterfaceMatrixUpdate
 {
     //this->patch().patchInternalField(psiInternal, scalarSendBuf_);
 
+    #ifdef NVTX
+        nvtxRangePushA("initInterfaceMatrixUpdate");  
+    #endif
+
     const labelUList& faceCells = lduAddr.patchAddr(patchId);
 
     scalarSendBuf_.resize_nocopy(this->patch().size());
-    forAll(scalarSendBuf_, facei)
-    {
-        scalarSendBuf_[facei] = psiInternal[faceCells[facei]];
-    }
+
+    #ifdef NVTX
+        nvtxRangePushA("cycle");  
+    #endif
+
+    #ifdef STDPAR
+        auto iter=std::views::iota(0,scalarSendBuf_.size());
+        std::for_each(std::execution::par,
+                        iter.begin(),
+                        iter.end(),
+                    [sB=scalarSendBuf_.data(),pI=psiInternal.cdata(),fC=faceCells.cdata()](auto facei){
+                        sB[facei] = pI[fC[facei]];
+
+                    });
+    
+
+    #else
+        forAll(scalarSendBuf_, facei)
+        {
+            scalarSendBuf_[facei] = psiInternal[faceCells[facei]];
+        }
+
+    #endif
+
+
+    #ifdef NVTX
+        nvtxRangePop();
+    #endif
+
+    #ifdef NVTX
+        nvtxRangePop();
+    #endif
+
 
     if
     (
@@ -425,8 +463,17 @@ void Foam::processorFvPatchField<Type>::updateInterfaceMatrix
         transformCoupleField(scalarRecvBuf_, cmpt);
     }
 
+    #ifdef NVTX
+        nvtxRangePushA("initInterfaceMatrixUpdate");  
+    #endif
+
     // Multiply the field by coefficients and add into the result
     this->addToInternalField(result, !add, faceCells, coeffs, scalarRecvBuf_);
+
+
+    #ifdef NVTX
+        nvtxRangePop();
+    #endif
 
     this->updatedMatrix(true);
 }

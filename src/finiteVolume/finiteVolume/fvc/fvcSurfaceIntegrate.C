@@ -29,6 +29,13 @@ License
 #include "fvMesh.H"
 #include "extrapolatedCalculatedFvPatchFields.H"
 
+
+
+#ifdef NVTX
+    #include <nvtx3/nvToolsExt.h>
+#endif
+
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
@@ -48,18 +55,81 @@ void surfaceIntegrate
     const GeometricField<Type, fvsPatchField, surfaceMesh>& ssf
 )
 {
-    const fvMesh& mesh = ssf.mesh();
 
-    const labelUList& owner = mesh.owner();
-    const labelUList& neighbour = mesh.neighbour();
+
+    #ifdef NVTX
+        nvtxRangePushA("first");  
+    #endif
+
+    const fvMesh& mesh = ssf.mesh();
 
     const Field<Type>& issf = ssf;
 
-    forAll(owner, facei)
+    #ifdef STDPAR
+
+        const labelUList& owlist=mesh.lduAddr().ownerList();
+        const labelUList& owstart=mesh.lduAddr().ownerStart();
+        const labelUList& nelist=mesh.lduAddr().neighbourList();
+        const labelUList& nestart=mesh.lduAddr().neighbourStart();
+
+        auto iter=std::views::iota(0,ivf.size());
+        std::for_each(std::execution::par,iter.begin(),iter.end(),
+                [ol=owlist.cdata(),os=owstart.cdata(),nl=nelist.cdata(),ns=nestart.cdata(),is=issf.cdata(),ig=ivf.data()](const label& facei){
+                    for(int i=os[facei]; i<os[facei+1];++i){
+                        ig[facei]+= is[ol[i]];
+                    }
+                    for(int i=ns[facei]; i<ns[facei+1];++i){
+                        ig[facei]-= is[nl[i]];
+                    }
+                }); 
+
+    #else
+
+        const labelUList& owner = mesh.owner();
+        const labelUList& neighbour = mesh.neighbour();
+
+        forAll(owner, facei)
+        {
+            ivf[owner[facei]] += issf[facei];
+            ivf[neighbour[facei]] -= issf[facei];
+        }
+
+    #endif
+
+
+    #ifdef NVTX
+        nvtxRangePop();
+        nvtxRangePushA("second");  
+    #endif
+
+#ifdef STDPAR
+
+    forAll(mesh.boundary(), patchi)
     {
-        ivf[owner[facei]] += issf[facei];
-        ivf[neighbour[facei]] -= issf[facei];
+
+        if(mesh.boundary()[patchi].size()!=0){
+
+        const labelUList& pFaceCells =mesh.boundary()[patchi].faceCells();
+        const fvsPatchField<Type>& pssf = ssf.boundaryField()[patchi];
+
+        const auto& faceIndex=mesh.boundary().facePatchIndexPatch(patchi, mesh.boundary());
+        const auto& faceStart=mesh.boundary().facePatchStartPatch(patchi, mesh.boundary());
+
+        auto iter=std::views::iota(0,faceStart.size()-1);
+        std::for_each(std::execution::par_unseq,
+                        iter.begin(),
+                        iter.end(), 
+                        [iv=ivf.data(),pf=pFaceCells.cdata(),sec=pssf.cdata(),pstr=faceStart.cdata(),plst=faceIndex.cdata()](const label& facei){
+                            label id=pf[plst[pstr[facei]]];
+                            for(int i=pstr[facei]; i<pstr[facei+1];++i){
+                                iv[id]+=sec[plst[i]];
+                            }
+                        });
+        }
+
     }
+
+#else
 
     forAll(mesh.boundary(), patchi)
     {
@@ -74,7 +144,22 @@ void surfaceIntegrate
         }
     }
 
+#endif
+
+
+    #ifdef NVTX
+        nvtxRangePop();
+        nvtxRangePushA("third");  
+    #endif
+
     ivf /= mesh.Vsc();
+
+
+    #ifdef NVTX
+        nvtxRangePop();
+    #endif
+
+
 }
 
 
@@ -85,7 +170,13 @@ surfaceIntegrate
     const GeometricField<Type, fvsPatchField, surfaceMesh>& ssf
 )
 {
+
+    #ifdef NVTX
+        nvtxRangePushA("build surfaceIntegrate");  
+    #endif
+
     const fvMesh& mesh = ssf.mesh();
+
 
     tmp<GeometricField<Type, fvPatchField, volMesh>> tvf
     (
@@ -104,10 +195,28 @@ surfaceIntegrate
             fvPatchFieldBase::extrapolatedCalculatedType()
         )
     );
+
     GeometricField<Type, fvPatchField, volMesh>& vf = tvf.ref();
 
+    #ifdef NVTX
+        nvtxRangePop();
+        nvtxRangePushA("surf");  
+    #endif
+
+
     surfaceIntegrate(vf.primitiveFieldRef(), ssf);
+
+    #ifdef NVTX
+        nvtxRangePop();
+        nvtxRangePushA("coorect");  
+    #endif
+
     vf.correctBoundaryConditions();
+
+
+    #ifdef NVTX
+        nvtxRangePop();
+    #endif
 
     return tvf;
 }

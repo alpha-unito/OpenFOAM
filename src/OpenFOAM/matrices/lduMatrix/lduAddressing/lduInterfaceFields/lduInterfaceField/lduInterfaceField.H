@@ -178,7 +178,6 @@ public:
                 const Field<Type>& vals
             ) const;
 
-
     // Housekeeping
 
         //- Adjust whether matrix has been updated.

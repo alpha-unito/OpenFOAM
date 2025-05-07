@@ -772,6 +772,19 @@ const Foam::lduAddressing& Foam::fvMesh::lduAddr() const
     return *lduPtr_;
 }
 
+// #ifdef STDPAR
+
+// const Foam::fvMeshLduAddressing& Foam::fvMesh::lduAddrPatch() const
+// {
+//     if (!lduPtr_)
+//     {
+//         lduAddr();
+//     }
+
+//     return *lduPtr_;
+// }
+
+// #endif
 
 Foam::lduInterfacePtrsList Foam::fvMesh::interfaces() const
 {

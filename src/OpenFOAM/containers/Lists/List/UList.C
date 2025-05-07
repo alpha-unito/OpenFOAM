@@ -32,7 +32,9 @@ License
 
 #include <random>
 
+
 // * * * * * * * * * * * * Protected Member Functions  * * * * * * * * * * * //
+
 
 template<class T>
 Foam::labelRange
@@ -116,7 +118,7 @@ void Foam::UList<T>::deepCopy(const UList<T>& list)
         // Can dispatch with
         // - std::execution::parallel_unsequenced_policy
         // - std::execution::unsequenced_policy
-        std::copy(list.cbegin(), list.cend(), this->v_);
+            std::copy(list.cbegin(), list.cend(), this->v_);
     }
 }
 

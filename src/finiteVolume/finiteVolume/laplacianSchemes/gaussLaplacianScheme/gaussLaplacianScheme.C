@@ -31,6 +31,12 @@ License
 #include "fvcGrad.H"
 #include "fvMatrices.H"
 
+
+
+#ifdef NVTX
+    #include <nvtx3/nvToolsExt.h>
+#endif
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
@@ -52,6 +58,11 @@ gaussLaplacianScheme<Type, GType>::fvmLaplacianUncorrected
     const GeometricField<Type, fvPatchField, volMesh>& vf
 )
 {
+
+#ifdef NVTX
+    nvtxRangePushA("Build fvmLaplacianUncorrected");  
+#endif
+
     tmp<fvMatrix<Type>> tfvm
     (
         new fvMatrix<Type>
@@ -62,29 +73,176 @@ gaussLaplacianScheme<Type, GType>::fvmLaplacianUncorrected
     );
     fvMatrix<Type>& fvm = tfvm.ref();
 
-    fvm.upper() = deltaCoeffs.primitiveField()*gammaMagSf.primitiveField();
+#ifdef NVTX
+    nvtxRangePop();
+    nvtxRangePushA("Matrix operations1");  
+#endif
+
+    #ifdef STDPAR
+
+        std::transform(std::execution::par_unseq,
+                        deltaCoeffs.primitiveField().begin(),
+                        deltaCoeffs.primitiveField().end(),
+                        gammaMagSf.primitiveField().begin(),
+                        fvm.upper().begin(),
+                        [](auto x,auto y){ return x*y;});
+
+    #else
+
+        fvm.upper() = deltaCoeffs.primitiveField()*gammaMagSf.primitiveField();
+    #endif
+
+#ifdef NVTX
+    nvtxRangePop();
+    nvtxRangePushA("Matrix operations2");  
+#endif
+
     fvm.negSumDiag();
+
+#ifdef NVTX
+    nvtxRangePop();
+    nvtxRangePushA("Matrix Boundary operations");  
+#endif
 
     forAll(vf.boundaryField(), patchi)
     {
+
+        #ifdef NVTX
+            nvtxRangePushA("First operations");  
+        #endif
+
         const fvPatchField<Type>& pvf = vf.boundaryField()[patchi];
         const fvsPatchScalarField& pGamma = gammaMagSf.boundaryField()[patchi];
-        const fvsPatchScalarField& pDeltaCoeffs =
-            deltaCoeffs.boundaryField()[patchi];
+        const fvsPatchScalarField& pDeltaCoeffs = deltaCoeffs.boundaryField()[patchi];
+
+        #ifdef NVTX
+            nvtxRangePop();
+        #endif
 
         if (pvf.coupled())
         {
-            fvm.internalCoeffs()[patchi] =
-                pGamma*pvf.gradientInternalCoeffs(pDeltaCoeffs);
-            fvm.boundaryCoeffs()[patchi] =
-               -pGamma*pvf.gradientBoundaryCoeffs(pDeltaCoeffs);
+
+        #ifdef NVTX
+            nvtxRangePushA("Second operations");  
+        #endif
+
+            #ifdef STDPAR
+
+                const auto& gradientInternalCoeffs=pvf.gradientInternalCoeffs(pDeltaCoeffs).get();
+      
+                auto iter=std::views::iota(0,fvm.internalCoeffs()[patchi].size());
+
+                std::for_each(std::execution::par,iter.begin(),iter.end(),
+                            [ic=fvm.internalCoeffs()[patchi].data(),pG=pGamma.cdata(),gIC=gradientInternalCoeffs->cdata()](const auto& elem){
+                                ic[elem]=pG[elem]*gIC[elem];
+                            });
+
+
+            #else
+
+                fvm.internalCoeffs()[patchi] = pGamma*pvf.gradientInternalCoeffs(pDeltaCoeffs);
+        
+            #endif
+        #ifdef NVTX
+            nvtxRangePop();
+        #endif
+
+        #ifdef NVTX
+            nvtxRangePushA("Third operations");  
+        #endif
+
+            #ifdef STDPAR
+
+                const auto& gradientBoundaryCoeffs=pvf.gradientBoundaryCoeffs(pDeltaCoeffs).get();
+
+                auto iter2=std::views::iota(0,fvm.boundaryCoeffs()[patchi].size());
+
+                std::for_each(std::execution::par,iter2.begin(),iter2.end(),
+                            [ic=fvm.boundaryCoeffs()[patchi].data(),pG=pGamma.cdata(),gIC=gradientBoundaryCoeffs->cdata()](const auto& elem){
+                                ic[elem]=-pG[elem]*gIC[elem];
+                            });
+
+
+            #else
+
+                fvm.boundaryCoeffs()[patchi] = -pGamma*pvf.gradientBoundaryCoeffs(pDeltaCoeffs);
+
+            #endif
+
+        #ifdef NVTX
+            nvtxRangePop();
+        #endif
+        
         }
         else
         {
-            fvm.internalCoeffs()[patchi] = pGamma*pvf.gradientInternalCoeffs();
-            fvm.boundaryCoeffs()[patchi] = -pGamma*pvf.gradientBoundaryCoeffs();
+
+        #ifdef NVTX
+            nvtxRangePushA("Second operations");  
+        #endif
+
+            #ifdef STDPAR
+
+                const auto& gradientInternalCoeffs=pvf.gradientInternalCoeffs().get();
+
+      #ifdef NVTX
+            nvtxRangePop();
+            nvtxRangePushA("Second operations-2");  
+        #endif
+
+                auto iter=std::views::iota(0,fvm.internalCoeffs()[patchi].size());
+
+                std::for_each(std::execution::par,iter.begin(),iter.end(),
+                            [ic=fvm.internalCoeffs()[patchi].data(),pG=pGamma.cdata(),gIC=gradientInternalCoeffs->cdata()](const auto& elem){
+                                ic[elem]=pG[elem]*gIC[elem];
+                            });
+
+            #else
+                fvm.internalCoeffs()[patchi] = pGamma*pvf.gradientInternalCoeffs();
+            #endif
+
+        #ifdef NVTX
+            nvtxRangePop();
+        #endif            
+
+        #ifdef NVTX
+            nvtxRangePushA("Third operations");  
+        #endif            
+
+            #ifdef STDPAR
+
+                const auto& gradientBoundaryCoeffs=pvf.gradientBoundaryCoeffs().get();
+
+        #ifdef NVTX
+            nvtxRangePop();
+
+            nvtxRangePushA("Third operations - 2");  
+        #endif  
+
+                auto iter2=std::views::iota(0,fvm.boundaryCoeffs()[patchi].size());
+
+                std::for_each(std::execution::par,iter2.begin(),iter2.end(),
+                            [ic=fvm.boundaryCoeffs()[patchi].data(),pG=pGamma.cdata(),gIC=gradientBoundaryCoeffs->cdata()](const auto& elem){
+                                ic[elem]=-pG[elem]*gIC[elem];
+                            });
+
+            #else
+                fvm.boundaryCoeffs()[patchi] = -pGamma*pvf.gradientBoundaryCoeffs();
+            #endif
+
+
+            
+        #ifdef NVTX
+            nvtxRangePop();
+        #endif
+
+
         }
     }
+
+#ifdef NVTX
+    nvtxRangePop();
+#endif
 
     return tfvm;
 }

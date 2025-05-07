@@ -31,6 +31,12 @@ License
 #include "fvcDiv.H"
 #include "fvMatrices.H"
 
+
+
+#ifdef NVTX
+    #include <nvtx3/nvToolsExt.h>
+#endif
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
@@ -367,6 +373,17 @@ EulerDdtScheme<Type>::fvmDdt
     const GeometricField<Type, fvPatchField, volMesh>& vf
 )
 {
+
+    #ifdef NVTX
+        nvtxRangePushA("DDT computation");  
+    #endif
+
+
+    #ifdef NVTX
+        nvtxRangePushA("Build");  
+    #endif
+    
+
     tmp<fvMatrix<Type>> tfvm
     (
         new fvMatrix<Type>
@@ -378,18 +395,104 @@ EulerDdtScheme<Type>::fvmDdt
 
     fvMatrix<Type>& fvm = tfvm.ref();
 
+    #ifdef NVTX
+        nvtxRangePop();
+        nvtxRangePushA("Fase 1");  
+    #endif
+
     scalar rDeltaT = 1.0/mesh().time().deltaTValue();
 
-    fvm.diag() = rDeltaT*mesh().Vsc();
+    #ifdef STDPAR
+        #ifdef NVTX
+            nvtxRangePushA("Vsc computation");  
+        #endif
+
+    // auto vsc=mesh().Vsc().cref();
+    //     #ifdef NVTX
+    //         nvtxRangePop();
+    //         nvtxRangePushA("Cycle");  
+    //     #endif
+
+    // std::transform(std::execution::par,
+    //     vsc.cbegin(),
+    //     vsc.cend(),
+    //     fvm.diag().begin(),
+    //     [rDeltaT](auto x){ return rDeltaT*x;});
+
+        std::transform(std::execution::par,
+                        mesh().Vsc().get()->begin(),
+                        mesh().Vsc().get()->end(),
+                        fvm.diag().begin(),
+                        [rDeltaT](auto x){ return rDeltaT*x;});
+
+
+
+        #ifdef NVTX
+            nvtxRangePop();
+        #endif
+
+    // std::transform(std::execution::par,
+    //                 mesh().Vsc().get()->begin(),
+    //                 mesh().Vsc().get()->end(),
+    //                 fvm.diag().begin(),
+    //                 [rDeltaT](auto x){ return rDeltaT*x;});
+
+    #else
+        fvm.diag() = rDeltaT*mesh().Vsc();
+    #endif
+
+
+
+    #ifdef NVTX
+        nvtxRangePop();
+        nvtxRangePushA("Fase 2");  
+    #endif
 
     if (mesh().moving())
     {
-        fvm.source() = rDeltaT*vf.oldTime().primitiveField()*mesh().Vsc0();
+        // fvm.source() = rDeltaT*vf.oldTime().primitiveField()*mesh().Vsc0();
+
+        #ifdef STDPAR
+
+        std::transform(std::execution::par,
+                        vf.oldTime().primitiveField().begin(),
+                        vf.oldTime().primitiveField().end(),
+                        mesh().Vsc0().get()->begin(),
+                        fvm.source().begin(),
+                        [rDeltaT](const auto x, const auto y){ return rDeltaT*x*y;});
+
+        #else
+            fvm.source() = rDeltaT*vf.oldTime().primitiveField()*mesh().Vsc0();
+        #endif
+
+
     }
     else
     {
-        fvm.source() = rDeltaT*vf.oldTime().primitiveField()*mesh().Vsc();
+
+        #ifdef STDPAR
+
+        std::transform(std::execution::par,
+                        vf.oldTime().primitiveField().begin(),
+                        vf.oldTime().primitiveField().end(),
+                        mesh().Vsc().get()->begin(),
+                        fvm.source().begin(),
+                        [rDeltaT](const auto x, const auto y){ return rDeltaT*x*y;});
+
+        #else
+            fvm.source() = rDeltaT*vf.oldTime().primitiveField()*mesh().Vsc();
+        #endif
+
+
+        // fvm.source() = rDeltaT*vf.oldTime().primitiveField()*mesh().Vsc();
     }
+
+    #ifdef NVTX
+        nvtxRangePop();
+    #endif
+        #ifdef NVTX
+        nvtxRangePop();
+    #endif
 
     return tfvm;
 }

@@ -32,6 +32,15 @@ Description
 
 #include "lduMatrix.H"
 
+#ifdef STDPAR
+    #include <atomic>
+#endif
+
+#ifdef NVTX
+    #include <nvtx3/nvToolsExt.h>
+#endif
+
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 void Foam::lduMatrix::Amul
@@ -58,6 +67,10 @@ void Foam::lduMatrix::Amul
     const scalar* const __restrict__ upperPtr = upper().begin();
     const scalar* const __restrict__ lowerPtr = lower().begin();
 
+    #ifdef NVTX
+        nvtxRangePushA("AMult initMatrixInterfaces");  
+    #endif
+
     const label startRequest = UPstream::nRequests();
 
     // Initialise the update of interfaced interfaces
@@ -71,6 +84,10 @@ void Foam::lduMatrix::Amul
         cmpt
     );
 
+    #ifdef NVTX
+        nvtxRangePop();
+    #endif
+
     const label nCells = diag().size();
 
     if (hasLowerCSR())
@@ -82,8 +99,8 @@ void Foam::lduMatrix::Amul
             addr.ownerStartAddr().begin();
         const label* const __restrict__ loStartPtr =
             addr.losortStartAddr().begin();
-            const label* const __restrict__ lcsrPtr =
-                addr.lowerCSRAddr().begin();
+        const label* const __restrict__ lcsrPtr =
+            addr.lowerCSRAddr().begin();
 
         // Note: lowerCSR constructed from lower if available, upper otherwise
         //       so is handling symmetric()
@@ -121,20 +138,70 @@ void Foam::lduMatrix::Amul
     }
     else
     {
-        for (label cell=0; cell<nCells; cell++)
-        {
-            ApsiPtr[cell] = diagPtr[cell]*psiPtr[cell];
-        }
 
+    #ifdef NVTX
+        nvtxRangePushA("AMult 1");  
+    #endif
+
+        #ifdef STDPAR
+
+            auto iter=std::views::iota(0,nCells);
+            std::for_each(std::execution::par_unseq,iter.begin(),iter.end(),
+                    [=](const label& cell){
+                        ApsiPtr[cell] = diagPtr[cell]*psiPtr[cell];
+                    });
+
+
+        #else
+
+            for (label cell=0; cell<nCells; cell++)
+            {
+                ApsiPtr[cell] = diagPtr[cell]*psiPtr[cell];
+            }
+
+        #endif
+
+    #ifdef NVTX
+        nvtxRangePop();
+        nvtxRangePushA("AMult 2");  
+    #endif
 
         const label nFaces = upper().size();
+
+        #ifdef STDPAR
+
+            auto iter2=std::views::iota(0,nFaces);
+            std::for_each(std::execution::par,iter2.begin(),iter2.end(),
+                    [=](const label& facei){
+
+                    std::atomic_ref<solveScalar> atomicU(ApsiPtr[uPtr[facei]]);
+                    std::atomic_ref<solveScalar> atomicL(ApsiPtr[lPtr[facei]]);
+
+                    atomicU.fetch_add(lowerPtr[facei]*psiPtr[lPtr[facei]], std::memory_order_relaxed);
+                    atomicL.fetch_add(upperPtr[facei]*psiPtr[uPtr[facei]], std::memory_order_relaxed);
+
+                    });
+
+        #else
 
         for (label face=0; face<nFaces; face++)
         {
             ApsiPtr[uPtr[face]] += lowerPtr[face]*psiPtr[lPtr[face]];
             ApsiPtr[lPtr[face]] += upperPtr[face]*psiPtr[uPtr[face]];
         }
+
+        #endif
+
+
+    #ifdef NVTX
+        nvtxRangePop();
+    #endif
+
     }
+
+    #ifdef NVTX
+        nvtxRangePushA("AMult updateMatrixInterfaces");  
+    #endif
 
     // Update interface interfaces
     updateMatrixInterfaces
@@ -147,6 +214,10 @@ void Foam::lduMatrix::Amul
         cmpt,
         startRequest
     );
+
+    #ifdef NVTX
+        nvtxRangePop();
+    #endif
 
     tpsi.clear();
 }
@@ -236,16 +307,42 @@ void Foam::lduMatrix::sumA
     const label nCells = diag().size();
     const label nFaces = upper().size();
 
-    for (label cell=0; cell<nCells; cell++)
-    {
-        sumAPtr[cell] = diagPtr[cell];
-    }
 
-    for (label face=0; face<nFaces; face++)
-    {
-        sumAPtr[uPtr[face]] += lowerPtr[face];
-        sumAPtr[lPtr[face]] += upperPtr[face];
-    }
+    #ifdef STDPAR
+
+        const labelUList& owlist=lduAddr().ownerList();
+        const labelUList& owstart=lduAddr().ownerStart();
+        const labelUList& nelist=lduAddr().neighbourList();
+        const labelUList& nestart=lduAddr().neighbourStart();
+
+        std::copy(std::execution::par, diagPtr, diagPtr+nCells, sumAPtr);
+
+        auto iter=std::views::iota(0,nCells);
+        std::for_each(std::execution::par,iter.begin(),iter.end(),
+                [=,ol=owlist.cdata(),os=owstart.cdata(),nl=nelist.cdata(),ns=nestart.cdata()](const label& facei){
+                    for(auto i=os[facei]; i<os[facei+1];++i){
+                        sumAPtr[facei]+=upperPtr[ol[i]];
+                    }
+                    for(auto i=ns[facei]; i<ns[facei+1];++i){
+                        sumAPtr[facei]+=lowerPtr[nl[i]];
+                    }
+                });
+
+
+    #else
+
+        for (label cell=0; cell<nCells; cell++)
+        {
+            sumAPtr[cell] = diagPtr[cell];
+        }
+
+        for (label face=0; face<nFaces; face++)
+        {
+            sumAPtr[uPtr[face]] += lowerPtr[face];
+            sumAPtr[lPtr[face]] += upperPtr[face];
+        }
+
+    #endif
 
     // Add the interface internal coefficients to diagonal
     // and the interface boundary coefficients to the sum-off-diagonal
@@ -256,12 +353,33 @@ void Foam::lduMatrix::sumA
             const labelUList& pa = lduAddr().patchAddr(patchi);
             const scalarField& pCoeffs = interfaceBouCoeffs[patchi];
 
+            #ifdef STDPAR
+                auto iter=std::views::iota(0,pa.size());
+                std::for_each(std::execution::par, iter.begin(), iter.end(), 
+                     [=,PA=pa.cdata(),pC=pCoeffs.cdata()](const auto face) {
+
+                    std::atomic_ref<solveScalar> atomicSum(sumAPtr[PA[face]]);
+                    atomicSum.fetch_sub(pC[face], std::memory_order_relaxed);
+ 
+                });
+
+            #else
+
             forAll(pa, face)
             {
                 sumAPtr[pa[face]] -= pCoeffs[face];
             }
+
+            #endif
         }
     }
+
+
+    // FatalErrorInFunction
+    //     << "Arrivato qui" << endl
+    //     << abort(FatalError);
+
+
 }
 
 

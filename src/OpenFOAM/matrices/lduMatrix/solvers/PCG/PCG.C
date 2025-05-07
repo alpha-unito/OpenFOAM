@@ -74,11 +74,20 @@ Foam::solverPerformance Foam::PCG::scalarSolve
 ) const
 {
     // --- Setup class containing solver performance data
+    #ifdef NVTX
+        nvtxRangePushA("PCG phase 0");  
+    #endif
+
     solverPerformance solverPerf
     (
         lduMatrix::preconditioner::getName(controlDict_) + typeName,
         fieldName_
     );
+
+    #ifdef NVTX
+        nvtxRangePop();
+        nvtxRangePushA("PCG phase 1");  
+    #endif
 
     label nCells = psi.size();
 
@@ -107,6 +116,11 @@ Foam::solverPerformance Foam::PCG::scalarSolve
         true
     );
 
+    #ifdef NVTX
+        nvtxRangePop();
+        nvtxRangePushA("Norm Factor");  
+    #endif
+
     // --- Calculate normalisation factor
     solveScalar normFactor = this->normFactor(psi, source, wA, pA);
 
@@ -114,6 +128,13 @@ Foam::solverPerformance Foam::PCG::scalarSolve
     {
         Info<< "   Normalisation factor = " << normFactor << endl;
     }
+
+
+    #ifdef NVTX
+        nvtxRangePop();
+        nvtxRangePushA("Compute residual");  
+    #endif
+
 
     // --- Calculate normalised residual norm
     solverPerf.initialResidual() =
@@ -138,40 +159,99 @@ Foam::solverPerformance Foam::PCG::scalarSolve
             );
         }
 
+        #ifdef NVTX
+            nvtxRangePop();
+            nvtxRangePushA("Solver iterations");  
+        #endif
+
+
         // --- Solver iteration
         do
         {
+
+            #ifdef NVTX
+                nvtxRangePushA("Precondition");  
+            #endif
+
             // --- Store previous wArA
             wArAold = wArA;
 
             // --- Precondition residual
             preconPtr_->precondition(wA, rA, cmpt);
 
+            #ifdef NVTX
+                nvtxRangePop();
+                nvtxRangePushA("gSumProd");  
+            #endif
+
             // --- Update search directions:
             wArA = gSumProd(wA, rA, matrix().mesh().comm());
 
+            #ifdef NVTX
+                nvtxRangePop();
+                nvtxRangePushA("Cycle-1");  
+            #endif
+
             if (solverPerf.nIterations() == 0)
             {
-                for (label cell=0; cell<nCells; cell++)
-                {
-                    pAPtr[cell] = wAPtr[cell];
-                }
+                #ifdef STDPAR
+                
+                    std::copy(std::execution::par_unseq,wAPtr, wAPtr+nCells, pAPtr);
+                
+                #else
+
+                    for (label cell=0; cell<nCells; cell++)
+                    {
+                        pAPtr[cell] = wAPtr[cell];
+                    }
+
+                #endif
+
             }
             else
             {
                 const solveScalar beta = wArA/wArAold;
 
-                for (label cell=0; cell<nCells; cell++)
-                {
-                    pAPtr[cell] = wAPtr[cell] + beta*pAPtr[cell];
-                }
+                #ifdef STDPAR
+                                
+                    std::transform(std::execution::par_unseq, 
+                                pAPtr, pAPtr + nCells,  // Input range
+                                wAPtr,              // Second input range
+                                pAPtr,              // Output range
+                                [beta](double pA, double wA) {
+                                    return wA + beta * pA;  // The computation
+                                });
+
+                #else
+
+                    for (label cell=0; cell<nCells; cell++)
+                    {
+                        pAPtr[cell] = wAPtr[cell] + beta*pAPtr[cell];
+                    }
+
+                #endif
+
             }
 
+            #ifdef NVTX
+                nvtxRangePop();
+                nvtxRangePushA("Amul");  
+            #endif
 
             // --- Update preconditioned residual
             matrix_.Amul(wA, pA, interfaceBouCoeffs_, interfaces_, cmpt);
 
+            #ifdef NVTX
+                nvtxRangePop();
+                nvtxRangePushA("gSumProd");  
+            #endif
+
             solveScalar wApA = gSumProd(wA, pA, matrix().mesh().comm());
+
+            #ifdef NVTX
+                nvtxRangePop();
+                nvtxRangePushA("checkSingularity");  
+            #endif
 
             // --- Test for singularity
             if (solverPerf.checkSingularity(mag(wApA)/normFactor)) break;
@@ -181,15 +261,31 @@ Foam::solverPerformance Foam::PCG::scalarSolve
 
             const solveScalar alpha = wArA/wApA;
 
-            for (label cell=0; cell<nCells; cell++)
-            {
-                psiPtr[cell] += alpha*pAPtr[cell];
-                rAPtr[cell] -= alpha*wAPtr[cell];
-            }
+            #ifdef STDPAR
 
-            solverPerf.finalResidual() =
-                gSumMag(rA, matrix().mesh().comm())
-               /normFactor;
+                auto iter=std::views::iota(0,nCells);
+                std::for_each(std::execution::par_unseq,iter.begin(),iter.end(),
+                            [=](auto cell){
+                                psiPtr[cell] += alpha*pAPtr[cell];
+                                rAPtr[cell] -= alpha*wAPtr[cell];
+                            });
+
+            #else
+
+                for (label cell=0; cell<nCells; cell++)
+                {
+                    psiPtr[cell] += alpha*pAPtr[cell];
+                    rAPtr[cell] -= alpha*wAPtr[cell];
+                }
+
+            #endif
+
+            solverPerf.finalResidual() =    gSumMag(rA, matrix().mesh().comm())/normFactor;
+
+            #ifdef NVTX
+                nvtxRangePop();
+            #endif
+
 
         } while
         (
@@ -200,6 +296,12 @@ Foam::solverPerformance Foam::PCG::scalarSolve
          || solverPerf.nIterations() < minIter_
         );
     }
+
+    #ifdef NVTX
+        nvtxRangePop();
+        nvtxRangePushA("End PCG");  
+    #endif
+
 
     if (preconPtr_)
     {
@@ -212,6 +314,11 @@ Foam::solverPerformance Foam::PCG::scalarSolve
         fieldName_,
         false
     );
+
+    #ifdef NVTX
+        nvtxRangePop();
+    #endif
+
 
     return solverPerf;
 }

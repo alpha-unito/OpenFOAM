@@ -60,6 +60,7 @@ class primitiveMeshTools
 {
 public:
 
+
     //- Update face centres and areas for the faces in the set faceIDs
     static void updateFaceCentresAndAreas
     (

@@ -67,6 +67,8 @@ void writeOBJ(const point& pt, Ostream& os)
 // All edges of mesh
 void writePoints(const polyMesh& mesh, const fileName& timeName)
 {
+    label vertI = 0;
+
     fileName pointFile(mesh.time().path()/"meshPoints_" + timeName + ".obj");
 
     Info<< "Writing mesh points and edges to " << pointFile << endl;
@@ -76,6 +78,7 @@ void writePoints(const polyMesh& mesh, const fileName& timeName)
     forAll(mesh.points(), pointi)
     {
         writeOBJ(mesh.points()[pointi], pointStream);
+        vertI++;
     }
 
     forAll(mesh.edges(), edgeI)

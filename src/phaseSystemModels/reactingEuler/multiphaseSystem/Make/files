@@ -39,9 +39,9 @@ $(binaryBreakup)/powerLawUniformBinary/powerLawUniformBinary.C
 
 breakup = populationBalanceModel/breakupModels
 $(breakup)/breakupModel/breakupModel.C
-$(breakup)/exponential/exponentialBreakup.C
+$(breakup)/exponential/exponential.C
 $(breakup)/LaakkonenAlopaeusAittamaa/LaakkonenAlopaeusAittamaa.C
-$(breakup)/powerLaw/powerLawBreakup.C
+$(breakup)/powerLaw/powerLaw.C
 
 daughterSize = populationBalanceModel/daughterSizeDistributionModels
 $(daughterSize)/daughterSizeDistributionModel/daughterSizeDistributionModel.C
@@ -63,7 +63,7 @@ blending = BlendedInterfacialModel/blendingMethods
 $(blending)/blendingMethod/blendingMethod.C
 $(blending)/noBlending/noBlending.C
 $(blending)/linear/linearBlendingMethod.C
-$(blending)/hyperbolic/hyperbolicBlendingMethod.C
+$(blending)/hyperbolic/hyperbolic.C
 
 
 interfacialModels/wallDependentModel/wallDependentModel.C
@@ -224,7 +224,7 @@ $(TDNBModels)/Shirai/Shirai.C
 nucleateFluxModels = $(wallBoilingSubModels)/nucleateFluxModels
 $(nucleateFluxModels)/nucleateFluxModel/nucleateFluxModel.C
 $(nucleateFluxModels)/Kutadeladze/Kutadeladze.C
-$(nucleateFluxModels)/exponential/exponentialNucleateFlux.C
+$(nucleateFluxModels)/exponential/exponential.C
 
 /* Turbulence */
 turbulence/multiphaseCompressibleTurbulenceModels.C

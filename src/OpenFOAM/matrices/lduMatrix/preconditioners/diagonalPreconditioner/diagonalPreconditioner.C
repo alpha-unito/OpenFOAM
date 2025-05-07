@@ -27,6 +27,11 @@ License
 
 #include "diagonalPreconditioner.H"
 
+
+
+#ifdef NVTX
+    #include <nvtx3/nvToolsExt.h>
+#endif
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
 namespace Foam
@@ -60,10 +65,24 @@ Foam::diagonalPreconditioner::diagonalPreconditioner
     const label nCells = rD.size();
 
     // Generate reciprocal diagonal
-    for (label cell=0; cell<nCells; cell++)
-    {
-        rDPtr[cell] = 1.0/DPtr[cell];
-    }
+
+    #ifdef STDPAR
+
+    std::transform(std::execution::par_unseq, DPtr, DPtr + nCells, rDPtr,
+                   [](auto value) {
+                       return 1.0 / value;
+                   });
+
+
+    #else
+
+        for (label cell=0; cell<nCells; cell++)
+        {
+            rDPtr[cell] = 1.0/DPtr[cell];
+        }
+
+    #endif
+
 }
 
 
@@ -82,10 +101,21 @@ void Foam::diagonalPreconditioner::precondition
 
     const label nCells = wA.size();
 
+    #ifdef STDPAR
+
+    std::transform(std::execution::par_unseq, rDPtr, rDPtr+nCells, rAPtr, wAPtr,
+                   [](auto rD, auto rA) {
+                       return rD * rA;
+                   });
+
+    #else
+
     for (label cell=0; cell<nCells; cell++)
     {
         wAPtr[cell] = rDPtr[cell]*rAPtr[cell];
     }
+
+    #endif
 }
 
 
