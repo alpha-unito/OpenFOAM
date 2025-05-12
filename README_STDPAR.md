@@ -62,7 +62,9 @@ The flags used to compile these libraries are:
 -DNVTX -cuda -stdpar=gpu -gpu=managed -gpu=cc90
 ```
 
-The same flags should be add to the compilation of the target application:
-```
-/home/giulio/Workspace/PhD/alpha-github/applications/solvers/basic/laplacianFoam/Make/option
-```
+## Executing laplacianFOAM with OpenFOAM and STDPAR
+
+The folder TestLaplacianFoam contains three subfolders:
+-   **heat_block_3D**: the test-case used. It consists of a cubic block made of a homogeneous material. The side walls are modeled as adiabatic. As the initial condition, a temperature of T = 40 K is applied inside a cube of size 0.2 × 0.2 × 0.2 located within the block, and T = 0 K elsewhere. To modify the initial condition, simply change the file setFieldsDict. The mesh is created using blockMesh. After generating the mesh with blockMesh, you need to run setFields to apply the initial condition;
+-   **laplacianFoam**: the laplacianFOAM application used on GH200 machine, please take cares of the compilation flags on the *options* file: ```-DNVTX -stdpar=gpu -gpu=cc90 -gpu=managed ```
+-   **log**: two log files obtained with the native OpenFOAM implementation log_2MPI_CPU and the STDPAR version log_2MPI_GPU;

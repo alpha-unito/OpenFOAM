@@ -1,0 +1,3052 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2412                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+Build  : 4fe3f55e4d-20250110 OPENFOAM=2412 version=v2412
+Arch   : "LSB;label=32;scalar=64"
+Exec   : laplacianFoam -parallel
+Date   : Apr 11 2025
+Time   : 14:24:00
+Host   : epito01
+PID    : 37248
+I/O    : uncollated
+Case   : /beegfs/home/gmalenza/src/PhD/OF_24_12/Simulations/HEAT/heat_block_3D_correctness_2MPI
+nProcs : 2
+Hosts  :
+(
+    (epito01 2)
+)
+Pstream initialized with:
+    floatTransfer      : false
+    maxCommsSize       : 0
+    nProcsSimpleSum    : 0
+    nonBlockingExchange: 0 (tuning: 0)
+    exchange algorithm : 0
+    commsType          : nonBlocking
+    polling iterations : 0
+trapFpe: Floating point exception trapping enabled (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 5, maxFileModificationPolls 20)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Create mesh for time = 0
+
+
+SIMPLE: no convergence criteria found. Calculations will run for 100 steps.
+
+Reading field T
+
+Reading diffusivity DT
+
+No finite volume options present
+
+Calculating temperature distribution
+
+Time = 0.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.107914, Final residual = 9.41165e-07, No Iterations 19
+diagonalPCG:  Solving for T, Initial residual = 1.05502e-06, Final residual = 6.23489e-07, No Iterations 1
+ExecutionTime = 3.04 s  ClockTime = 4 s
+
+Time = 0.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.0562087, Final residual = 8.71019e-07, No Iterations 18
+diagonalPCG:  Solving for T, Initial residual = 8.77008e-07, Final residual = 8.77008e-07, No Iterations 0
+ExecutionTime = 3.23 s  ClockTime = 4 s
+
+Time = 0.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.0334058, Final residual = 6.96487e-07, No Iterations 17
+diagonalPCG:  Solving for T, Initial residual = 6.98216e-07, Final residual = 6.98216e-07, No Iterations 0
+ExecutionTime = 3.43 s  ClockTime = 4 s
+
+Time = 0.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.0236898, Final residual = 5.8691e-07, No Iterations 16
+diagonalPCG:  Solving for T, Initial residual = 5.88161e-07, Final residual = 5.88161e-07, No Iterations 0
+ExecutionTime = 3.65 s  ClockTime = 4 s
+
+Time = 1
+
+diagonalPCG:  Solving for T, Initial residual = 0.0188477, Final residual = 8.94457e-07, No Iterations 14
+diagonalPCG:  Solving for T, Initial residual = 8.96197e-07, Final residual = 8.96197e-07, No Iterations 0
+ExecutionTime = 3.82 s  ClockTime = 4 s
+
+Time = 1.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.0160718, Final residual = 9.33678e-07, No Iterations 13
+diagonalPCG:  Solving for T, Initial residual = 9.35349e-07, Final residual = 9.35349e-07, No Iterations 0
+ExecutionTime = 3.98 s  ClockTime = 4 s
+
+Time = 1.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.0142176, Final residual = 6.47106e-07, No Iterations 13
+diagonalPCG:  Solving for T, Initial residual = 6.4825e-07, Final residual = 6.4825e-07, No Iterations 0
+ExecutionTime = 4.14 s  ClockTime = 5 s
+
+Time = 1.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.0128436, Final residual = 7.75496e-07, No Iterations 12
+diagonalPCG:  Solving for T, Initial residual = 7.76807e-07, Final residual = 7.76807e-07, No Iterations 0
+ExecutionTime = 4.28 s  ClockTime = 5 s
+
+Time = 1.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.0117684, Final residual = 5.17121e-07, No Iterations 12
+diagonalPCG:  Solving for T, Initial residual = 5.17975e-07, Final residual = 5.17975e-07, No Iterations 0
+ExecutionTime = 4.43 s  ClockTime = 5 s
+
+Time = 2
+
+diagonalPCG:  Solving for T, Initial residual = 0.0109037, Final residual = 7.91387e-07, No Iterations 11
+diagonalPCG:  Solving for T, Initial residual = 7.92671e-07, Final residual = 7.92671e-07, No Iterations 0
+ExecutionTime = 4.56 s  ClockTime = 5 s
+
+Time = 2.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.0101925, Final residual = 4.78724e-07, No Iterations 11
+diagonalPCG:  Solving for T, Initial residual = 4.79489e-07, Final residual = 4.79489e-07, No Iterations 0
+ExecutionTime = 4.7 s  ClockTime = 5 s
+
+Time = 2.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00959082, Final residual = 7.4596e-07, No Iterations 10
+diagonalPCG:  Solving for T, Initial residual = 7.47128e-07, Final residual = 7.47128e-07, No Iterations 0
+ExecutionTime = 4.87 s  ClockTime = 5 s
+
+Time = 2.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.0090769, Final residual = 9.97077e-07, No Iterations 9
+diagonalPCG:  Solving for T, Initial residual = 9.98632e-07, Final residual = 9.98632e-07, No Iterations 0
+ExecutionTime = 5.03 s  ClockTime = 6 s
+
+Time = 2.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00863756, Final residual = 4.50981e-07, No Iterations 10
+diagonalPCG:  Solving for T, Initial residual = 4.51673e-07, Final residual = 4.51673e-07, No Iterations 0
+ExecutionTime = 5.19 s  ClockTime = 6 s
+
+Time = 3
+
+diagonalPCG:  Solving for T, Initial residual = 0.00825432, Final residual = 3.94141e-07, No Iterations 9
+diagonalPCG:  Solving for T, Initial residual = 3.94743e-07, Final residual = 3.94743e-07, No Iterations 0
+ExecutionTime = 5.32 s  ClockTime = 6 s
+
+Time = 3.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.0079162, Final residual = 6.91727e-07, No Iterations 9
+diagonalPCG:  Solving for T, Initial residual = 6.92778e-07, Final residual = 6.92778e-07, No Iterations 0
+ExecutionTime = 5.44 s  ClockTime = 6 s
+
+Time = 3.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00760903, Final residual = 8.39133e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.40391e-07, Final residual = 8.40391e-07, No Iterations 0
+ExecutionTime = 5.56 s  ClockTime = 6 s
+
+Time = 3.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00732796, Final residual = 8.29572e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.30817e-07, Final residual = 8.30817e-07, No Iterations 0
+ExecutionTime = 5.68 s  ClockTime = 6 s
+
+Time = 3.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00707507, Final residual = 1.9588e-07, No Iterations 9
+diagonalPCG:  Solving for T, Initial residual = 1.96173e-07, Final residual = 1.96173e-07, No Iterations 0
+ExecutionTime = 5.81 s  ClockTime = 6 s
+
+Time = 4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00685356, Final residual = 6.9713e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 6.9816e-07, Final residual = 6.9816e-07, No Iterations 0
+ExecutionTime = 5.92 s  ClockTime = 6 s
+
+Time = 4.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00665336, Final residual = 7.76154e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.77302e-07, Final residual = 7.77302e-07, No Iterations 0
+ExecutionTime = 6.04 s  ClockTime = 7 s
+
+Time = 4.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00646519, Final residual = 1.90704e-07, No Iterations 9
+diagonalPCG:  Solving for T, Initial residual = 1.90987e-07, Final residual = 1.90987e-07, No Iterations 0
+ExecutionTime = 6.17 s  ClockTime = 7 s
+
+Time = 4.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00628963, Final residual = 6.98034e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 6.99058e-07, Final residual = 6.99058e-07, No Iterations 0
+ExecutionTime = 6.31 s  ClockTime = 7 s
+
+Time = 4.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00612421, Final residual = 7.03072e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.04101e-07, Final residual = 7.04101e-07, No Iterations 0
+ExecutionTime = 6.46 s  ClockTime = 7 s
+
+Time = 5
+
+diagonalPCG:  Solving for T, Initial residual = 0.00597025, Final residual = 8.37055e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.38286e-07, Final residual = 8.38286e-07, No Iterations 0
+ExecutionTime = 6.61 s  ClockTime = 7 s
+
+Time = 5.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00583316, Final residual = 8.08624e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 8.09807e-07, Final residual = 8.09807e-07, No Iterations 0
+ExecutionTime = 6.72 s  ClockTime = 7 s
+
+Time = 5.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00570364, Final residual = 9.16482e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 9.17817e-07, Final residual = 9.17817e-07, No Iterations 0
+ExecutionTime = 6.83 s  ClockTime = 7 s
+
+Time = 5.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00558063, Final residual = 7.36559e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 7.37632e-07, Final residual = 7.37632e-07, No Iterations 0
+ExecutionTime = 6.94 s  ClockTime = 7 s
+
+Time = 5.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.0054628, Final residual = 8.5708e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 8.58329e-07, Final residual = 8.58329e-07, No Iterations 0
+ExecutionTime = 7.05 s  ClockTime = 8 s
+
+Time = 6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00535069, Final residual = 7.77663e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 7.78796e-07, Final residual = 7.78796e-07, No Iterations 0
+ExecutionTime = 7.17 s  ClockTime = 8 s
+
+Time = 6.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00524724, Final residual = 4.95697e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 4.96418e-07, Final residual = 4.96418e-07, No Iterations 0
+ExecutionTime = 7.28 s  ClockTime = 8 s
+
+Time = 6.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.0051496, Final residual = 5.89984e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 5.90841e-07, Final residual = 5.90841e-07, No Iterations 0
+ExecutionTime = 7.39 s  ClockTime = 8 s
+
+Time = 6.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.0050566, Final residual = 7.49134e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 7.50222e-07, Final residual = 7.50222e-07, No Iterations 0
+ExecutionTime = 7.5 s  ClockTime = 8 s
+
+Time = 6.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00496763, Final residual = 9.95831e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 9.97279e-07, Final residual = 9.97279e-07, No Iterations 0
+ExecutionTime = 7.6 s  ClockTime = 8 s
+
+Time = 7
+
+diagonalPCG:  Solving for T, Initial residual = 0.00488212, Final residual = 3.699e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 3.70438e-07, Final residual = 3.70438e-07, No Iterations 0
+ExecutionTime = 7.73 s  ClockTime = 8 s
+
+Time = 7.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00479999, Final residual = 4.08525e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 4.09119e-07, Final residual = 4.09119e-07, No Iterations 0
+ExecutionTime = 7.86 s  ClockTime = 8 s
+
+Time = 7.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00472243, Final residual = 4.35387e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 4.36017e-07, Final residual = 4.36017e-07, No Iterations 0
+ExecutionTime = 7.99 s  ClockTime = 8 s
+
+Time = 7.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00464883, Final residual = 7.02223e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 7.03243e-07, Final residual = 7.03243e-07, No Iterations 0
+ExecutionTime = 8.12 s  ClockTime = 9 s
+
+Time = 7.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00457809, Final residual = 9.47898e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 9.49279e-07, Final residual = 9.49279e-07, No Iterations 0
+ExecutionTime = 8.23 s  ClockTime = 9 s
+
+Time = 8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00450979, Final residual = 1.92864e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 1.93144e-07, Final residual = 1.93144e-07, No Iterations 0
+ExecutionTime = 8.34 s  ClockTime = 9 s
+
+Time = 8.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00444364, Final residual = 2.66461e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 2.66849e-07, Final residual = 2.66849e-07, No Iterations 0
+ExecutionTime = 8.45 s  ClockTime = 9 s
+
+Time = 8.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00438024, Final residual = 2.46309e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 2.46667e-07, Final residual = 2.46667e-07, No Iterations 0
+ExecutionTime = 8.56 s  ClockTime = 9 s
+
+Time = 8.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00431954, Final residual = 9.96583e-07, No Iterations 5
+diagonalPCG:  Solving for T, Initial residual = 9.98031e-07, Final residual = 9.98031e-07, No Iterations 0
+ExecutionTime = 8.66 s  ClockTime = 9 s
+
+Time = 8.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00426121, Final residual = 2.82885e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 2.83297e-07, Final residual = 2.83297e-07, No Iterations 0
+ExecutionTime = 8.77 s  ClockTime = 9 s
+
+Time = 9
+
+diagonalPCG:  Solving for T, Initial residual = 0.00420496, Final residual = 4.56655e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 4.57322e-07, Final residual = 4.57322e-07, No Iterations 0
+ExecutionTime = 8.88 s  ClockTime = 9 s
+
+Time = 9.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00415064, Final residual = 5.07023e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 5.07762e-07, Final residual = 5.07762e-07, No Iterations 0
+ExecutionTime = 8.98 s  ClockTime = 9 s
+
+Time = 9.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.0040979, Final residual = 9.36495e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 9.37861e-07, Final residual = 9.37861e-07, No Iterations 0
+ExecutionTime = 9.1 s  ClockTime = 10 s
+
+Time = 9.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00404688, Final residual = 1.51894e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 1.52115e-07, Final residual = 1.52115e-07, No Iterations 0
+ExecutionTime = 9.23 s  ClockTime = 10 s
+
+Time = 9.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00399755, Final residual = 3.96712e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 3.97292e-07, Final residual = 3.97292e-07, No Iterations 0
+ExecutionTime = 9.35 s  ClockTime = 10 s
+
+Time = 10
+
+diagonalPCG:  Solving for T, Initial residual = 0.00395011, Final residual = 2.51618e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 2.51985e-07, Final residual = 2.51985e-07, No Iterations 0
+ExecutionTime = 9.49 s  ClockTime = 10 s
+
+Time = 10.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.0039041, Final residual = 5.32893e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 5.33673e-07, Final residual = 5.33673e-07, No Iterations 0
+ExecutionTime = 9.6 s  ClockTime = 10 s
+
+Time = 10.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00385964, Final residual = 3.57664e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 3.58188e-07, Final residual = 3.58188e-07, No Iterations 0
+ExecutionTime = 9.72 s  ClockTime = 10 s
+
+Time = 10.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00381643, Final residual = 7.78115e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 7.79255e-07, Final residual = 7.79255e-07, No Iterations 0
+ExecutionTime = 9.82 s  ClockTime = 10 s
+
+Time = 10.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00377447, Final residual = 6.40486e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 6.41425e-07, Final residual = 6.41425e-07, No Iterations 0
+ExecutionTime = 9.93 s  ClockTime = 10 s
+
+Time = 11
+
+diagonalPCG:  Solving for T, Initial residual = 0.00373366, Final residual = 1.86155e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 1.86428e-07, Final residual = 1.86428e-07, No Iterations 0
+ExecutionTime = 10.04 s  ClockTime = 11 s
+
+Time = 11.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00369401, Final residual = 4.75806e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 4.76504e-07, Final residual = 4.76504e-07, No Iterations 0
+ExecutionTime = 10.15 s  ClockTime = 11 s
+
+Time = 11.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00365572, Final residual = 5.09568e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 5.10317e-07, Final residual = 5.10317e-07, No Iterations 0
+ExecutionTime = 10.26 s  ClockTime = 11 s
+
+Time = 11.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00361846, Final residual = 5.75782e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 5.76629e-07, Final residual = 5.76629e-07, No Iterations 0
+ExecutionTime = 10.37 s  ClockTime = 11 s
+
+Time = 11.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00358225, Final residual = 2.69513e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 2.69911e-07, Final residual = 2.69911e-07, No Iterations 0
+ExecutionTime = 10.49 s  ClockTime = 11 s
+
+Time = 12
+
+diagonalPCG:  Solving for T, Initial residual = 0.00354709, Final residual = 5.95608e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 5.96487e-07, Final residual = 5.96487e-07, No Iterations 0
+ExecutionTime = 10.6 s  ClockTime = 11 s
+
+Time = 12.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00351282, Final residual = 7.43558e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 7.44657e-07, Final residual = 7.44657e-07, No Iterations 0
+ExecutionTime = 10.72 s  ClockTime = 11 s
+
+Time = 12.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00347948, Final residual = 8.95553e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 8.96876e-07, Final residual = 8.96876e-07, No Iterations 0
+ExecutionTime = 10.85 s  ClockTime = 11 s
+
+Time = 12.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.0034469, Final residual = 3.07644e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 3.08099e-07, Final residual = 3.08099e-07, No Iterations 0
+ExecutionTime = 10.99 s  ClockTime = 12 s
+
+Time = 12.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00341517, Final residual = 5.54105e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 5.54925e-07, Final residual = 5.54925e-07, No Iterations 0
+ExecutionTime = 11.1 s  ClockTime = 12 s
+
+Time = 13
+
+diagonalPCG:  Solving for T, Initial residual = 0.00338444, Final residual = 8.95871e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 8.97197e-07, Final residual = 8.97197e-07, No Iterations 0
+ExecutionTime = 11.21 s  ClockTime = 12 s
+
+Time = 13.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00335437, Final residual = 6.76485e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 6.7749e-07, Final residual = 6.7749e-07, No Iterations 0
+ExecutionTime = 11.32 s  ClockTime = 12 s
+
+Time = 13.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00332518, Final residual = 7.30522e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 7.31609e-07, Final residual = 7.31609e-07, No Iterations 0
+ExecutionTime = 11.43 s  ClockTime = 12 s
+
+Time = 13.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.0032967, Final residual = 7.04389e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 7.05436e-07, Final residual = 7.05436e-07, No Iterations 0
+ExecutionTime = 11.53 s  ClockTime = 12 s
+
+Time = 13.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00326893, Final residual = 7.35896e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 7.36991e-07, Final residual = 7.36991e-07, No Iterations 0
+ExecutionTime = 11.65 s  ClockTime = 12 s
+
+Time = 14
+
+diagonalPCG:  Solving for T, Initial residual = 0.00324175, Final residual = 7.2971e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 7.30796e-07, Final residual = 7.30796e-07, No Iterations 0
+ExecutionTime = 11.75 s  ClockTime = 12 s
+
+Time = 14.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00321517, Final residual = 7.54729e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 7.55853e-07, Final residual = 7.55853e-07, No Iterations 0
+ExecutionTime = 11.86 s  ClockTime = 12 s
+
+Time = 14.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00318924, Final residual = 7.46739e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 7.47853e-07, Final residual = 7.47853e-07, No Iterations 0
+ExecutionTime = 11.97 s  ClockTime = 12 s
+
+Time = 14.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00316399, Final residual = 7.60959e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 7.62098e-07, Final residual = 7.62098e-07, No Iterations 0
+ExecutionTime = 12.09 s  ClockTime = 13 s
+
+Time = 14.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00313933, Final residual = 7.58454e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 7.5959e-07, Final residual = 7.5959e-07, No Iterations 0
+ExecutionTime = 12.22 s  ClockTime = 13 s
+
+Time = 15
+
+diagonalPCG:  Solving for T, Initial residual = 0.00311532, Final residual = 7.68104e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 7.69254e-07, Final residual = 7.69254e-07, No Iterations 0
+ExecutionTime = 12.35 s  ClockTime = 13 s
+
+Time = 15.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00309183, Final residual = 7.74926e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 7.76087e-07, Final residual = 7.76087e-07, No Iterations 0
+ExecutionTime = 12.46 s  ClockTime = 13 s
+
+Time = 15.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.0030689, Final residual = 7.84843e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 7.86021e-07, Final residual = 7.86021e-07, No Iterations 0
+ExecutionTime = 12.58 s  ClockTime = 13 s
+
+Time = 15.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.0030464, Final residual = 8.00414e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 8.01617e-07, Final residual = 8.01617e-07, No Iterations 0
+ExecutionTime = 12.68 s  ClockTime = 13 s
+
+Time = 15.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00302435, Final residual = 8.11544e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 8.12766e-07, Final residual = 8.12766e-07, No Iterations 0
+ExecutionTime = 12.79 s  ClockTime = 13 s
+
+Time = 16
+
+diagonalPCG:  Solving for T, Initial residual = 0.00300279, Final residual = 8.34559e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 8.35815e-07, Final residual = 8.35815e-07, No Iterations 0
+ExecutionTime = 12.9 s  ClockTime = 13 s
+
+Time = 16.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00298177, Final residual = 8.46516e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 8.47791e-07, Final residual = 8.47791e-07, No Iterations 0
+ExecutionTime = 13 s  ClockTime = 14 s
+
+Time = 16.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00296126, Final residual = 8.77595e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 8.7892e-07, Final residual = 8.7892e-07, No Iterations 0
+ExecutionTime = 13.12 s  ClockTime = 14 s
+
+Time = 16.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00294118, Final residual = 8.89602e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 8.90946e-07, Final residual = 8.90946e-07, No Iterations 0
+ExecutionTime = 13.22 s  ClockTime = 14 s
+
+Time = 16.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00292151, Final residual = 9.29272e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 9.30676e-07, Final residual = 9.30676e-07, No Iterations 0
+ExecutionTime = 13.32 s  ClockTime = 14 s
+
+Time = 17
+
+diagonalPCG:  Solving for T, Initial residual = 0.00290229, Final residual = 9.40808e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 9.42232e-07, Final residual = 9.42232e-07, No Iterations 0
+ExecutionTime = 13.44 s  ClockTime = 14 s
+
+Time = 17.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00288341, Final residual = 9.89456e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 9.90957e-07, Final residual = 9.90957e-07, No Iterations 0
+ExecutionTime = 13.55 s  ClockTime = 14 s
+
+Time = 17.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00286491, Final residual = 9.99193e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 1.00071e-06, Final residual = 6.53911e-07, No Iterations 1
+ExecutionTime = 13.68 s  ClockTime = 14 s
+
+Time = 17.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00284682, Final residual = 4.89189e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 4.89933e-07, Final residual = 4.89933e-07, No Iterations 0
+ExecutionTime = 13.81 s  ClockTime = 14 s
+
+Time = 17.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00282911, Final residual = 7.69002e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 7.70172e-07, Final residual = 7.70172e-07, No Iterations 0
+ExecutionTime = 13.95 s  ClockTime = 14 s
+
+Time = 18
+
+diagonalPCG:  Solving for T, Initial residual = 0.00281181, Final residual = 3.1171e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 3.12185e-07, Final residual = 3.12185e-07, No Iterations 0
+ExecutionTime = 14.06 s  ClockTime = 15 s
+
+Time = 18.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00279481, Final residual = 4.57096e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 4.57792e-07, Final residual = 4.57792e-07, No Iterations 0
+ExecutionTime = 14.16 s  ClockTime = 15 s
+
+Time = 18.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00277813, Final residual = 6.13099e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 6.14035e-07, Final residual = 6.14035e-07, No Iterations 0
+ExecutionTime = 14.27 s  ClockTime = 15 s
+
+Time = 18.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00276184, Final residual = 3.81603e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 3.82186e-07, Final residual = 3.82186e-07, No Iterations 0
+ExecutionTime = 14.38 s  ClockTime = 15 s
+
+Time = 18.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00274588, Final residual = 7.09289e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 7.10373e-07, Final residual = 7.10373e-07, No Iterations 0
+ExecutionTime = 14.49 s  ClockTime = 15 s
+
+Time = 19
+
+diagonalPCG:  Solving for T, Initial residual = 0.00273021, Final residual = 3.71007e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 3.71574e-07, Final residual = 3.71574e-07, No Iterations 0
+ExecutionTime = 14.6 s  ClockTime = 15 s
+
+Time = 19.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00271487, Final residual = 6.7357e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 6.74603e-07, Final residual = 6.74603e-07, No Iterations 0
+ExecutionTime = 14.72 s  ClockTime = 15 s
+
+Time = 19.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00269979, Final residual = 6.75107e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 6.76144e-07, Final residual = 6.76144e-07, No Iterations 0
+ExecutionTime = 14.82 s  ClockTime = 15 s
+
+Time = 19.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00268503, Final residual = 4.58986e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 4.59693e-07, Final residual = 4.59693e-07, No Iterations 0
+ExecutionTime = 14.94 s  ClockTime = 15 s
+
+Time = 19.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00267055, Final residual = 8.791e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 8.80453e-07, Final residual = 8.80453e-07, No Iterations 0
+ExecutionTime = 15.06 s  ClockTime = 16 s
+
+Time = 20
+
+diagonalPCG:  Solving for T, Initial residual = 0.0026563, Final residual = 4.61938e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 4.6265e-07, Final residual = 4.6265e-07, No Iterations 0
+ExecutionTime = 15.2 s  ClockTime = 16 s
+
+Time = 20.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00264235, Final residual = 8.89255e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 8.90626e-07, Final residual = 8.90626e-07, No Iterations 0
+ExecutionTime = 15.33 s  ClockTime = 16 s
+
+Time = 20.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00262873, Final residual = 8.84322e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 8.85686e-07, Final residual = 8.85686e-07, No Iterations 0
+ExecutionTime = 15.44 s  ClockTime = 16 s
+
+Time = 20.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00261537, Final residual = 4.06251e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 4.06879e-07, Final residual = 4.06879e-07, No Iterations 0
+ExecutionTime = 15.56 s  ClockTime = 16 s
+
+Time = 20.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.0026022, Final residual = 9.00696e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 9.02089e-07, Final residual = 9.02089e-07, No Iterations 0
+ExecutionTime = 15.66 s  ClockTime = 16 s
+
+Time = 21
+
+diagonalPCG:  Solving for T, Initial residual = 0.0025893, Final residual = 5.14238e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 5.15035e-07, Final residual = 5.15035e-07, No Iterations 0
+ExecutionTime = 15.78 s  ClockTime = 16 s
+
+Time = 21.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00257662, Final residual = 6.3477e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 6.35754e-07, Final residual = 6.35754e-07, No Iterations 0
+ExecutionTime = 15.88 s  ClockTime = 16 s
+
+Time = 21.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00256419, Final residual = 9.39802e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 9.41261e-07, Final residual = 9.41261e-07, No Iterations 0
+ExecutionTime = 15.99 s  ClockTime = 17 s
+
+Time = 21.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00255195, Final residual = 4.85237e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 4.85992e-07, Final residual = 4.85992e-07, No Iterations 0
+ExecutionTime = 16.1 s  ClockTime = 17 s
+
+Time = 21.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00253994, Final residual = 8.08776e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 8.10036e-07, Final residual = 8.10036e-07, No Iterations 0
+ExecutionTime = 16.22 s  ClockTime = 17 s
+
+Time = 22
+
+diagonalPCG:  Solving for T, Initial residual = 0.00252819, Final residual = 5.67632e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 5.68516e-07, Final residual = 5.68516e-07, No Iterations 0
+ExecutionTime = 16.33 s  ClockTime = 17 s
+
+Time = 22.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00251666, Final residual = 6.17832e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 6.18796e-07, Final residual = 6.18796e-07, No Iterations 0
+ExecutionTime = 16.45 s  ClockTime = 17 s
+
+Time = 22.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00250536, Final residual = 6.26665e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 6.27643e-07, Final residual = 6.27643e-07, No Iterations 0
+ExecutionTime = 16.59 s  ClockTime = 17 s
+
+Time = 22.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00249424, Final residual = 6.46858e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 6.47869e-07, Final residual = 6.47869e-07, No Iterations 0
+ExecutionTime = 16.73 s  ClockTime = 17 s
+
+Time = 22.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00248329, Final residual = 6.72535e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 6.73587e-07, Final residual = 6.73587e-07, No Iterations 0
+ExecutionTime = 16.85 s  ClockTime = 17 s
+
+Time = 23
+
+diagonalPCG:  Solving for T, Initial residual = 0.00247255, Final residual = 6.90385e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 6.91467e-07, Final residual = 6.91467e-07, No Iterations 0
+ExecutionTime = 16.97 s  ClockTime = 18 s
+
+Time = 23.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.002462, Final residual = 7.10919e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 7.12034e-07, Final residual = 7.12034e-07, No Iterations 0
+ExecutionTime = 17.08 s  ClockTime = 18 s
+
+Time = 23.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00245165, Final residual = 7.45954e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 7.47126e-07, Final residual = 7.47126e-07, No Iterations 0
+ExecutionTime = 17.2 s  ClockTime = 18 s
+
+Time = 23.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00244146, Final residual = 7.46522e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 7.47696e-07, Final residual = 7.47696e-07, No Iterations 0
+ExecutionTime = 17.3 s  ClockTime = 18 s
+
+Time = 23.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00243144, Final residual = 8.38699e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 8.40018e-07, Final residual = 8.40018e-07, No Iterations 0
+ExecutionTime = 17.42 s  ClockTime = 18 s
+
+Time = 24
+
+diagonalPCG:  Solving for T, Initial residual = 0.00242163, Final residual = 7.90107e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 7.9135e-07, Final residual = 7.9135e-07, No Iterations 0
+ExecutionTime = 17.54 s  ClockTime = 18 s
+
+Time = 24.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00241199, Final residual = 9.65323e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 9.66845e-07, Final residual = 9.66845e-07, No Iterations 0
+ExecutionTime = 17.65 s  ClockTime = 18 s
+
+Time = 24.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00240251, Final residual = 8.33037e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 8.34352e-07, Final residual = 8.34352e-07, No Iterations 0
+ExecutionTime = 17.76 s  ClockTime = 18 s
+
+Time = 24.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00239318, Final residual = 8.27053e-07, No Iterations 6
+diagonalPCG:  Solving for T, Initial residual = 8.28361e-07, Final residual = 8.28361e-07, No Iterations 0
+ExecutionTime = 17.87 s  ClockTime = 18 s
+
+Time = 24.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00238401, Final residual = 9.20022e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 9.21477e-07, Final residual = 9.21477e-07, No Iterations 0
+ExecutionTime = 18.01 s  ClockTime = 19 s
+
+Time = 25
+
+diagonalPCG:  Solving for T, Initial residual = 0.00237505, Final residual = 8.26968e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 8.28278e-07, Final residual = 8.28278e-07, No Iterations 0
+ExecutionTime = 18.14 s  ClockTime = 19 s
+
+Time = 25.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00236622, Final residual = 8.78635e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 8.80028e-07, Final residual = 8.80028e-07, No Iterations 0
+ExecutionTime = 18.27 s  ClockTime = 19 s
+
+Time = 25.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00235755, Final residual = 9.01521e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 9.02952e-07, Final residual = 9.02952e-07, No Iterations 0
+ExecutionTime = 18.39 s  ClockTime = 19 s
+
+Time = 25.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00234902, Final residual = 8.9289e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 8.9431e-07, Final residual = 8.9431e-07, No Iterations 0
+ExecutionTime = 18.51 s  ClockTime = 19 s
+
+Time = 25.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.0023406, Final residual = 9.76292e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 9.77846e-07, Final residual = 9.77846e-07, No Iterations 0
+ExecutionTime = 18.62 s  ClockTime = 19 s
+
+Time = 26
+
+diagonalPCG:  Solving for T, Initial residual = 0.00233232, Final residual = 9.20886e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 9.22352e-07, Final residual = 9.22352e-07, No Iterations 0
+ExecutionTime = 18.73 s  ClockTime = 19 s
+
+Time = 26.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00232421, Final residual = 3.05533e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 3.06019e-07, Final residual = 3.06019e-07, No Iterations 0
+ExecutionTime = 18.86 s  ClockTime = 19 s
+
+Time = 26.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00231623, Final residual = 7.84803e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 7.86054e-07, Final residual = 7.86054e-07, No Iterations 0
+ExecutionTime = 18.96 s  ClockTime = 20 s
+
+Time = 26.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00230839, Final residual = 3.31299e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 3.31828e-07, Final residual = 3.31828e-07, No Iterations 0
+ExecutionTime = 19.09 s  ClockTime = 20 s
+
+Time = 26.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.0023007, Final residual = 9.00608e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 9.02047e-07, Final residual = 9.02047e-07, No Iterations 0
+ExecutionTime = 19.21 s  ClockTime = 20 s
+
+Time = 27
+
+diagonalPCG:  Solving for T, Initial residual = 0.00229313, Final residual = 3.47615e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 3.48172e-07, Final residual = 3.48172e-07, No Iterations 0
+ExecutionTime = 19.32 s  ClockTime = 20 s
+
+Time = 27.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00228569, Final residual = 9.99095e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 1.00069e-06, Final residual = 4.14307e-07, No Iterations 1
+ExecutionTime = 19.47 s  ClockTime = 20 s
+
+Time = 27.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00227837, Final residual = 6.49163e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 6.50204e-07, Final residual = 6.50204e-07, No Iterations 0
+ExecutionTime = 19.61 s  ClockTime = 20 s
+
+Time = 27.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00227117, Final residual = 3.06367e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 3.06859e-07, Final residual = 3.06859e-07, No Iterations 0
+ExecutionTime = 19.75 s  ClockTime = 20 s
+
+Time = 27.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00226408, Final residual = 7.85053e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 7.86315e-07, Final residual = 7.86315e-07, No Iterations 0
+ExecutionTime = 19.86 s  ClockTime = 20 s
+
+Time = 28
+
+diagonalPCG:  Solving for T, Initial residual = 0.00225708, Final residual = 4.97125e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.97925e-07, Final residual = 4.97925e-07, No Iterations 0
+ExecutionTime = 19.99 s  ClockTime = 21 s
+
+Time = 28.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00225024, Final residual = 3.77827e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 3.78436e-07, Final residual = 3.78436e-07, No Iterations 0
+ExecutionTime = 20.11 s  ClockTime = 21 s
+
+Time = 28.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00224351, Final residual = 9.81759e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 9.83342e-07, Final residual = 9.83342e-07, No Iterations 0
+ExecutionTime = 20.23 s  ClockTime = 21 s
+
+Time = 28.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00223689, Final residual = 3.95934e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 3.96573e-07, Final residual = 3.96573e-07, No Iterations 0
+ExecutionTime = 20.34 s  ClockTime = 21 s
+
+Time = 28.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00223039, Final residual = 9.69988e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 9.71555e-07, Final residual = 9.71555e-07, No Iterations 0
+ExecutionTime = 20.45 s  ClockTime = 21 s
+
+Time = 29
+
+diagonalPCG:  Solving for T, Initial residual = 0.00222398, Final residual = 6.31258e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.32279e-07, Final residual = 6.32279e-07, No Iterations 0
+ExecutionTime = 20.58 s  ClockTime = 21 s
+
+Time = 29.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00221769, Final residual = 4.41384e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.42099e-07, Final residual = 4.42099e-07, No Iterations 0
+ExecutionTime = 20.7 s  ClockTime = 21 s
+
+Time = 29.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00221149, Final residual = 4.45149e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.4587e-07, Final residual = 4.4587e-07, No Iterations 0
+ExecutionTime = 20.84 s  ClockTime = 21 s
+
+Time = 29.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.0022054, Final residual = 3.53016e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 3.53588e-07, Final residual = 3.53588e-07, No Iterations 0
+ExecutionTime = 20.98 s  ClockTime = 22 s
+
+Time = 29.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00219941, Final residual = 8.84802e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 8.86238e-07, Final residual = 8.86238e-07, No Iterations 0
+ExecutionTime = 21.13 s  ClockTime = 22 s
+
+Time = 30
+
+diagonalPCG:  Solving for T, Initial residual = 0.00219349, Final residual = 5.45342e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.46228e-07, Final residual = 5.46228e-07, No Iterations 0
+ExecutionTime = 21.25 s  ClockTime = 22 s
+
+Time = 30.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00218768, Final residual = 9.75214e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 9.76799e-07, Final residual = 9.76799e-07, No Iterations 0
+ExecutionTime = 21.37 s  ClockTime = 22 s
+
+Time = 30.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00218197, Final residual = 5.8092e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.81864e-07, Final residual = 5.81864e-07, No Iterations 0
+ExecutionTime = 21.49 s  ClockTime = 22 s
+
+Time = 30.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00217636, Final residual = 3.81381e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 3.82002e-07, Final residual = 3.82002e-07, No Iterations 0
+ExecutionTime = 21.61 s  ClockTime = 22 s
+
+Time = 30.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00217083, Final residual = 3.54711e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 3.5529e-07, Final residual = 3.5529e-07, No Iterations 0
+ExecutionTime = 21.73 s  ClockTime = 22 s
+
+Time = 31
+
+diagonalPCG:  Solving for T, Initial residual = 0.00216539, Final residual = 8.78151e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 8.79584e-07, Final residual = 8.79584e-07, No Iterations 0
+ExecutionTime = 21.84 s  ClockTime = 22 s
+
+Time = 31.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00216004, Final residual = 4.06963e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.07628e-07, Final residual = 4.07628e-07, No Iterations 0
+ExecutionTime = 21.95 s  ClockTime = 23 s
+
+Time = 31.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00215478, Final residual = 8.59347e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 8.60752e-07, Final residual = 8.60752e-07, No Iterations 0
+ExecutionTime = 22.08 s  ClockTime = 23 s
+
+Time = 31.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00214961, Final residual = 5.67287e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.68215e-07, Final residual = 5.68215e-07, No Iterations 0
+ExecutionTime = 22.2 s  ClockTime = 23 s
+
+Time = 31.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00214453, Final residual = 3.9815e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 3.98802e-07, Final residual = 3.98802e-07, No Iterations 0
+ExecutionTime = 22.35 s  ClockTime = 23 s
+
+Time = 32
+
+diagonalPCG:  Solving for T, Initial residual = 0.00213954, Final residual = 4.05366e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.0603e-07, Final residual = 4.0603e-07, No Iterations 0
+ExecutionTime = 22.5 s  ClockTime = 23 s
+
+Time = 32.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00213461, Final residual = 4.07205e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.07873e-07, Final residual = 4.07873e-07, No Iterations 0
+ExecutionTime = 22.64 s  ClockTime = 23 s
+
+Time = 32.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00212976, Final residual = 3.89359e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 3.89999e-07, Final residual = 3.89999e-07, No Iterations 0
+ExecutionTime = 22.76 s  ClockTime = 23 s
+
+Time = 32.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00212499, Final residual = 9.82087e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 9.837e-07, Final residual = 9.837e-07, No Iterations 0
+ExecutionTime = 22.88 s  ClockTime = 23 s
+
+Time = 32.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00212029, Final residual = 3.84987e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 3.8562e-07, Final residual = 3.8562e-07, No Iterations 0
+ExecutionTime = 22.99 s  ClockTime = 24 s
+
+Time = 33
+
+diagonalPCG:  Solving for T, Initial residual = 0.00211565, Final residual = 8.61544e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 8.62961e-07, Final residual = 8.62961e-07, No Iterations 0
+ExecutionTime = 23.11 s  ClockTime = 24 s
+
+Time = 33.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00211107, Final residual = 6.30811e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.31849e-07, Final residual = 6.31849e-07, No Iterations 0
+ExecutionTime = 23.22 s  ClockTime = 24 s
+
+Time = 33.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00210659, Final residual = 4.93881e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.94695e-07, Final residual = 4.94695e-07, No Iterations 0
+ExecutionTime = 23.35 s  ClockTime = 24 s
+
+Time = 33.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.0021022, Final residual = 4.1607e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.16757e-07, Final residual = 4.16757e-07, No Iterations 0
+ExecutionTime = 23.46 s  ClockTime = 24 s
+
+Time = 33.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00209788, Final residual = 9.05594e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 9.07089e-07, Final residual = 9.07089e-07, No Iterations 0
+ExecutionTime = 23.58 s  ClockTime = 24 s
+
+Time = 34
+
+diagonalPCG:  Solving for T, Initial residual = 0.00209362, Final residual = 5.21553e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.22415e-07, Final residual = 5.22415e-07, No Iterations 0
+ExecutionTime = 23.72 s  ClockTime = 24 s
+
+Time = 34.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00208942, Final residual = 5.09624e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.10467e-07, Final residual = 5.10467e-07, No Iterations 0
+ExecutionTime = 23.87 s  ClockTime = 24 s
+
+Time = 34.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00208528, Final residual = 3.86089e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 3.86728e-07, Final residual = 3.86728e-07, No Iterations 0
+ExecutionTime = 24 s  ClockTime = 25 s
+
+Time = 34.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00208122, Final residual = 8.47311e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 8.48714e-07, Final residual = 8.48714e-07, No Iterations 0
+ExecutionTime = 24.14 s  ClockTime = 25 s
+
+Time = 34.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00207721, Final residual = 5.08272e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.09114e-07, Final residual = 5.09114e-07, No Iterations 0
+ExecutionTime = 24.26 s  ClockTime = 25 s
+
+Time = 35
+
+diagonalPCG:  Solving for T, Initial residual = 0.00207326, Final residual = 4.76721e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.77511e-07, Final residual = 4.77511e-07, No Iterations 0
+ExecutionTime = 24.37 s  ClockTime = 25 s
+
+Time = 35.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00206939, Final residual = 4.36925e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.37651e-07, Final residual = 4.37651e-07, No Iterations 0
+ExecutionTime = 24.5 s  ClockTime = 25 s
+
+Time = 35.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00206557, Final residual = 4.38411e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.39139e-07, Final residual = 4.39139e-07, No Iterations 0
+ExecutionTime = 24.61 s  ClockTime = 25 s
+
+Time = 35.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00206179, Final residual = 4.42872e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.43608e-07, Final residual = 4.43608e-07, No Iterations 0
+ExecutionTime = 24.74 s  ClockTime = 25 s
+
+Time = 35.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00205808, Final residual = 4.39476e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.40207e-07, Final residual = 4.40207e-07, No Iterations 0
+ExecutionTime = 24.86 s  ClockTime = 25 s
+
+Time = 36
+
+diagonalPCG:  Solving for T, Initial residual = 0.00205444, Final residual = 4.44624e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.45364e-07, Final residual = 4.45364e-07, No Iterations 0
+ExecutionTime = 24.98 s  ClockTime = 26 s
+
+Time = 36.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00205086, Final residual = 4.4979e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.50539e-07, Final residual = 4.50539e-07, No Iterations 0
+ExecutionTime = 25.1 s  ClockTime = 26 s
+
+Time = 36.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00204732, Final residual = 4.46987e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.47731e-07, Final residual = 4.47731e-07, No Iterations 0
+ExecutionTime = 25.24 s  ClockTime = 26 s
+
+Time = 36.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00204384, Final residual = 4.6073e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.61498e-07, Final residual = 4.61498e-07, No Iterations 0
+ExecutionTime = 25.37 s  ClockTime = 26 s
+
+Time = 36.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.0020404, Final residual = 4.51324e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.52076e-07, Final residual = 4.52076e-07, No Iterations 0
+ExecutionTime = 25.51 s  ClockTime = 26 s
+
+Time = 37
+
+diagonalPCG:  Solving for T, Initial residual = 0.00203703, Final residual = 9.67674e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 9.69289e-07, Final residual = 9.69289e-07, No Iterations 0
+ExecutionTime = 25.63 s  ClockTime = 26 s
+
+Time = 37.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00203371, Final residual = 4.08334e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.09017e-07, Final residual = 4.09017e-07, No Iterations 0
+ExecutionTime = 25.76 s  ClockTime = 26 s
+
+Time = 37.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00203044, Final residual = 7.39976e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 7.41213e-07, Final residual = 7.41213e-07, No Iterations 0
+ExecutionTime = 25.87 s  ClockTime = 26 s
+
+Time = 37.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00202722, Final residual = 5.72923e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.73881e-07, Final residual = 5.73881e-07, No Iterations 0
+ExecutionTime = 25.99 s  ClockTime = 27 s
+
+Time = 37.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00202405, Final residual = 5.02024e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.02865e-07, Final residual = 5.02865e-07, No Iterations 0
+ExecutionTime = 26.11 s  ClockTime = 27 s
+
+Time = 38
+
+diagonalPCG:  Solving for T, Initial residual = 0.00202092, Final residual = 4.80816e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.81622e-07, Final residual = 4.81622e-07, No Iterations 0
+ExecutionTime = 26.23 s  ClockTime = 27 s
+
+Time = 38.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00201785, Final residual = 4.89587e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.90407e-07, Final residual = 4.90407e-07, No Iterations 0
+ExecutionTime = 26.35 s  ClockTime = 27 s
+
+Time = 38.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00201481, Final residual = 4.93655e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.94482e-07, Final residual = 4.94482e-07, No Iterations 0
+ExecutionTime = 26.48 s  ClockTime = 27 s
+
+Time = 38.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.0020118, Final residual = 4.80516e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.81322e-07, Final residual = 4.81322e-07, No Iterations 0
+ExecutionTime = 26.6 s  ClockTime = 27 s
+
+Time = 38.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00200885, Final residual = 4.97718e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.98553e-07, Final residual = 4.98553e-07, No Iterations 0
+ExecutionTime = 26.75 s  ClockTime = 27 s
+
+Time = 39
+
+diagonalPCG:  Solving for T, Initial residual = 0.00200594, Final residual = 4.87127e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.87945e-07, Final residual = 4.87945e-07, No Iterations 0
+ExecutionTime = 26.9 s  ClockTime = 28 s
+
+Time = 39.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00200308, Final residual = 4.97405e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.9824e-07, Final residual = 4.9824e-07, No Iterations 0
+ExecutionTime = 27.04 s  ClockTime = 28 s
+
+Time = 39.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00200026, Final residual = 4.93011e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.93839e-07, Final residual = 4.93839e-07, No Iterations 0
+ExecutionTime = 27.15 s  ClockTime = 28 s
+
+Time = 39.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00199749, Final residual = 5.0007e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.00911e-07, Final residual = 5.00911e-07, No Iterations 0
+ExecutionTime = 27.28 s  ClockTime = 28 s
+
+Time = 39.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00199476, Final residual = 4.96886e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.97723e-07, Final residual = 4.97723e-07, No Iterations 0
+ExecutionTime = 27.4 s  ClockTime = 28 s
+
+Time = 40
+
+diagonalPCG:  Solving for T, Initial residual = 0.00199207, Final residual = 5.03529e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.04376e-07, Final residual = 5.04376e-07, No Iterations 0
+ExecutionTime = 27.51 s  ClockTime = 28 s
+
+Time = 40.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00198942, Final residual = 5.00673e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.01516e-07, Final residual = 5.01516e-07, No Iterations 0
+ExecutionTime = 27.64 s  ClockTime = 28 s
+
+Time = 40.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00198679, Final residual = 5.06959e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.07814e-07, Final residual = 5.07814e-07, No Iterations 0
+ExecutionTime = 27.75 s  ClockTime = 28 s
+
+Time = 40.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.0019842, Final residual = 5.04356e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.05207e-07, Final residual = 5.05207e-07, No Iterations 0
+ExecutionTime = 27.88 s  ClockTime = 28 s
+
+Time = 40.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00198165, Final residual = 5.10648e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.1151e-07, Final residual = 5.1151e-07, No Iterations 0
+ExecutionTime = 27.99 s  ClockTime = 29 s
+
+Time = 41
+
+diagonalPCG:  Solving for T, Initial residual = 0.00197914, Final residual = 5.07789e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.08646e-07, Final residual = 5.08646e-07, No Iterations 0
+ExecutionTime = 28.13 s  ClockTime = 29 s
+
+Time = 41.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00197667, Final residual = 5.14549e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.15417e-07, Final residual = 5.15417e-07, No Iterations 0
+ExecutionTime = 28.28 s  ClockTime = 29 s
+
+Time = 41.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00197423, Final residual = 5.11074e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.11937e-07, Final residual = 5.11937e-07, No Iterations 0
+ExecutionTime = 28.42 s  ClockTime = 29 s
+
+Time = 41.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00197182, Final residual = 5.18585e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.19461e-07, Final residual = 5.19461e-07, No Iterations 0
+ExecutionTime = 28.55 s  ClockTime = 29 s
+
+Time = 41.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00196944, Final residual = 5.14252e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.15121e-07, Final residual = 5.15121e-07, No Iterations 0
+ExecutionTime = 28.67 s  ClockTime = 29 s
+
+Time = 42
+
+diagonalPCG:  Solving for T, Initial residual = 0.0019671, Final residual = 5.22811e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.23696e-07, Final residual = 5.23696e-07, No Iterations 0
+ExecutionTime = 28.79 s  ClockTime = 29 s
+
+Time = 42.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00196478, Final residual = 5.17309e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.18184e-07, Final residual = 5.18184e-07, No Iterations 0
+ExecutionTime = 28.91 s  ClockTime = 30 s
+
+Time = 42.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00196249, Final residual = 5.27271e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.28164e-07, Final residual = 5.28164e-07, No Iterations 0
+ExecutionTime = 29.04 s  ClockTime = 30 s
+
+Time = 42.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00196024, Final residual = 5.2022e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.21101e-07, Final residual = 5.21101e-07, No Iterations 0
+ExecutionTime = 29.15 s  ClockTime = 30 s
+
+Time = 42.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00195803, Final residual = 5.31946e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.32848e-07, Final residual = 5.32848e-07, No Iterations 0
+ExecutionTime = 29.27 s  ClockTime = 30 s
+
+Time = 43
+
+diagonalPCG:  Solving for T, Initial residual = 0.00195585, Final residual = 5.22897e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.23784e-07, Final residual = 5.23784e-07, No Iterations 0
+ExecutionTime = 29.4 s  ClockTime = 30 s
+
+Time = 43.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.0019537, Final residual = 5.36824e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.37734e-07, Final residual = 5.37734e-07, No Iterations 0
+ExecutionTime = 29.53 s  ClockTime = 30 s
+
+Time = 43.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00195156, Final residual = 5.25153e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.26043e-07, Final residual = 5.26043e-07, No Iterations 0
+ExecutionTime = 29.66 s  ClockTime = 30 s
+
+Time = 43.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00194945, Final residual = 5.41746e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.42664e-07, Final residual = 5.42664e-07, No Iterations 0
+ExecutionTime = 29.81 s  ClockTime = 30 s
+
+Time = 43.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00194738, Final residual = 5.26606e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.27499e-07, Final residual = 5.27499e-07, No Iterations 0
+ExecutionTime = 29.95 s  ClockTime = 31 s
+
+Time = 44
+
+diagonalPCG:  Solving for T, Initial residual = 0.00194534, Final residual = 5.46362e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.4729e-07, Final residual = 5.4729e-07, No Iterations 0
+ExecutionTime = 30.07 s  ClockTime = 31 s
+
+Time = 44.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00194331, Final residual = 5.26592e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.27486e-07, Final residual = 5.27486e-07, No Iterations 0
+ExecutionTime = 30.19 s  ClockTime = 31 s
+
+Time = 44.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00194131, Final residual = 5.50296e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.51231e-07, Final residual = 5.51231e-07, No Iterations 0
+ExecutionTime = 30.31 s  ClockTime = 31 s
+
+Time = 44.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00193933, Final residual = 5.24007e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.24898e-07, Final residual = 5.24898e-07, No Iterations 0
+ExecutionTime = 30.43 s  ClockTime = 31 s
+
+Time = 44.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00193738, Final residual = 5.52825e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.53765e-07, Final residual = 5.53765e-07, No Iterations 0
+ExecutionTime = 30.56 s  ClockTime = 31 s
+
+Time = 45
+
+diagonalPCG:  Solving for T, Initial residual = 0.00193545, Final residual = 5.17421e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.18301e-07, Final residual = 5.18301e-07, No Iterations 0
+ExecutionTime = 30.68 s  ClockTime = 31 s
+
+Time = 45.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00193354, Final residual = 5.53648e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.54589e-07, Final residual = 5.54589e-07, No Iterations 0
+ExecutionTime = 30.8 s  ClockTime = 31 s
+
+Time = 45.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00193166, Final residual = 5.06021e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.06881e-07, Final residual = 5.06881e-07, No Iterations 0
+ExecutionTime = 30.92 s  ClockTime = 32 s
+
+Time = 45.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.0019298, Final residual = 5.52833e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.53773e-07, Final residual = 5.53773e-07, No Iterations 0
+ExecutionTime = 31.07 s  ClockTime = 32 s
+
+Time = 45.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00192796, Final residual = 4.92807e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.93645e-07, Final residual = 4.93645e-07, No Iterations 0
+ExecutionTime = 31.2 s  ClockTime = 32 s
+
+Time = 46
+
+diagonalPCG:  Solving for T, Initial residual = 0.00192615, Final residual = 9.97013e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 9.9871e-07, Final residual = 9.9871e-07, No Iterations 0
+ExecutionTime = 31.34 s  ClockTime = 32 s
+
+Time = 46.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00192436, Final residual = 4.86478e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.87307e-07, Final residual = 4.87307e-07, No Iterations 0
+ExecutionTime = 31.47 s  ClockTime = 32 s
+
+Time = 46.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00192259, Final residual = 7.64325e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 7.65626e-07, Final residual = 7.65626e-07, No Iterations 0
+ExecutionTime = 31.58 s  ClockTime = 32 s
+
+Time = 46.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00192083, Final residual = 5.3203e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.32936e-07, Final residual = 5.32936e-07, No Iterations 0
+ExecutionTime = 31.71 s  ClockTime = 32 s
+
+Time = 46.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.0019191, Final residual = 5.40668e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.41589e-07, Final residual = 5.41589e-07, No Iterations 0
+ExecutionTime = 31.82 s  ClockTime = 32 s
+
+Time = 47
+
+diagonalPCG:  Solving for T, Initial residual = 0.00191739, Final residual = 5.64481e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.65443e-07, Final residual = 5.65443e-07, No Iterations 0
+ExecutionTime = 31.94 s  ClockTime = 33 s
+
+Time = 47.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.0019157, Final residual = 5.38837e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.39754e-07, Final residual = 5.39754e-07, No Iterations 0
+ExecutionTime = 32.07 s  ClockTime = 33 s
+
+Time = 47.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00191402, Final residual = 5.48712e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.49647e-07, Final residual = 5.49647e-07, No Iterations 0
+ExecutionTime = 32.18 s  ClockTime = 33 s
+
+Time = 47.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00191236, Final residual = 5.57695e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.58645e-07, Final residual = 5.58645e-07, No Iterations 0
+ExecutionTime = 32.31 s  ClockTime = 33 s
+
+Time = 47.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00191072, Final residual = 5.46607e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.47539e-07, Final residual = 5.47539e-07, No Iterations 0
+ExecutionTime = 32.43 s  ClockTime = 33 s
+
+Time = 48
+
+diagonalPCG:  Solving for T, Initial residual = 0.0019091, Final residual = 5.66475e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.67442e-07, Final residual = 5.67442e-07, No Iterations 0
+ExecutionTime = 32.58 s  ClockTime = 33 s
+
+Time = 48.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.0019075, Final residual = 5.44203e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.45131e-07, Final residual = 5.45131e-07, No Iterations 0
+ExecutionTime = 32.72 s  ClockTime = 33 s
+
+Time = 48.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00190591, Final residual = 5.7421e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.7519e-07, Final residual = 5.7519e-07, No Iterations 0
+ExecutionTime = 32.85 s  ClockTime = 34 s
+
+Time = 48.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00190434, Final residual = 5.41198e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.42121e-07, Final residual = 5.42121e-07, No Iterations 0
+ExecutionTime = 32.98 s  ClockTime = 34 s
+
+Time = 48.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00190279, Final residual = 5.79932e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.80922e-07, Final residual = 5.80922e-07, No Iterations 0
+ExecutionTime = 33.09 s  ClockTime = 34 s
+
+Time = 49
+
+diagonalPCG:  Solving for T, Initial residual = 0.00190125, Final residual = 5.36858e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.37774e-07, Final residual = 5.37774e-07, No Iterations 0
+ExecutionTime = 33.22 s  ClockTime = 34 s
+
+Time = 49.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00189972, Final residual = 5.84094e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.85091e-07, Final residual = 5.85091e-07, No Iterations 0
+ExecutionTime = 33.34 s  ClockTime = 34 s
+
+Time = 49.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.0018982, Final residual = 5.30647e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.31552e-07, Final residual = 5.31552e-07, No Iterations 0
+ExecutionTime = 33.46 s  ClockTime = 34 s
+
+Time = 49.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00189669, Final residual = 5.86785e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.87786e-07, Final residual = 5.87786e-07, No Iterations 0
+ExecutionTime = 33.58 s  ClockTime = 34 s
+
+Time = 49.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.0018952, Final residual = 5.22146e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.23036e-07, Final residual = 5.23036e-07, No Iterations 0
+ExecutionTime = 33.71 s  ClockTime = 34 s
+
+Time = 50
+
+diagonalPCG:  Solving for T, Initial residual = 0.00189372, Final residual = 5.88098e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.89101e-07, Final residual = 5.89101e-07, No Iterations 0
+ExecutionTime = 33.84 s  ClockTime = 35 s
+
+Time = 50.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00189227, Final residual = 5.11923e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.12797e-07, Final residual = 5.12797e-07, No Iterations 0
+ExecutionTime = 33.98 s  ClockTime = 35 s
+
+Time = 50.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00189082, Final residual = 5.88332e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.89336e-07, Final residual = 5.89336e-07, No Iterations 0
+ExecutionTime = 34.13 s  ClockTime = 35 s
+
+Time = 50.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00188939, Final residual = 5.02063e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.0292e-07, Final residual = 5.0292e-07, No Iterations 0
+ExecutionTime = 34.26 s  ClockTime = 35 s
+
+Time = 50.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00188798, Final residual = 5.88498e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.89502e-07, Final residual = 5.89502e-07, No Iterations 0
+ExecutionTime = 34.38 s  ClockTime = 35 s
+
+Time = 51
+
+diagonalPCG:  Solving for T, Initial residual = 0.00188657, Final residual = 4.96114e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.96961e-07, Final residual = 4.96961e-07, No Iterations 0
+ExecutionTime = 34.51 s  ClockTime = 35 s
+
+Time = 51.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00188518, Final residual = 5.87615e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.88618e-07, Final residual = 5.88618e-07, No Iterations 0
+ExecutionTime = 34.63 s  ClockTime = 35 s
+
+Time = 51.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.0018838, Final residual = 4.93694e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.94537e-07, Final residual = 4.94537e-07, No Iterations 0
+ExecutionTime = 34.75 s  ClockTime = 35 s
+
+Time = 51.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00188243, Final residual = 9.95493e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 9.97192e-07, Final residual = 9.97192e-07, No Iterations 0
+ExecutionTime = 34.87 s  ClockTime = 36 s
+
+Time = 51.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00188107, Final residual = 4.90062e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 4.90898e-07, Final residual = 4.90898e-07, No Iterations 0
+ExecutionTime = 34.99 s  ClockTime = 36 s
+
+Time = 52
+
+diagonalPCG:  Solving for T, Initial residual = 0.00187972, Final residual = 7.82211e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 7.83545e-07, Final residual = 7.83545e-07, No Iterations 0
+ExecutionTime = 35.1 s  ClockTime = 36 s
+
+Time = 52.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00187837, Final residual = 5.36949e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.37865e-07, Final residual = 5.37865e-07, No Iterations 0
+ExecutionTime = 35.22 s  ClockTime = 36 s
+
+Time = 52.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00187704, Final residual = 8.87815e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 8.8933e-07, Final residual = 8.8933e-07, No Iterations 0
+ExecutionTime = 35.34 s  ClockTime = 36 s
+
+Time = 52.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00187573, Final residual = 5.61819e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.62779e-07, Final residual = 5.62779e-07, No Iterations 0
+ExecutionTime = 35.5 s  ClockTime = 36 s
+
+Time = 52.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00187443, Final residual = 5.86847e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.87849e-07, Final residual = 5.87849e-07, No Iterations 0
+ExecutionTime = 35.65 s  ClockTime = 36 s
+
+Time = 53
+
+diagonalPCG:  Solving for T, Initial residual = 0.00187313, Final residual = 6.4521e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.46311e-07, Final residual = 6.46311e-07, No Iterations 0
+ExecutionTime = 35.78 s  ClockTime = 36 s
+
+Time = 53.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00187184, Final residual = 6.15164e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.16214e-07, Final residual = 6.16214e-07, No Iterations 0
+ExecutionTime = 35.9 s  ClockTime = 37 s
+
+Time = 53.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00187055, Final residual = 6.11073e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.12116e-07, Final residual = 6.12116e-07, No Iterations 0
+ExecutionTime = 36.02 s  ClockTime = 37 s
+
+Time = 53.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00186927, Final residual = 6.17427e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.18481e-07, Final residual = 6.18481e-07, No Iterations 0
+ExecutionTime = 36.14 s  ClockTime = 37 s
+
+Time = 53.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.001868, Final residual = 6.11622e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.12665e-07, Final residual = 6.12665e-07, No Iterations 0
+ExecutionTime = 36.26 s  ClockTime = 37 s
+
+Time = 54
+
+diagonalPCG:  Solving for T, Initial residual = 0.00186675, Final residual = 6.25848e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.26916e-07, Final residual = 6.26916e-07, No Iterations 0
+ExecutionTime = 36.38 s  ClockTime = 37 s
+
+Time = 54.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.0018655, Final residual = 6.09892e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.10933e-07, Final residual = 6.10933e-07, No Iterations 0
+ExecutionTime = 36.5 s  ClockTime = 37 s
+
+Time = 54.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00186426, Final residual = 6.31512e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.32589e-07, Final residual = 6.32589e-07, No Iterations 0
+ExecutionTime = 36.62 s  ClockTime = 37 s
+
+Time = 54.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00186303, Final residual = 6.09772e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.10812e-07, Final residual = 6.10812e-07, No Iterations 0
+ExecutionTime = 36.76 s  ClockTime = 37 s
+
+Time = 54.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.0018618, Final residual = 6.36709e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.37794e-07, Final residual = 6.37794e-07, No Iterations 0
+ExecutionTime = 36.9 s  ClockTime = 38 s
+
+Time = 55
+
+diagonalPCG:  Solving for T, Initial residual = 0.00186058, Final residual = 6.10074e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.11114e-07, Final residual = 6.11114e-07, No Iterations 0
+ExecutionTime = 37.06 s  ClockTime = 38 s
+
+Time = 55.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00185937, Final residual = 6.41437e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.4253e-07, Final residual = 6.4253e-07, No Iterations 0
+ExecutionTime = 37.19 s  ClockTime = 38 s
+
+Time = 55.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00185816, Final residual = 6.10681e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.11722e-07, Final residual = 6.11722e-07, No Iterations 0
+ExecutionTime = 37.31 s  ClockTime = 38 s
+
+Time = 55.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00185696, Final residual = 6.45948e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.47049e-07, Final residual = 6.47049e-07, No Iterations 0
+ExecutionTime = 37.43 s  ClockTime = 38 s
+
+Time = 55.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00185578, Final residual = 6.11313e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.12355e-07, Final residual = 6.12355e-07, No Iterations 0
+ExecutionTime = 37.55 s  ClockTime = 38 s
+
+Time = 56
+
+diagonalPCG:  Solving for T, Initial residual = 0.00185459, Final residual = 6.50398e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.51506e-07, Final residual = 6.51506e-07, No Iterations 0
+ExecutionTime = 37.67 s  ClockTime = 38 s
+
+Time = 56.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00185342, Final residual = 6.11722e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.12764e-07, Final residual = 6.12764e-07, No Iterations 0
+ExecutionTime = 37.79 s  ClockTime = 39 s
+
+Time = 56.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00185225, Final residual = 6.54813e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.55929e-07, Final residual = 6.55929e-07, No Iterations 0
+ExecutionTime = 37.92 s  ClockTime = 39 s
+
+Time = 56.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00185109, Final residual = 6.11974e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.13016e-07, Final residual = 6.13016e-07, No Iterations 0
+ExecutionTime = 38.04 s  ClockTime = 39 s
+
+Time = 56.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00184994, Final residual = 6.5913e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.60252e-07, Final residual = 6.60252e-07, No Iterations 0
+ExecutionTime = 38.16 s  ClockTime = 39 s
+
+Time = 57
+
+diagonalPCG:  Solving for T, Initial residual = 0.00184879, Final residual = 6.11999e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.13041e-07, Final residual = 6.13041e-07, No Iterations 0
+ExecutionTime = 38.32 s  ClockTime = 39 s
+
+Time = 57.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00184764, Final residual = 6.63388e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.64516e-07, Final residual = 6.64516e-07, No Iterations 0
+ExecutionTime = 38.47 s  ClockTime = 39 s
+
+Time = 57.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.0018465, Final residual = 6.11722e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.12763e-07, Final residual = 6.12763e-07, No Iterations 0
+ExecutionTime = 38.6 s  ClockTime = 39 s
+
+Time = 57.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00184536, Final residual = 6.67365e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.685e-07, Final residual = 6.685e-07, No Iterations 0
+ExecutionTime = 38.72 s  ClockTime = 39 s
+
+Time = 57.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00184423, Final residual = 6.11229e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.12268e-07, Final residual = 6.12268e-07, No Iterations 0
+ExecutionTime = 38.85 s  ClockTime = 40 s
+
+Time = 58
+
+diagonalPCG:  Solving for T, Initial residual = 0.00184309, Final residual = 6.71027e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.72168e-07, Final residual = 6.72168e-07, No Iterations 0
+ExecutionTime = 38.97 s  ClockTime = 40 s
+
+Time = 58.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00184196, Final residual = 6.10504e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.11542e-07, Final residual = 6.11542e-07, No Iterations 0
+ExecutionTime = 39.09 s  ClockTime = 40 s
+
+Time = 58.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00184084, Final residual = 6.74372e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.75518e-07, Final residual = 6.75518e-07, No Iterations 0
+ExecutionTime = 39.21 s  ClockTime = 40 s
+
+Time = 58.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00183972, Final residual = 6.09303e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.10339e-07, Final residual = 6.10339e-07, No Iterations 0
+ExecutionTime = 39.33 s  ClockTime = 40 s
+
+Time = 58.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00183862, Final residual = 6.77375e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.78526e-07, Final residual = 6.78526e-07, No Iterations 0
+ExecutionTime = 39.44 s  ClockTime = 40 s
+
+Time = 59
+
+diagonalPCG:  Solving for T, Initial residual = 0.00183751, Final residual = 6.07661e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.08692e-07, Final residual = 6.08692e-07, No Iterations 0
+ExecutionTime = 39.57 s  ClockTime = 40 s
+
+Time = 59.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.0018364, Final residual = 6.8006e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.81215e-07, Final residual = 6.81215e-07, No Iterations 0
+ExecutionTime = 39.73 s  ClockTime = 40 s
+
+Time = 59.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00183529, Final residual = 6.05872e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.069e-07, Final residual = 6.069e-07, No Iterations 0
+ExecutionTime = 39.87 s  ClockTime = 41 s
+
+Time = 59.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.0018342, Final residual = 6.82137e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.83294e-07, Final residual = 6.83294e-07, No Iterations 0
+ExecutionTime = 40.02 s  ClockTime = 41 s
+
+Time = 59.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.0018331, Final residual = 6.04028e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.05053e-07, Final residual = 6.05053e-07, No Iterations 0
+ExecutionTime = 40.14 s  ClockTime = 41 s
+
+Time = 60
+
+diagonalPCG:  Solving for T, Initial residual = 0.00183201, Final residual = 6.83592e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.84751e-07, Final residual = 6.84751e-07, No Iterations 0
+ExecutionTime = 40.26 s  ClockTime = 41 s
+
+Time = 60.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00183093, Final residual = 6.02511e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.03532e-07, Final residual = 6.03532e-07, No Iterations 0
+ExecutionTime = 40.38 s  ClockTime = 41 s
+
+Time = 60.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00182985, Final residual = 6.83939e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.85098e-07, Final residual = 6.85098e-07, No Iterations 0
+ExecutionTime = 40.5 s  ClockTime = 41 s
+
+Time = 60.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00182877, Final residual = 6.01063e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.02082e-07, Final residual = 6.02082e-07, No Iterations 0
+ExecutionTime = 40.62 s  ClockTime = 41 s
+
+Time = 60.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00182769, Final residual = 6.82908e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.84064e-07, Final residual = 6.84064e-07, No Iterations 0
+ExecutionTime = 40.74 s  ClockTime = 42 s
+
+Time = 61
+
+diagonalPCG:  Solving for T, Initial residual = 0.00182662, Final residual = 5.99442e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.00456e-07, Final residual = 6.00456e-07, No Iterations 0
+ExecutionTime = 40.87 s  ClockTime = 42 s
+
+Time = 61.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00182556, Final residual = 6.79847e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.80997e-07, Final residual = 6.80997e-07, No Iterations 0
+ExecutionTime = 40.99 s  ClockTime = 42 s
+
+Time = 61.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00182449, Final residual = 5.96597e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.97606e-07, Final residual = 5.97606e-07, No Iterations 0
+ExecutionTime = 41.11 s  ClockTime = 42 s
+
+Time = 61.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00182343, Final residual = 6.74507e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.75647e-07, Final residual = 6.75647e-07, No Iterations 0
+ExecutionTime = 41.26 s  ClockTime = 42 s
+
+Time = 61.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00182236, Final residual = 5.9222e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.9322e-07, Final residual = 5.9322e-07, No Iterations 0
+ExecutionTime = 41.39 s  ClockTime = 42 s
+
+Time = 62
+
+diagonalPCG:  Solving for T, Initial residual = 0.0018213, Final residual = 6.66468e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.67594e-07, Final residual = 6.67594e-07, No Iterations 0
+ExecutionTime = 41.52 s  ClockTime = 42 s
+
+Time = 62.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00182024, Final residual = 5.85975e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.86965e-07, Final residual = 5.86965e-07, No Iterations 0
+ExecutionTime = 41.64 s  ClockTime = 42 s
+
+Time = 62.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00181919, Final residual = 6.55227e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.56333e-07, Final residual = 6.56333e-07, No Iterations 0
+ExecutionTime = 41.75 s  ClockTime = 43 s
+
+Time = 62.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00181813, Final residual = 5.78268e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.79244e-07, Final residual = 5.79244e-07, No Iterations 0
+ExecutionTime = 41.87 s  ClockTime = 43 s
+
+Time = 62.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00181708, Final residual = 6.40551e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.41632e-07, Final residual = 6.41632e-07, No Iterations 0
+ExecutionTime = 42 s  ClockTime = 43 s
+
+Time = 63
+
+diagonalPCG:  Solving for T, Initial residual = 0.00181603, Final residual = 5.70289e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.71251e-07, Final residual = 5.71251e-07, No Iterations 0
+ExecutionTime = 42.13 s  ClockTime = 43 s
+
+Time = 63.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00181499, Final residual = 6.22927e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.23977e-07, Final residual = 6.23977e-07, No Iterations 0
+ExecutionTime = 42.25 s  ClockTime = 43 s
+
+Time = 63.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00181394, Final residual = 5.62234e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.63181e-07, Final residual = 5.63181e-07, No Iterations 0
+ExecutionTime = 42.37 s  ClockTime = 43 s
+
+Time = 63.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.0018129, Final residual = 6.02956e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.03972e-07, Final residual = 6.03972e-07, No Iterations 0
+ExecutionTime = 42.49 s  ClockTime = 43 s
+
+Time = 63.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00181185, Final residual = 5.54053e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.54985e-07, Final residual = 5.54985e-07, No Iterations 0
+ExecutionTime = 42.63 s  ClockTime = 43 s
+
+Time = 64
+
+diagonalPCG:  Solving for T, Initial residual = 0.00181081, Final residual = 5.81288e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.82266e-07, Final residual = 5.82266e-07, No Iterations 0
+ExecutionTime = 42.77 s  ClockTime = 44 s
+
+Time = 64.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00180977, Final residual = 5.47243e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.48162e-07, Final residual = 5.48162e-07, No Iterations 0
+ExecutionTime = 42.92 s  ClockTime = 44 s
+
+Time = 64.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00180873, Final residual = 9.82831e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 9.84481e-07, Final residual = 9.84481e-07, No Iterations 0
+ExecutionTime = 43.03 s  ClockTime = 44 s
+
+Time = 64.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00180768, Final residual = 6.62022e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.63133e-07, Final residual = 6.63133e-07, No Iterations 0
+ExecutionTime = 43.14 s  ClockTime = 44 s
+
+Time = 64.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00180663, Final residual = 8.5613e-07, No Iterations 7
+diagonalPCG:  Solving for T, Initial residual = 8.57566e-07, Final residual = 8.57566e-07, No Iterations 0
+ExecutionTime = 43.26 s  ClockTime = 44 s
+
+Time = 65
+
+diagonalPCG:  Solving for T, Initial residual = 0.00180558, Final residual = 6.55277e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.56375e-07, Final residual = 6.56375e-07, No Iterations 0
+ExecutionTime = 43.38 s  ClockTime = 44 s
+
+Time = 65.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00180454, Final residual = 5.9081e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 5.91799e-07, Final residual = 5.91799e-07, No Iterations 0
+ExecutionTime = 43.51 s  ClockTime = 44 s
+
+Time = 65.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00180349, Final residual = 6.55257e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.56354e-07, Final residual = 6.56354e-07, No Iterations 0
+ExecutionTime = 43.63 s  ClockTime = 44 s
+
+Time = 65.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00180245, Final residual = 6.24317e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.25361e-07, Final residual = 6.25361e-07, No Iterations 0
+ExecutionTime = 43.75 s  ClockTime = 45 s
+
+Time = 65.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00180141, Final residual = 6.51236e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.52324e-07, Final residual = 6.52324e-07, No Iterations 0
+ExecutionTime = 43.86 s  ClockTime = 45 s
+
+Time = 66
+
+diagonalPCG:  Solving for T, Initial residual = 0.00180036, Final residual = 6.32246e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.33303e-07, Final residual = 6.33303e-07, No Iterations 0
+ExecutionTime = 43.99 s  ClockTime = 45 s
+
+Time = 66.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00179932, Final residual = 6.60066e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.61169e-07, Final residual = 6.61169e-07, No Iterations 0
+ExecutionTime = 44.14 s  ClockTime = 45 s
+
+Time = 66.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00179829, Final residual = 6.42702e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.43775e-07, Final residual = 6.43775e-07, No Iterations 0
+ExecutionTime = 44.29 s  ClockTime = 45 s
+
+Time = 66.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00179725, Final residual = 6.72669e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.73791e-07, Final residual = 6.73791e-07, No Iterations 0
+ExecutionTime = 44.43 s  ClockTime = 45 s
+
+Time = 66.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00179621, Final residual = 6.51962e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.53049e-07, Final residual = 6.53049e-07, No Iterations 0
+ExecutionTime = 44.55 s  ClockTime = 45 s
+
+Time = 67
+
+diagonalPCG:  Solving for T, Initial residual = 0.00179517, Final residual = 6.86781e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.87925e-07, Final residual = 6.87925e-07, No Iterations 0
+ExecutionTime = 44.67 s  ClockTime = 46 s
+
+Time = 67.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00179414, Final residual = 6.60143e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.61243e-07, Final residual = 6.61243e-07, No Iterations 0
+ExecutionTime = 44.79 s  ClockTime = 46 s
+
+Time = 67.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.0017931, Final residual = 7.01376e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.02544e-07, Final residual = 7.02544e-07, No Iterations 0
+ExecutionTime = 44.91 s  ClockTime = 46 s
+
+Time = 67.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00179206, Final residual = 6.67209e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.68319e-07, Final residual = 6.68319e-07, No Iterations 0
+ExecutionTime = 45.03 s  ClockTime = 46 s
+
+Time = 67.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00179103, Final residual = 7.15597e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.16786e-07, Final residual = 7.16786e-07, No Iterations 0
+ExecutionTime = 45.16 s  ClockTime = 46 s
+
+Time = 68
+
+diagonalPCG:  Solving for T, Initial residual = 0.00178999, Final residual = 6.73209e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.74328e-07, Final residual = 6.74328e-07, No Iterations 0
+ExecutionTime = 45.27 s  ClockTime = 46 s
+
+Time = 68.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00178896, Final residual = 7.28688e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.29898e-07, Final residual = 7.29898e-07, No Iterations 0
+ExecutionTime = 45.41 s  ClockTime = 46 s
+
+Time = 68.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00178792, Final residual = 6.78161e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.79286e-07, Final residual = 6.79286e-07, No Iterations 0
+ExecutionTime = 45.55 s  ClockTime = 46 s
+
+Time = 68.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00178689, Final residual = 7.40141e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.41369e-07, Final residual = 7.41369e-07, No Iterations 0
+ExecutionTime = 45.71 s  ClockTime = 47 s
+
+Time = 68.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00178586, Final residual = 6.82101e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.83232e-07, Final residual = 6.83232e-07, No Iterations 0
+ExecutionTime = 45.85 s  ClockTime = 47 s
+
+Time = 69
+
+diagonalPCG:  Solving for T, Initial residual = 0.00178483, Final residual = 7.498e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.51043e-07, Final residual = 7.51043e-07, No Iterations 0
+ExecutionTime = 45.97 s  ClockTime = 47 s
+
+Time = 69.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00178381, Final residual = 6.85257e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.86392e-07, Final residual = 6.86392e-07, No Iterations 0
+ExecutionTime = 46.09 s  ClockTime = 47 s
+
+Time = 69.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00178278, Final residual = 7.5752e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.58774e-07, Final residual = 7.58774e-07, No Iterations 0
+ExecutionTime = 46.21 s  ClockTime = 47 s
+
+Time = 69.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00178175, Final residual = 6.87696e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.88834e-07, Final residual = 6.88834e-07, No Iterations 0
+ExecutionTime = 46.33 s  ClockTime = 47 s
+
+Time = 69.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00178072, Final residual = 7.63441e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.64704e-07, Final residual = 7.64704e-07, No Iterations 0
+ExecutionTime = 46.45 s  ClockTime = 47 s
+
+Time = 70
+
+diagonalPCG:  Solving for T, Initial residual = 0.00177969, Final residual = 6.89549e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.90689e-07, Final residual = 6.90689e-07, No Iterations 0
+ExecutionTime = 46.57 s  ClockTime = 47 s
+
+Time = 70.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00177866, Final residual = 7.67924e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.69192e-07, Final residual = 7.69192e-07, No Iterations 0
+ExecutionTime = 46.69 s  ClockTime = 48 s
+
+Time = 70.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00177763, Final residual = 6.91019e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.9216e-07, Final residual = 6.9216e-07, No Iterations 0
+ExecutionTime = 46.81 s  ClockTime = 48 s
+
+Time = 70.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00177659, Final residual = 7.71118e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.72391e-07, Final residual = 7.72391e-07, No Iterations 0
+ExecutionTime = 46.95 s  ClockTime = 48 s
+
+Time = 70.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00177556, Final residual = 6.92363e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.93506e-07, Final residual = 6.93506e-07, No Iterations 0
+ExecutionTime = 47.09 s  ClockTime = 48 s
+
+Time = 71
+
+diagonalPCG:  Solving for T, Initial residual = 0.00177454, Final residual = 7.73379e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.74654e-07, Final residual = 7.74654e-07, No Iterations 0
+ExecutionTime = 47.24 s  ClockTime = 48 s
+
+Time = 71.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00177351, Final residual = 6.93728e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.94872e-07, Final residual = 6.94872e-07, No Iterations 0
+ExecutionTime = 47.36 s  ClockTime = 48 s
+
+Time = 71.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00177249, Final residual = 7.75076e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.76353e-07, Final residual = 7.76353e-07, No Iterations 0
+ExecutionTime = 47.48 s  ClockTime = 48 s
+
+Time = 71.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00177147, Final residual = 6.95241e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.96387e-07, Final residual = 6.96387e-07, No Iterations 0
+ExecutionTime = 47.6 s  ClockTime = 49 s
+
+Time = 71.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00177046, Final residual = 7.76417e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.77695e-07, Final residual = 7.77695e-07, No Iterations 0
+ExecutionTime = 47.72 s  ClockTime = 49 s
+
+Time = 72
+
+diagonalPCG:  Solving for T, Initial residual = 0.00176944, Final residual = 6.97056e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 6.98203e-07, Final residual = 6.98203e-07, No Iterations 0
+ExecutionTime = 47.84 s  ClockTime = 49 s
+
+Time = 72.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00176842, Final residual = 7.7754e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.78819e-07, Final residual = 7.78819e-07, No Iterations 0
+ExecutionTime = 47.96 s  ClockTime = 49 s
+
+Time = 72.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.0017674, Final residual = 6.99361e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.00511e-07, Final residual = 7.00511e-07, No Iterations 0
+ExecutionTime = 48.08 s  ClockTime = 49 s
+
+Time = 72.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00176639, Final residual = 7.78537e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.79816e-07, Final residual = 7.79816e-07, No Iterations 0
+ExecutionTime = 48.2 s  ClockTime = 49 s
+
+Time = 72.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00176538, Final residual = 7.02268e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.03422e-07, Final residual = 7.03422e-07, No Iterations 0
+ExecutionTime = 48.33 s  ClockTime = 49 s
+
+Time = 73
+
+diagonalPCG:  Solving for T, Initial residual = 0.00176437, Final residual = 7.79596e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.80877e-07, Final residual = 7.80877e-07, No Iterations 0
+ExecutionTime = 48.49 s  ClockTime = 49 s
+
+Time = 73.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00176336, Final residual = 7.05827e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.06986e-07, Final residual = 7.06986e-07, No Iterations 0
+ExecutionTime = 48.64 s  ClockTime = 50 s
+
+Time = 73.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00176235, Final residual = 7.80826e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.82107e-07, Final residual = 7.82107e-07, No Iterations 0
+ExecutionTime = 48.77 s  ClockTime = 50 s
+
+Time = 73.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00176134, Final residual = 7.1007e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.11235e-07, Final residual = 7.11235e-07, No Iterations 0
+ExecutionTime = 48.89 s  ClockTime = 50 s
+
+Time = 73.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00176034, Final residual = 7.82207e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.8349e-07, Final residual = 7.8349e-07, No Iterations 0
+ExecutionTime = 49.01 s  ClockTime = 50 s
+
+Time = 74
+
+diagonalPCG:  Solving for T, Initial residual = 0.00175933, Final residual = 7.14969e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.16141e-07, Final residual = 7.16141e-07, No Iterations 0
+ExecutionTime = 49.13 s  ClockTime = 50 s
+
+Time = 74.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00175833, Final residual = 7.83731e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.85015e-07, Final residual = 7.85015e-07, No Iterations 0
+ExecutionTime = 49.25 s  ClockTime = 50 s
+
+Time = 74.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00175733, Final residual = 7.20473e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.21653e-07, Final residual = 7.21653e-07, No Iterations 0
+ExecutionTime = 49.37 s  ClockTime = 50 s
+
+Time = 74.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00175633, Final residual = 7.85395e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.86681e-07, Final residual = 7.86681e-07, No Iterations 0
+ExecutionTime = 49.5 s  ClockTime = 50 s
+
+Time = 74.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00175533, Final residual = 7.26529e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.27718e-07, Final residual = 7.27718e-07, No Iterations 0
+ExecutionTime = 49.62 s  ClockTime = 51 s
+
+Time = 75
+
+diagonalPCG:  Solving for T, Initial residual = 0.00175433, Final residual = 7.8723e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.88517e-07, Final residual = 7.88517e-07, No Iterations 0
+ExecutionTime = 49.73 s  ClockTime = 51 s
+
+Time = 75.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00175334, Final residual = 7.33026e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.34225e-07, Final residual = 7.34225e-07, No Iterations 0
+ExecutionTime = 49.88 s  ClockTime = 51 s
+
+Time = 75.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00175234, Final residual = 7.8909e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.9038e-07, Final residual = 7.9038e-07, No Iterations 0
+ExecutionTime = 50.03 s  ClockTime = 51 s
+
+Time = 75.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00175134, Final residual = 7.39899e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.41108e-07, Final residual = 7.41108e-07, No Iterations 0
+ExecutionTime = 50.18 s  ClockTime = 51 s
+
+Time = 75.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00175035, Final residual = 7.91008e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.923e-07, Final residual = 7.923e-07, No Iterations 0
+ExecutionTime = 50.3 s  ClockTime = 51 s
+
+Time = 76
+
+diagonalPCG:  Solving for T, Initial residual = 0.00174936, Final residual = 7.47023e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.48243e-07, Final residual = 7.48243e-07, No Iterations 0
+ExecutionTime = 50.42 s  ClockTime = 51 s
+
+Time = 76.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00174836, Final residual = 7.92898e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.94192e-07, Final residual = 7.94192e-07, No Iterations 0
+ExecutionTime = 50.55 s  ClockTime = 52 s
+
+Time = 76.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00174737, Final residual = 7.54357e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.55588e-07, Final residual = 7.55588e-07, No Iterations 0
+ExecutionTime = 50.67 s  ClockTime = 52 s
+
+Time = 76.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00174638, Final residual = 7.94804e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.961e-07, Final residual = 7.961e-07, No Iterations 0
+ExecutionTime = 50.79 s  ClockTime = 52 s
+
+Time = 76.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.0017454, Final residual = 7.61898e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.6314e-07, Final residual = 7.6314e-07, No Iterations 0
+ExecutionTime = 50.91 s  ClockTime = 52 s
+
+Time = 77
+
+diagonalPCG:  Solving for T, Initial residual = 0.00174441, Final residual = 7.96564e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.97862e-07, Final residual = 7.97862e-07, No Iterations 0
+ExecutionTime = 51.03 s  ClockTime = 52 s
+
+Time = 77.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00174343, Final residual = 7.696e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.70854e-07, Final residual = 7.70854e-07, No Iterations 0
+ExecutionTime = 51.15 s  ClockTime = 52 s
+
+Time = 77.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00174245, Final residual = 7.98192e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.99492e-07, Final residual = 7.99492e-07, No Iterations 0
+ExecutionTime = 51.29 s  ClockTime = 52 s
+
+Time = 77.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00174147, Final residual = 7.77384e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.7865e-07, Final residual = 7.7865e-07, No Iterations 0
+ExecutionTime = 51.44 s  ClockTime = 52 s
+
+Time = 77.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.0017405, Final residual = 7.99727e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.01029e-07, Final residual = 8.01029e-07, No Iterations 0
+ExecutionTime = 51.58 s  ClockTime = 53 s
+
+Time = 78
+
+diagonalPCG:  Solving for T, Initial residual = 0.00173953, Final residual = 7.85162e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.8644e-07, Final residual = 7.8644e-07, No Iterations 0
+ExecutionTime = 51.7 s  ClockTime = 53 s
+
+Time = 78.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00173855, Final residual = 8.01194e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.02497e-07, Final residual = 8.02497e-07, No Iterations 0
+ExecutionTime = 51.82 s  ClockTime = 53 s
+
+Time = 78.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00173758, Final residual = 7.92925e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 7.94215e-07, Final residual = 7.94215e-07, No Iterations 0
+ExecutionTime = 51.95 s  ClockTime = 53 s
+
+Time = 78.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00173662, Final residual = 8.02636e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.03941e-07, Final residual = 8.03941e-07, No Iterations 0
+ExecutionTime = 52.06 s  ClockTime = 53 s
+
+Time = 78.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00173565, Final residual = 8.00623e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.01924e-07, Final residual = 8.01924e-07, No Iterations 0
+ExecutionTime = 52.18 s  ClockTime = 53 s
+
+Time = 79
+
+diagonalPCG:  Solving for T, Initial residual = 0.00173469, Final residual = 8.04096e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.05402e-07, Final residual = 8.05402e-07, No Iterations 0
+ExecutionTime = 52.3 s  ClockTime = 53 s
+
+Time = 79.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00173373, Final residual = 8.08144e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.09456e-07, Final residual = 8.09456e-07, No Iterations 0
+ExecutionTime = 52.43 s  ClockTime = 53 s
+
+Time = 79.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00173277, Final residual = 8.05611e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.06919e-07, Final residual = 8.06919e-07, No Iterations 0
+ExecutionTime = 52.55 s  ClockTime = 54 s
+
+Time = 79.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00173181, Final residual = 8.15374e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.16697e-07, Final residual = 8.16697e-07, No Iterations 0
+ExecutionTime = 52.68 s  ClockTime = 54 s
+
+Time = 79.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00173085, Final residual = 8.0726e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.0857e-07, Final residual = 8.0857e-07, No Iterations 0
+ExecutionTime = 52.82 s  ClockTime = 54 s
+
+Time = 80
+
+diagonalPCG:  Solving for T, Initial residual = 0.0017299, Final residual = 8.22221e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.23555e-07, Final residual = 8.23555e-07, No Iterations 0
+ExecutionTime = 52.97 s  ClockTime = 54 s
+
+Time = 80.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00172895, Final residual = 8.09076e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.10388e-07, Final residual = 8.10388e-07, No Iterations 0
+ExecutionTime = 53.12 s  ClockTime = 54 s
+
+Time = 80.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.001728, Final residual = 8.28644e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.29988e-07, Final residual = 8.29988e-07, No Iterations 0
+ExecutionTime = 53.24 s  ClockTime = 54 s
+
+Time = 80.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00172705, Final residual = 8.11051e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.12366e-07, Final residual = 8.12366e-07, No Iterations 0
+ExecutionTime = 53.35 s  ClockTime = 54 s
+
+Time = 80.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00172611, Final residual = 8.34636e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.35989e-07, Final residual = 8.35989e-07, No Iterations 0
+ExecutionTime = 53.48 s  ClockTime = 54 s
+
+Time = 81
+
+diagonalPCG:  Solving for T, Initial residual = 0.00172516, Final residual = 8.13166e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.14483e-07, Final residual = 8.14483e-07, No Iterations 0
+ExecutionTime = 53.6 s  ClockTime = 55 s
+
+Time = 81.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00172422, Final residual = 8.40189e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.4155e-07, Final residual = 8.4155e-07, No Iterations 0
+ExecutionTime = 53.73 s  ClockTime = 55 s
+
+Time = 81.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00172328, Final residual = 8.15436e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.16756e-07, Final residual = 8.16756e-07, No Iterations 0
+ExecutionTime = 53.84 s  ClockTime = 55 s
+
+Time = 81.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00172234, Final residual = 8.45272e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.46641e-07, Final residual = 8.46641e-07, No Iterations 0
+ExecutionTime = 53.96 s  ClockTime = 55 s
+
+Time = 81.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00172141, Final residual = 8.17851e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.19174e-07, Final residual = 8.19174e-07, No Iterations 0
+ExecutionTime = 54.09 s  ClockTime = 55 s
+
+Time = 82
+
+diagonalPCG:  Solving for T, Initial residual = 0.00172048, Final residual = 8.49858e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.51233e-07, Final residual = 8.51233e-07, No Iterations 0
+ExecutionTime = 54.24 s  ClockTime = 55 s
+
+Time = 82.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00171955, Final residual = 8.20409e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.21736e-07, Final residual = 8.21736e-07, No Iterations 0
+ExecutionTime = 54.39 s  ClockTime = 55 s
+
+Time = 82.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00171862, Final residual = 8.53938e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.55319e-07, Final residual = 8.55319e-07, No Iterations 0
+ExecutionTime = 54.53 s  ClockTime = 56 s
+
+Time = 82.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.0017177, Final residual = 8.23106e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.24436e-07, Final residual = 8.24436e-07, No Iterations 0
+ExecutionTime = 54.65 s  ClockTime = 56 s
+
+Time = 82.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00171678, Final residual = 8.57516e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.58902e-07, Final residual = 8.58902e-07, No Iterations 0
+ExecutionTime = 54.77 s  ClockTime = 56 s
+
+Time = 83
+
+diagonalPCG:  Solving for T, Initial residual = 0.00171586, Final residual = 8.2594e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.27274e-07, Final residual = 8.27274e-07, No Iterations 0
+ExecutionTime = 54.9 s  ClockTime = 56 s
+
+Time = 83.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00171494, Final residual = 8.60629e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.62019e-07, Final residual = 8.62019e-07, No Iterations 0
+ExecutionTime = 55.02 s  ClockTime = 56 s
+
+Time = 83.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00171403, Final residual = 8.28906e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.30245e-07, Final residual = 8.30245e-07, No Iterations 0
+ExecutionTime = 55.14 s  ClockTime = 56 s
+
+Time = 83.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00171311, Final residual = 8.63338e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.64732e-07, Final residual = 8.64732e-07, No Iterations 0
+ExecutionTime = 55.27 s  ClockTime = 56 s
+
+Time = 83.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.0017122, Final residual = 8.31994e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.33338e-07, Final residual = 8.33338e-07, No Iterations 0
+ExecutionTime = 55.38 s  ClockTime = 56 s
+
+Time = 84
+
+diagonalPCG:  Solving for T, Initial residual = 0.0017113, Final residual = 8.65688e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.67085e-07, Final residual = 8.67085e-07, No Iterations 0
+ExecutionTime = 55.51 s  ClockTime = 57 s
+
+Time = 84.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00171039, Final residual = 8.35193e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.36541e-07, Final residual = 8.36541e-07, No Iterations 0
+ExecutionTime = 55.65 s  ClockTime = 57 s
+
+Time = 84.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00170949, Final residual = 8.6774e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.69139e-07, Final residual = 8.69139e-07, No Iterations 0
+ExecutionTime = 55.8 s  ClockTime = 57 s
+
+Time = 84.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00170859, Final residual = 8.385e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.39852e-07, Final residual = 8.39852e-07, No Iterations 0
+ExecutionTime = 55.94 s  ClockTime = 57 s
+
+Time = 84.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00170769, Final residual = 8.69551e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.70953e-07, Final residual = 8.70953e-07, No Iterations 0
+ExecutionTime = 56.07 s  ClockTime = 57 s
+
+Time = 85
+
+diagonalPCG:  Solving for T, Initial residual = 0.0017068, Final residual = 8.419e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.43257e-07, Final residual = 8.43257e-07, No Iterations 0
+ExecutionTime = 56.19 s  ClockTime = 57 s
+
+Time = 85.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00170591, Final residual = 8.71179e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.72583e-07, Final residual = 8.72583e-07, No Iterations 0
+ExecutionTime = 56.31 s  ClockTime = 57 s
+
+Time = 85.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00170502, Final residual = 8.45376e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.46738e-07, Final residual = 8.46738e-07, No Iterations 0
+ExecutionTime = 56.44 s  ClockTime = 57 s
+
+Time = 85.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00170413, Final residual = 8.72684e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.74089e-07, Final residual = 8.74089e-07, No Iterations 0
+ExecutionTime = 56.56 s  ClockTime = 58 s
+
+Time = 85.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00170325, Final residual = 8.48916e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.50284e-07, Final residual = 8.50284e-07, No Iterations 0
+ExecutionTime = 56.68 s  ClockTime = 58 s
+
+Time = 86
+
+diagonalPCG:  Solving for T, Initial residual = 0.00170237, Final residual = 8.74115e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.75523e-07, Final residual = 8.75523e-07, No Iterations 0
+ExecutionTime = 56.8 s  ClockTime = 58 s
+
+Time = 86.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.0017015, Final residual = 8.52497e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.5387e-07, Final residual = 8.5387e-07, No Iterations 0
+ExecutionTime = 56.93 s  ClockTime = 58 s
+
+Time = 86.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00170062, Final residual = 8.75491e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.769e-07, Final residual = 8.769e-07, No Iterations 0
+ExecutionTime = 57.05 s  ClockTime = 58 s
+
+Time = 86.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00169975, Final residual = 8.56078e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.57455e-07, Final residual = 8.57455e-07, No Iterations 0
+ExecutionTime = 57.2 s  ClockTime = 58 s
+
+Time = 86.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00169888, Final residual = 8.76849e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.7826e-07, Final residual = 8.7826e-07, No Iterations 0
+ExecutionTime = 57.34 s  ClockTime = 58 s
+
+Time = 87
+
+diagonalPCG:  Solving for T, Initial residual = 0.00169802, Final residual = 8.59625e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.61007e-07, Final residual = 8.61007e-07, No Iterations 0
+ExecutionTime = 57.47 s  ClockTime = 58 s
+
+Time = 87.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00169715, Final residual = 8.78214e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.79627e-07, Final residual = 8.79627e-07, No Iterations 0
+ExecutionTime = 57.59 s  ClockTime = 59 s
+
+Time = 87.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00169629, Final residual = 8.63124e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.64512e-07, Final residual = 8.64512e-07, No Iterations 0
+ExecutionTime = 57.71 s  ClockTime = 59 s
+
+Time = 87.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00169544, Final residual = 8.79605e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.8102e-07, Final residual = 8.8102e-07, No Iterations 0
+ExecutionTime = 57.84 s  ClockTime = 59 s
+
+Time = 87.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00169459, Final residual = 8.66554e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.67947e-07, Final residual = 8.67947e-07, No Iterations 0
+ExecutionTime = 57.96 s  ClockTime = 59 s
+
+Time = 88
+
+diagonalPCG:  Solving for T, Initial residual = 0.00169374, Final residual = 8.81032e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.82449e-07, Final residual = 8.82449e-07, No Iterations 0
+ExecutionTime = 58.08 s  ClockTime = 59 s
+
+Time = 88.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00169289, Final residual = 8.69877e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.71275e-07, Final residual = 8.71275e-07, No Iterations 0
+ExecutionTime = 58.21 s  ClockTime = 59 s
+
+Time = 88.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00169205, Final residual = 8.82514e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.83932e-07, Final residual = 8.83932e-07, No Iterations 0
+ExecutionTime = 58.33 s  ClockTime = 59 s
+
+Time = 88.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00169121, Final residual = 8.73086e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.74489e-07, Final residual = 8.74489e-07, No Iterations 0
+ExecutionTime = 58.45 s  ClockTime = 59 s
+
+Time = 88.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00169038, Final residual = 8.84057e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.85477e-07, Final residual = 8.85477e-07, No Iterations 0
+ExecutionTime = 58.59 s  ClockTime = 60 s
+
+Time = 89
+
+diagonalPCG:  Solving for T, Initial residual = 0.00168954, Final residual = 8.76153e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.7756e-07, Final residual = 8.7756e-07, No Iterations 0
+ExecutionTime = 58.73 s  ClockTime = 60 s
+
+Time = 89.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00168871, Final residual = 8.85668e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.8709e-07, Final residual = 8.8709e-07, No Iterations 0
+ExecutionTime = 58.88 s  ClockTime = 60 s
+
+Time = 89.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00168788, Final residual = 8.79076e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.80487e-07, Final residual = 8.80487e-07, No Iterations 0
+ExecutionTime = 59 s  ClockTime = 60 s
+
+Time = 89.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00168706, Final residual = 8.87351e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.88775e-07, Final residual = 8.88775e-07, No Iterations 0
+ExecutionTime = 59.12 s  ClockTime = 60 s
+
+Time = 89.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00168623, Final residual = 8.81853e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.83268e-07, Final residual = 8.83268e-07, No Iterations 0
+ExecutionTime = 59.24 s  ClockTime = 60 s
+
+Time = 90
+
+diagonalPCG:  Solving for T, Initial residual = 0.00168542, Final residual = 8.89098e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.90524e-07, Final residual = 8.90524e-07, No Iterations 0
+ExecutionTime = 59.36 s  ClockTime = 60 s
+
+Time = 90.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.0016846, Final residual = 8.84484e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.85903e-07, Final residual = 8.85903e-07, No Iterations 0
+ExecutionTime = 59.48 s  ClockTime = 61 s
+
+Time = 90.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00168379, Final residual = 8.90906e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.92336e-07, Final residual = 8.92336e-07, No Iterations 0
+ExecutionTime = 59.61 s  ClockTime = 61 s
+
+Time = 90.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00168298, Final residual = 8.8698e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.88402e-07, Final residual = 8.88402e-07, No Iterations 0
+ExecutionTime = 59.73 s  ClockTime = 61 s
+
+Time = 90.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00168217, Final residual = 8.92771e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.94202e-07, Final residual = 8.94202e-07, No Iterations 0
+ExecutionTime = 59.84 s  ClockTime = 61 s
+
+Time = 91
+
+diagonalPCG:  Solving for T, Initial residual = 0.00168136, Final residual = 8.8935e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.90775e-07, Final residual = 8.90775e-07, No Iterations 0
+ExecutionTime = 59.98 s  ClockTime = 61 s
+
+Time = 91.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00168056, Final residual = 8.94691e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.96125e-07, Final residual = 8.96125e-07, No Iterations 0
+ExecutionTime = 60.13 s  ClockTime = 61 s
+
+Time = 91.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00167976, Final residual = 8.91606e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.93034e-07, Final residual = 8.93034e-07, No Iterations 0
+ExecutionTime = 60.27 s  ClockTime = 61 s
+
+Time = 91.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00167897, Final residual = 8.96657e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.98093e-07, Final residual = 8.98093e-07, No Iterations 0
+ExecutionTime = 60.41 s  ClockTime = 61 s
+
+Time = 91.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00167817, Final residual = 8.93762e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.95194e-07, Final residual = 8.95194e-07, No Iterations 0
+ExecutionTime = 60.53 s  ClockTime = 62 s
+
+Time = 92
+
+diagonalPCG:  Solving for T, Initial residual = 0.00167739, Final residual = 8.98654e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.00093e-07, Final residual = 9.00093e-07, No Iterations 0
+ExecutionTime = 60.65 s  ClockTime = 62 s
+
+Time = 92.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.0016766, Final residual = 8.95836e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.97271e-07, Final residual = 8.97271e-07, No Iterations 0
+ExecutionTime = 60.77 s  ClockTime = 62 s
+
+Time = 92.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00167582, Final residual = 9.00672e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.02114e-07, Final residual = 9.02114e-07, No Iterations 0
+ExecutionTime = 60.9 s  ClockTime = 62 s
+
+Time = 92.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00167504, Final residual = 8.97841e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 8.99278e-07, Final residual = 8.99278e-07, No Iterations 0
+ExecutionTime = 61.02 s  ClockTime = 62 s
+
+Time = 92.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00167427, Final residual = 9.02701e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.04146e-07, Final residual = 9.04146e-07, No Iterations 0
+ExecutionTime = 61.15 s  ClockTime = 62 s
+
+Time = 93
+
+diagonalPCG:  Solving for T, Initial residual = 0.0016735, Final residual = 8.9979e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.0123e-07, Final residual = 9.0123e-07, No Iterations 0
+ExecutionTime = 61.27 s  ClockTime = 62 s
+
+Time = 93.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00167273, Final residual = 9.04735e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.06183e-07, Final residual = 9.06183e-07, No Iterations 0
+ExecutionTime = 61.39 s  ClockTime = 62 s
+
+Time = 93.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00167196, Final residual = 9.01698e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.0314e-07, Final residual = 9.0314e-07, No Iterations 0
+ExecutionTime = 61.53 s  ClockTime = 63 s
+
+Time = 93.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.0016712, Final residual = 9.06767e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.08217e-07, Final residual = 9.08217e-07, No Iterations 0
+ExecutionTime = 61.68 s  ClockTime = 63 s
+
+Time = 93.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00167044, Final residual = 9.03576e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.05021e-07, Final residual = 9.05021e-07, No Iterations 0
+ExecutionTime = 61.82 s  ClockTime = 63 s
+
+Time = 94
+
+diagonalPCG:  Solving for T, Initial residual = 0.00166969, Final residual = 9.0879e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.10243e-07, Final residual = 9.10243e-07, No Iterations 0
+ExecutionTime = 61.95 s  ClockTime = 63 s
+
+Time = 94.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00166893, Final residual = 9.05434e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.06881e-07, Final residual = 9.06881e-07, No Iterations 0
+ExecutionTime = 62.06 s  ClockTime = 63 s
+
+Time = 94.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00166818, Final residual = 9.10798e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.12254e-07, Final residual = 9.12254e-07, No Iterations 0
+ExecutionTime = 62.19 s  ClockTime = 63 s
+
+Time = 94.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00166744, Final residual = 9.07276e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.08726e-07, Final residual = 9.08726e-07, No Iterations 0
+ExecutionTime = 62.31 s  ClockTime = 63 s
+
+Time = 94.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00166669, Final residual = 9.12789e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.14247e-07, Final residual = 9.14247e-07, No Iterations 0
+ExecutionTime = 62.43 s  ClockTime = 64 s
+
+Time = 95
+
+diagonalPCG:  Solving for T, Initial residual = 0.00166595, Final residual = 9.09109e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.10562e-07, Final residual = 9.10562e-07, No Iterations 0
+ExecutionTime = 62.55 s  ClockTime = 64 s
+
+Time = 95.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00166522, Final residual = 9.14763e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.16225e-07, Final residual = 9.16225e-07, No Iterations 0
+ExecutionTime = 62.67 s  ClockTime = 64 s
+
+Time = 95.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00166449, Final residual = 9.1094e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.12395e-07, Final residual = 9.12395e-07, No Iterations 0
+ExecutionTime = 62.79 s  ClockTime = 64 s
+
+Time = 95.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00166376, Final residual = 9.16715e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.18179e-07, Final residual = 9.18179e-07, No Iterations 0
+ExecutionTime = 62.93 s  ClockTime = 64 s
+
+Time = 95.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00166304, Final residual = 9.12772e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.1423e-07, Final residual = 9.1423e-07, No Iterations 0
+ExecutionTime = 63.06 s  ClockTime = 64 s
+
+Time = 96
+
+diagonalPCG:  Solving for T, Initial residual = 0.00166232, Final residual = 9.1864e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.20108e-07, Final residual = 9.20108e-07, No Iterations 0
+ExecutionTime = 63.22 s  ClockTime = 64 s
+
+Time = 96.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.0016616, Final residual = 9.14608e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.16068e-07, Final residual = 9.16068e-07, No Iterations 0
+ExecutionTime = 63.34 s  ClockTime = 64 s
+
+Time = 96.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00166089, Final residual = 9.20537e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.22007e-07, Final residual = 9.22007e-07, No Iterations 0
+ExecutionTime = 63.46 s  ClockTime = 65 s
+
+Time = 96.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00166018, Final residual = 9.1645e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.17913e-07, Final residual = 9.17913e-07, No Iterations 0
+ExecutionTime = 63.59 s  ClockTime = 65 s
+
+Time = 96.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00165948, Final residual = 9.22407e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.23879e-07, Final residual = 9.23879e-07, No Iterations 0
+ExecutionTime = 63.7 s  ClockTime = 65 s
+
+Time = 97
+
+diagonalPCG:  Solving for T, Initial residual = 0.00165878, Final residual = 9.183e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.19766e-07, Final residual = 9.19766e-07, No Iterations 0
+ExecutionTime = 63.82 s  ClockTime = 65 s
+
+Time = 97.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00165808, Final residual = 9.24252e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.25727e-07, Final residual = 9.25727e-07, No Iterations 0
+ExecutionTime = 63.95 s  ClockTime = 65 s
+
+Time = 97.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00165739, Final residual = 9.20157e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.21626e-07, Final residual = 9.21626e-07, No Iterations 0
+ExecutionTime = 64.07 s  ClockTime = 65 s
+
+Time = 97.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.0016567, Final residual = 9.26069e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.27547e-07, Final residual = 9.27547e-07, No Iterations 0
+ExecutionTime = 64.19 s  ClockTime = 65 s
+
+Time = 97.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00165601, Final residual = 9.22021e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.23492e-07, Final residual = 9.23492e-07, No Iterations 0
+ExecutionTime = 64.31 s  ClockTime = 65 s
+
+Time = 98
+
+diagonalPCG:  Solving for T, Initial residual = 0.00165532, Final residual = 9.27865e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.29346e-07, Final residual = 9.29346e-07, No Iterations 0
+ExecutionTime = 64.45 s  ClockTime = 66 s
+
+Time = 98.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.00165464, Final residual = 9.23887e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.25361e-07, Final residual = 9.25361e-07, No Iterations 0
+ExecutionTime = 64.6 s  ClockTime = 66 s
+
+Time = 98.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00165397, Final residual = 9.29642e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.31124e-07, Final residual = 9.31124e-07, No Iterations 0
+ExecutionTime = 64.74 s  ClockTime = 66 s
+
+Time = 98.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.0016533, Final residual = 9.25752e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.27228e-07, Final residual = 9.27228e-07, No Iterations 0
+ExecutionTime = 64.87 s  ClockTime = 66 s
+
+Time = 98.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00165263, Final residual = 9.31397e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.32882e-07, Final residual = 9.32882e-07, No Iterations 0
+ExecutionTime = 64.99 s  ClockTime = 66 s
+
+Time = 99
+
+diagonalPCG:  Solving for T, Initial residual = 0.00165196, Final residual = 9.27613e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.29092e-07, Final residual = 9.29092e-07, No Iterations 0
+ExecutionTime = 65.12 s  ClockTime = 66 s
+
+Time = 99.2
+
+diagonalPCG:  Solving for T, Initial residual = 0.0016513, Final residual = 9.33135e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.34623e-07, Final residual = 9.34623e-07, No Iterations 0
+ExecutionTime = 65.23 s  ClockTime = 66 s
+
+Time = 99.4
+
+diagonalPCG:  Solving for T, Initial residual = 0.00165064, Final residual = 9.29467e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.30948e-07, Final residual = 9.30948e-07, No Iterations 0
+ExecutionTime = 65.37 s  ClockTime = 66 s
+
+Time = 99.6
+
+diagonalPCG:  Solving for T, Initial residual = 0.00164999, Final residual = 9.34857e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.36347e-07, Final residual = 9.36347e-07, No Iterations 0
+ExecutionTime = 65.48 s  ClockTime = 67 s
+
+Time = 99.8
+
+diagonalPCG:  Solving for T, Initial residual = 0.00164934, Final residual = 9.31313e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.32797e-07, Final residual = 9.32797e-07, No Iterations 0
+ExecutionTime = 65.61 s  ClockTime = 67 s
+
+Time = 100
+
+diagonalPCG:  Solving for T, Initial residual = 0.0016487, Final residual = 9.36565e-07, No Iterations 8
+diagonalPCG:  Solving for T, Initial residual = 9.38057e-07, Final residual = 9.38057e-07, No Iterations 0
+ExecutionTime = 65.73 s  ClockTime = 67 s
+
+End
+
+Finalising parallel run
