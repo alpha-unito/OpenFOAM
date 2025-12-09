@@ -1,4 +1,4 @@
-EXE_INC =  -DNVTX -cuda -stdpar=gpu -gpu=managed -gpu=cc90,cc80,cc70 \
+EXE_INC =  -DNVTX -cuda -stdpar=gpu -gpu=managed -gpu=cc90,cc80 \
     -I$(LIB_SRC)/finiteVolume/lnInclude \
     -I$(LIB_SRC)/fileFormats/lnInclude \
     -I$(LIB_SRC)/surfMesh/lnInclude \
