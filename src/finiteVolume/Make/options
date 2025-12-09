@@ -1,6 +1,6 @@
 /* EXE_INC = -DNVTX -cuda -stdpar=gpu -gpu=managed -gpu=cc90  \ */
 
-EXE_INC=  -DNVTX -cuda -stdpar=gpu -gpu=managed -gpu=cc90 \
+EXE_INC=  -DNVTX -cuda -stdpar=gpu -gpu=managed -gpu=cc90,cc80,cc70 \
     -I$(LIB_SRC)/fileFormats/lnInclude \
     -I$(LIB_SRC)/surfMesh/lnInclude \
     -I$(LIB_SRC)/meshTools/lnInclude
