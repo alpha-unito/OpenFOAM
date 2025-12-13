@@ -5,8 +5,8 @@
     \\  /    A nd           | www.openfoam.com
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
-    Copyright (C) 2011-2017 OpenFOAM Foundation
-    Copyright (C) 2019 OpenCFD Ltd.
+    Copyright (C) 2011-2015 OpenFOAM Foundation
+    Copyright (C) 2016-2022 OpenCFD Ltd.
 -------------------------------------------------------------------------------
 License
     This file is part of OpenFOAM.
@@ -25,7 +25,7 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Application
-    laplacianFoam
+    overLaplacianDyMFoam
 
 Group
     grpBasicSolvers
@@ -55,8 +55,10 @@ Description
 \*---------------------------------------------------------------------------*/
 
 #include "fvCFD.H"
-//#include "fvOptions.H"
+#include "fvOptions.H"
 #include "simpleControl.H"
+#include "dynamicFvMesh.H"
+#include "oversetPatchPhiErr.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -64,99 +66,55 @@ int main(int argc, char *argv[])
 {
     argList::addNote
     (
-        "Laplace equation solver for a scalar quantity."
+        "Overset Laplace equation solver for a scalar quantity."
     );
 
-    #include "postProcess.H"
-
-    #include "addCheckCaseOptions.H"
     #include "setRootCaseLists.H"
     #include "createTime.H"
-    #include "createMesh.H"
+    #include "createNamedDynamicFvMesh.H"
 
     simpleControl simple(mesh);
 
     #include "createFields.H"
+    #include "createFvOptions.H"
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-Info<< "\nCalculating temperature distribution\n" << endl;
-
-    scalar MatrixConstructionTime=0.0;
-    scalar SolverTime=0.0;
-    scalar timefirstAssembly=0.0;
-    lduMatrix::debug=0;
-    label iter=0;
-    scalar startTime = runTime.elapsedCpuTime();
+    Info<< "\nCalculating temperature distribution\n" << endl;
 
     while (simple.loop())
     {
+        Info<< "Time = " << runTime.timeName() << nl << endl;
+
+        mesh.update();
+
         while (simple.correctNonOrthogonal())
         {
-
-            #ifdef NVTX
-                nvtxRangePushA("Matrix construction");  
-            #endif
-
-            scalar time1=runTime.elapsedCpuTime();
             fvScalarMatrix TEqn
             (
                 fvm::ddt(T) - fvm::laplacian(DT, T)
-//           ==
-//                fvOptions(T)
+             ==
+                fvOptions(T)
             );
-            MatrixConstructionTime += runTime.elapsedCpuTime() - time1;
 
-            scalar time2=runTime.elapsedCpuTime();
-            #ifdef NVTX
-                nvtxRangePop();
-                nvtxRangePushA("Constraints");  
-            #endif
-//            fvOptions.constrain(TEqn);
-            #ifdef NVTX
-                nvtxRangePop();
-                nvtxRangePushA("Solver");  
-            #endif
+            fvOptions.constrain(TEqn);
             TEqn.solve();
-            #ifdef NVTX
-                nvtxRangePop();
-                nvtxRangePushA("Correct");  
-            #endif
-//            fvOptions.correct(T);
-            #ifdef NVTX
-                nvtxRangePop();
-            #endif
-            SolverTime += runTime.elapsedCpuTime() - time2;
+            fvOptions.correct(T);
 
+            if (oversetPatchErrOutput)
+            {
+                oversetPatchPhiErr(TEqn, tdummyPhi.ref());
+            }
         }
 
-        if(iter==0){
-            timefirstAssembly=MatrixConstructionTime;
-        }
-        ++iter;
-        
-        // #ifdef NVTX
-        //     nvtxRangePushA("Write Fields");  
-        //     #include "write.H"
-        //     runTime.printExecutionTime(Info);
-        //     nvtxRangePop();
-        // #endif
+        #include "write.H"
 
+        runTime.printExecutionTime(Info);
     }
 
-
-    scalar elapsed = runTime.elapsedCpuTime() - startTime;
-    Info << "Matrix construction first time: " << timefirstAssembly << " s" << endl;
-    Info << "Matrix construction time: " << MatrixConstructionTime << " s" << endl;
-    Info << "Solver time: " << SolverTime << " s" << endl;
-    Info << "Total Cycle time: " << elapsed << " s" << endl;
-
-    runTime.printExecutionTime(Info);
     Info<< "End\n" << endl;
 
     return 0;
-
-
 }
 
 

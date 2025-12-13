@@ -55,7 +55,7 @@ Description
 \*---------------------------------------------------------------------------*/
 
 #include "fvCFD.H"
-//#include "fvOptions.H"
+#include "fvOptions.H"
 #include "simpleControl.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -102,8 +102,8 @@ Info<< "\nCalculating temperature distribution\n" << endl;
             fvScalarMatrix TEqn
             (
                 fvm::ddt(T) - fvm::laplacian(DT, T)
-//           ==
-//                fvOptions(T)
+             ==
+                fvOptions(T)
             );
             MatrixConstructionTime += runTime.elapsedCpuTime() - time1;
 
@@ -112,7 +112,7 @@ Info<< "\nCalculating temperature distribution\n" << endl;
                 nvtxRangePop();
                 nvtxRangePushA("Constraints");  
             #endif
-//            fvOptions.constrain(TEqn);
+            fvOptions.constrain(TEqn);
             #ifdef NVTX
                 nvtxRangePop();
                 nvtxRangePushA("Solver");  
@@ -122,7 +122,7 @@ Info<< "\nCalculating temperature distribution\n" << endl;
                 nvtxRangePop();
                 nvtxRangePushA("Correct");  
             #endif
-//            fvOptions.correct(T);
+            fvOptions.correct(T);
             #ifdef NVTX
                 nvtxRangePop();
             #endif

@@ -1,7 +1,8 @@
-EXE_INC = -DNVTX -stdpar=gpu -gpu=cc86 -gpu=managed   \
+EXE_INC = -DNVTX -stdpar=gpu -gpu=cc90,cc86 -gpu=managed   \
     -I$(LIB_SRC)/finiteVolume/lnInclude \
     -I$(LIB_SRC)/meshTools/lnInclude
 
 EXE_LIBS = \
     -lfiniteVolume \
+    -lfvOptions \
     -lmeshTools
