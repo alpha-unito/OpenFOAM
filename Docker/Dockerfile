@@ -25,9 +25,9 @@ ENV CXX=nvc++
 ENV FC=nvfortran
 
 # Clone OpenFOAM (HTTPS fallback; replace with SSH if you use your keys)
-WORKDIR /opt
+WORKDIR /opt/OpenFOAM
 # RUN git clone --branch of-stdpar https://github.com/alpha-unito/OpenFOAM.git
-COPY OpenFOAM ./OpenFOAM
+COPY . .
 
 # Set OpenFOAM environment
 ENV WM_PROJECT_DIR=/opt/OpenFOAM
@@ -105,7 +105,7 @@ RUN bash -c "source $WM_PROJECT_DIR/etc/bashrc && \
 
 # Build OpenFOAM application setField
 RUN bash -c "source $WM_PROJECT_DIR/etc/bashrc && \
-    cd $WM_PROJECT_DIR/applications/utilities/preProcessing/setField && \
+    cd $WM_PROJECT_DIR/applications/utilities/preProcessing/setFields && \
     wmake "
 
 # Build OpenFOAM application laplacianFoam
