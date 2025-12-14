@@ -59,7 +59,7 @@ src/fvOption/Make/options
 The flags used to compile these libraries are:
 
 ```
--DNVTX -cuda -stdpar=gpu -gpu=managed -gpu=cc90
+-DNVTX -cuda -stdpar=gpu -gpu=managed -gpu={GPU_PLATFORMS}
 ```
 
 ## Executing laplacianFOAM with OpenFOAM and STDPAR
