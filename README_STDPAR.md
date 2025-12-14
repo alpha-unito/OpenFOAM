@@ -66,14 +66,14 @@ The flags used to compile these libraries are:
 
 The folder TestLaplacianFoam contains three subfolders:
 -   **heat_block_3D**: the test-case used. It consists of a cubic block made of a homogeneous material. The side walls are modeled as adiabatic. As the initial condition, a temperature of T = 40 K is applied inside a cube of size 0.2 × 0.2 × 0.2 located within the block, and T = 0 K elsewhere. To modify the initial condition, simply change the file setFieldsDict. The mesh is created using blockMesh. After generating the mesh with blockMesh, you need to run setFields to apply the initial condition;
--   **laplacianFoam**: the laplacianFOAM application used on GH200 machine, please take cares of the compilation flags on the *options* file: ```-DNVTX -stdpar=gpu -gpu={GPU_PLATFORMS} -gpu=managed ```, example: ```GPU_PLATFORMS=cc90,cc86```
+-   **laplacianFoam**: the laplacianFOAM application used on GH200 machine, please take cares of the compilation flags on the *options* file: ```-DNVTX -stdpar=gpu -gpu={GPU_PLATFORMS} -gpu=managed ```, example: ```GPU_PLATFORMS=cc90,cc86,cc80```
 -   **log**: two log files obtained with the native OpenFOAM implementation log_2MPI_CPU and the STDPAR version log_2MPI_GPU;
 
 ## Docker images for reproducibility
 
 - Add folder `Docker` with dockerfile to compile the proof-of-concept
-- The image is public available on docker hub ```docker push giulio19/openfoam-stdpar-sm86-sm90:tagname```, the image was built on x86_64 ubuntu system with an NVIDIA sm86 GPU
-- To build the image: ```sudo docker build -f Docker/Dockerfile -t openfoam-stdpar-v2412-sm86-sm90 .```
+- The image is public available on docker hub ```docker push giulio19/openfoam-stdpar-v2412-sm80-sm86-sm90```, the image was built on x86_64 ubuntu system with an NVIDIA sm86 GPU with ```GPU_PLATFORMS=cc90,cc86,cc80```
+- To build the image: ```sudo docker build -f Docker/Dockerfile -t openfoam-stdpar-v2412-sm80-sm86-sm90 .```
 - To run the container interactively: 
 ```
 sudo docker run -it --gpus all -v $(pwd):/workspace openfoam-stdpar-v2412-sm86-sm90 bash

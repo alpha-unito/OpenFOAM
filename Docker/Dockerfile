@@ -34,7 +34,7 @@ ENV WM_PROJECT_DIR=/opt/OpenFOAM
 ENV FOAM_INST_DIR=/opt
 ENV WM_COMPILER=Clang
 ENV WM_MPLIB=SYSTEMMPI
-ENV GPU_PLATFORMS=cc90,cc86
+ENV GPU_PLATFORMS=cc90,cc86,cc80
 
 # Source environment for building
 RUN bash -c "source /opt/OpenFOAM/etc/bashrc && \
