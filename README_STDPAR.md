@@ -78,3 +78,14 @@ The folder TestLaplacianFoam contains three subfolders:
 ```
 sudo docker run -it --gpus all -v $(pwd):/workspace openfoam-stdpar-v2412-sm86-sm90 bash
 ```
+
+### Simple test
+```
+sudo docker run -it --gpus all -v $(pwd):/workspace openfoam-stdpar-v2412-sm80-sm86-sm90:latest bash
+cd /workspace/TestLaplacianFoam/heat_block_3D/
+cp -r 0.orig 0
+blockMesh
+setFields
+laplacianFoam
+```
+
